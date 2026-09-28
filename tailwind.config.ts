@@ -10,19 +10,19 @@ const config: Config = {
     extend: {
       colors: {
         ink: {
-          950: "#F4F2EE",
-          900: "#FBFAF8",
-          850: "#F1EFE9",
-          800: "#E7E4DC",
-          700: "#D8D4C9",
+          950: "rgb(var(--ink-950) / <alpha-value>)",
+          900: "rgb(var(--ink-900) / <alpha-value>)",
+          850: "rgb(var(--ink-850) / <alpha-value>)",
+          800: "rgb(var(--ink-800) / <alpha-value>)",
+          700: "rgb(var(--ink-700) / <alpha-value>)",
         },
-        line: "rgba(26,25,19,0.10)",
+        line: "rgb(var(--line) / 0.1)",
         fog: {
-          hi: "#1A1913",
-          mid: "#52504A",
-          low: "#6E6B63",
+          hi: "rgb(var(--fog-hi) / <alpha-value>)",
+          mid: "rgb(var(--fog-mid) / <alpha-value>)",
+          low: "rgb(var(--fog-low) / <alpha-value>)",
         },
-        acc: "#1A1913",
+        acc: "rgb(var(--acc) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -35,8 +35,8 @@ const config: Config = {
         ],
       },
       boxShadow: {
-        glow: "0 2px 16px rgba(26,25,19,0.14)",
-        float: "0 12px 40px rgba(26,25,19,0.12)",
+        glow: "var(--shadow-glow)",
+        float: "var(--shadow-float)",
       },
     },
   },

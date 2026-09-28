@@ -50,7 +50,7 @@ export default function Experience() {
                       href={`#xp-${x.id}`}
                       className="group block text-sm text-fog-mid transition-colors hover:text-fog-hi"
                     >
-                      <span className="block font-mono text-[10px] tracking-[0.14em] text-fog-low/80">
+                      <span className="block font-mono text-[10px] tracking-[0.14em] text-fog-mid">
                         {x.period.toUpperCase()}
                       </span>
                     <span className="mt-1 block">{x.company}</span>

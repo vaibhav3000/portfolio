@@ -108,7 +108,7 @@ export default function HeroFieldFallback() {
           key={i}
           d={row.d}
           fill="none"
-          stroke={row.accent ? "#26241D" : "#43413A"}
+          className={row.accent ? "s-acc" : "s-dot-base"}
           strokeWidth="1.7"
           strokeLinecap="round"
           strokeDasharray="0.25 5.4"
@@ -120,7 +120,7 @@ export default function HeroFieldFallback() {
           key={`t${i}`}
           d={d}
           fill="none"
-          stroke="#26241D"
+          className="s-acc"
           strokeWidth="1.4"
           strokeLinecap="round"
           strokeDasharray="2 6"
@@ -128,10 +128,10 @@ export default function HeroFieldFallback() {
         />
       ))}
       {NODES.map((n, i) => (
-        <circle key={`n${i}`} cx={n.cx} cy={n.cy} r={n.r} fill="#43413A" opacity={n.o} />
+        <circle key={`n${i}`} cx={n.cx} cy={n.cy} r={n.r} className="f-low" opacity={n.o} />
       ))}
       {PULSES.map((p, i) => (
-        <circle key={`p${i}`} cx={p.cx} cy={p.cy} r={p.r} fill="#26241D" opacity={p.o} />
+        <circle key={`p${i}`} cx={p.cx} cy={p.cy} r={p.r} className="f-acc" opacity={p.o} />
       ))}
     </svg>
   );

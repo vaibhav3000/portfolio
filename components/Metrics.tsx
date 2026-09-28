@@ -35,7 +35,7 @@ function VizLatency() {
         </div>
         <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink-700/60">
           <div
-            className="m-bar h-full rounded-full bg-black"
+            className="m-bar h-full rounded-full bg-fog-hi"
             style={{ width: "9.2%", transitionDelay: "0.45s" }}
           />
         </div>
@@ -64,7 +64,7 @@ function VizMemory() {
               height="8"
               rx="1.5"
               fill="none"
-              stroke="rgba(26,25,19,0.34)"
+              className="s-line"
               strokeWidth="1"
             />
           );
@@ -77,22 +77,22 @@ function VizMemory() {
             width="8"
             height="8"
             rx="1.5"
-            fill="#1A1913"
+            className="f-acc"
             opacity="0.9"
           />
         ))}
-        <text x="430" y="105" className="fill-[#1A1913]" fontSize="11" fontFamily="var(--font-mono)">
+        <text x="430" y="105" className="f-acc" fontSize="11" fontFamily="var(--font-mono)">
           113 MB
         </text>
-        <text x="8" y="120" fill="rgba(26,25,19,0.7)" fontSize="11" fontFamily="var(--font-mono)">
+        <text x="8" y="120" className="f-mid" fontSize="11" fontFamily="var(--font-mono)">
           4.8 GB
         </text>
-        <line x1="8" y1="140" x2="205" y2="140" stroke="rgba(26,25,19,0.32)" strokeDasharray="1 5" />
-        <line x1="430" y1="140" x2="470" y2="140" stroke="rgba(26,25,19,0.5)" strokeDasharray="1 5" />
-        <text x="8" y="162" fill="rgba(26,25,19,0.65)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+        <line x1="8" y1="140" x2="205" y2="140" className="s-line" strokeDasharray="1 5" />
+        <line x1="430" y1="140" x2="470" y2="140" className="s-line-strong" strokeDasharray="1 5" />
+        <text x="8" y="162" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
           EXPANDED STATE
         </text>
-        <text x="430" y="162" fill="rgba(26,25,19,0.8)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+        <text x="430" y="162" className="f-hi" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
           COMPACT
         </text>
       </svg>
@@ -104,18 +104,17 @@ function VizScore() {
   const C = 2 * Math.PI * 78;
   return (
     <svg viewBox="0 0 520 220" className="w-full" role="img" aria-label="Radial gauge at 96.26 percent against a baseline tick">
-      <circle cx="180" cy="110" r="78" fill="none" stroke="rgba(26,25,19,0.16)" strokeWidth="6" />
+      <circle cx="180" cy="110" r="78" fill="none" className="s-track" strokeWidth="6" />
       <circle
         cx="180"
         cy="110"
         r="78"
         fill="none"
-        stroke="#1A1913"
         strokeWidth="6"
         strokeLinecap="round"
         pathLength="100"
         strokeDasharray="96.26 100"
-        className="m-arc"
+        className="m-arc s-hi"
         transform="rotate(-90 180 110)"
       />
       {/* baseline tick at 79.66% */}
@@ -124,26 +123,26 @@ function VizScore() {
         y1="110"
         x2="253.4"
         y2="54.2"
-        stroke="rgba(26,25,19,0.5)"
+        className="s-line-strong"
         strokeWidth="1.5"
         strokeDasharray="2 3"
       />
-      <text x="268" y="58" fill="rgba(26,25,19,0.75)" fontSize="10" fontFamily="var(--font-mono)">
+      <text x="268" y="58" className="f-mid" fontSize="10" fontFamily="var(--font-mono)">
         BASELINE
       </text>
-      <text x="180" y="106" textAnchor="middle" fill="#1A1913" fontSize="26" fontFamily="var(--font-sans)" fontWeight="300">
+      <text x="180" y="106" textAnchor="middle" className="f-acc" fontSize="26" fontFamily="var(--font-sans)" fontWeight="300">
         +16.6%
       </text>
-      <text x="180" y="128" textAnchor="middle" fill="rgba(26,25,19,0.7)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+      <text x="180" y="128" textAnchor="middle" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
         OVER BASELINE
       </text>
-      <text x="330" y="80" fill="rgba(26,25,19,0.7)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
+      <text x="330" y="80" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
         5 TRANSFER TASKS
       </text>
-      <text x="330" y="104" fill="rgba(26,25,19,0.7)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
+      <text x="330" y="104" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
         FLORIDA → SAN DIEGO
       </text>
-      <text x="330" y="128" fill="rgba(26,25,19,0.7)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
+      <text x="330" y="128" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
         NMSE 7.4–7.7 dB LOWER
       </text>
     </svg>
@@ -167,17 +166,17 @@ function VizParams() {
               width="12"
               height="12"
               rx="2"
-              fill={tuned ? "rgba(26,25,19,0.85)" : "none"}
-              stroke={tuned ? "none" : "rgba(26,25,19,0.22)"}
+              className={tuned ? "f-acc-soft" : "s-line"}
+            
               strokeWidth="1"
             />
           );
         })}
-        <line x1="8" y1="110" x2="514" y2="110" stroke="rgba(26,25,19,0.45)" strokeDasharray="3 4" />
-        <text x="8" y="132" fill="rgba(26,25,19,0.7)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+        <line x1="8" y1="110" x2="514" y2="110" className="s-line-strong" strokeDasharray="3 4" />
+        <text x="8" y="132" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
           75% FROZEN
         </text>
-        <text x="514" y="132" textAnchor="end" fill="rgba(26,25,19,0.7)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+        <text x="514" y="132" textAnchor="end" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
           98.5% RETAINED
         </text>
       </svg>

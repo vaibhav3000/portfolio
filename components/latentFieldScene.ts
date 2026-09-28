@@ -7,8 +7,26 @@ import * as THREE from "three";
  * the vertex shader. The scene pauses when off-screen or when the tab hides.
  */
 
-const ACC = new THREE.Color("#26241d");
-const BASE = new THREE.Color("#8a8578");
+// Theme palettes: particles read as ink on ivory (light) or warm white on
+// coffee-black (dark). The observer below keeps them in sync with the toggle.
+const THEMES = {
+  light: {
+    acc: "#26241d",
+    base: "#8a8578",
+    hot: new THREE.Color(0.05, 0.05, 0.04),
+  },
+  dark: {
+    acc: "#f2eee4",
+    base: "#6b655a",
+    hot: new THREE.Color(1.0, 0.98, 0.92),
+  },
+} as const;
+
+function currentTheme() {
+  return document.documentElement.classList.contains("dark")
+    ? THEMES.dark
+    : THEMES.light;
+}
 
 function mulberry32(seed: number) {
   let a = seed >>> 0;
@@ -57,6 +75,7 @@ const POINT_FRAG = /* glsl */ `
   precision mediump float;
   uniform vec3 uAcc;
   uniform vec3 uBase;
+  uniform vec3 uHot;
   varying float vGlow;
   varying float vFade;
 
@@ -64,7 +83,7 @@ const POINT_FRAG = /* glsl */ `
     float r = length(gl_PointCoord - 0.5);
     float disc = smoothstep(0.5, 0.06, r);
     vec3 col = mix(uBase, uAcc, clamp(vGlow, 0.0, 1.0));
-    col = mix(col, vec3(0.05), vGlow * vGlow * 0.30);
+    col = mix(col, uHot, vGlow * vGlow * 0.30);
     float alpha = disc * (0.30 + 0.42 * vFade + 0.30 * clamp(vGlow - 0.5, 0.0, 1.0));
     gl_FragColor = vec4(col, alpha);
   }
@@ -145,8 +164,9 @@ export function mountField(canvas: HTMLCanvasElement): () => void {
     uniforms: {
       uTime: { value: 0 },
       uScale: { value: 1 },
-      uAcc: { value: ACC },
-      uBase: { value: BASE },
+      uAcc: { value: new THREE.Color(currentTheme().acc) },
+      uBase: { value: new THREE.Color(currentTheme().base) },
+      uHot: { value: currentTheme().hot.clone() },
     },
     transparent: true,
     depthWrite: false,
@@ -162,6 +182,7 @@ export function mountField(canvas: HTMLCanvasElement): () => void {
   const LOOKUP = 512;
   const curves: THREE.CatmullRomCurve3[] = [];
   const lineMats: THREE.LineBasicMaterial[] = [];
+  const lineBaseOpacity: number[] = [];
   const pulseGeos: THREE.BufferGeometry[] = [];
   const pulseMats: THREE.ShaderMaterial[] = [];
   const lookups: THREE.Vector3[][] = [];
@@ -188,10 +209,11 @@ export function mountField(canvas: HTMLCanvasElement): () => void {
       curve.getPoints(140)
     );
     const lineMat = new THREE.LineBasicMaterial({
-      color: ACC,
+      color: new THREE.Color(currentTheme().acc),
       transparent: true,
       opacity: c % 2 === 0 ? 0.22 : 0.12,
     });
+    lineBaseOpacity.push(lineMat.opacity);
     lineMats.push(lineMat);
     group.add(new THREE.Line(lineGeo, lineMat));
 
@@ -208,7 +230,7 @@ export function mountField(canvas: HTMLCanvasElement): () => void {
       fragmentShader: PULSE_FRAG,
       uniforms: {
         uScale: { value: 1 },
-        uAcc: { value: ACC },
+        uAcc: { value: new THREE.Color(currentTheme().acc) },
       },
       transparent: true,
       depthWrite: false,
@@ -226,6 +248,26 @@ export function mountField(canvas: HTMLCanvasElement): () => void {
   group.position.x = mobile ? 0 : 1.2;
   group.position.y = mobile ? 1.4 : 0.2;
   if (mobile) group.scale.setScalar(0.9);
+
+  // ---- Theme sync --------------------------------------------------------
+  const applyTheme = () => {
+    const t = currentTheme();
+    const dark = t === THEMES.dark;
+    (fieldMat.uniforms.uAcc.value as THREE.Color).set(t.acc);
+    (fieldMat.uniforms.uBase.value as THREE.Color).set(t.base);
+    (fieldMat.uniforms.uHot.value as THREE.Color).copy(t.hot);
+    for (const m of pulseMats) (m.uniforms.uAcc.value as THREE.Color).set(t.acc);
+    lineMats.forEach((m, i) => {
+      m.color.set(t.acc);
+      m.opacity = lineBaseOpacity[i] * (dark ? 1.3 : 1);
+    });
+  };
+  applyTheme();
+  const themeMO = new MutationObserver(applyTheme);
+  themeMO.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
 
   const baseCam = new THREE.Vector3(mobile ? 0 : -0.4, mobile ? 4.6 : 3.1, mobile ? 11.5 : 9.4);
   const lookAt = new THREE.Vector3(mobile ? 0 : 1.3, mobile ? 0.4 : 0.1, 0);
@@ -316,6 +358,7 @@ export function mountField(canvas: HTMLCanvasElement): () => void {
   return () => {
     cancelAnimationFrame(raf);
     io.disconnect();
+    themeMO.disconnect();
     document.removeEventListener("visibilitychange", onVis);
     window.removeEventListener("pointermove", onPointer);
     window.removeEventListener("resize", resize);

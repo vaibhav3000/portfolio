@@ -9,12 +9,6 @@ import { useMotionOK } from "@/components/useMotionOK";
  */
 
 const MONO = "var(--font-mono)";
-const FOG_HI = "#1A1913";
-const FOG_MID = "rgba(26,25,19,0.75)";
-const FOG_LOW = "rgba(26,25,19,0.58)";
-const ACC = "#1A1913";
-const ACC_DIM = "rgba(26,25,19,0.4)";
-const LINE = "rgba(26,25,19,0.24)";
 
 function Detail({
   on,
@@ -38,7 +32,7 @@ function Pulse({ path, dur, delay = 0 }: { path: string; dur: number; delay?: nu
   const motionOK = useMotionOK();
   if (!motionOK) return null;
   return (
-    <circle r="2.4" fill={ACC} opacity="0.9">
+    <circle r="2.4" className="f-acc" opacity="0.9">
       <animateMotion dur={`${dur}s`} begin={`${delay}s`} repeatCount="indefinite" path={path} />
     </circle>
   );
@@ -72,7 +66,7 @@ export function MambaViz({ detail }: { detail: boolean }) {
         const d = `M ${x1} ${nodeY} L ${x2} ${nodeY}`;
         return (
           <g key={i}>
-            <path d={d} fill="none" stroke={ACC_DIM} strokeWidth="1" className="edge-flow" />
+            <path d={d} fill="none" strokeWidth="1" className="edge-flow s-acc-dim" />
             <Pulse path={d} dur={3.2} delay={i * 1.05} />
           </g>
         );
@@ -87,13 +81,12 @@ export function MambaViz({ detail }: { detail: boolean }) {
             width="124"
             height="60"
             rx="10"
-            fill="rgba(255,255,255,0.92)"
-            stroke={s.name === "Mamba-3" ? ACC_DIM : LINE}
+            className={`f-node ${s.name === "Mamba-3" ? "s-acc-dim" : "s-line"}`}
           />
-          <text x={s.x} y={nodeY - 6} textAnchor="middle" fill={FOG_HI} fontSize="13" fontFamily={MONO}>
+          <text x={s.x} y={nodeY - 6} textAnchor="middle" className="f-hi" fontSize="13" fontFamily={MONO}>
             {s.name}
           </text>
-          <text x={s.x} y={nodeY + 14} textAnchor="middle" fill={FOG_LOW} fontSize="9" fontFamily={MONO} letterSpacing="1">
+          <text x={s.x} y={nodeY + 14} textAnchor="middle" className="f-low" fontSize="9" fontFamily={MONO} letterSpacing="1">
             {s.sub.toUpperCase()}
           </text>
         </g>
@@ -101,57 +94,57 @@ export function MambaViz({ detail }: { detail: boolean }) {
 
       {/* long-context sequence strip */}
       <g>
-        <line x1="40" y1="250" x2="660" y2="250" stroke="rgba(26,25,19,0.22)" strokeWidth="1" />
+        <line x1="40" y1="250" x2="660" y2="250" className="s-line" strokeWidth="1" />
         {Array.from({ length: 44 }).map((_, i) => (
           <circle
             key={i}
             cx={40 + i * 14.1}
             cy={250}
             r={i > 36 ? 2.6 : 1.7}
-            fill={i > 36 ? ACC : "rgba(26,25,19,0.4)"}
+            className={i > 36 ? "f-acc" : "f-low"}
             opacity={i > 36 ? 0.8 : 0.5}
           />
         ))}
-        <text x="40" y="286" fill={FOG_LOW} fontSize="10" fontFamily={MONO} letterSpacing="1">
+        <text x="40" y="286" className="f-low" fontSize="10" fontFamily={MONO} letterSpacing="1">
           1K
         </text>
-        <text x="660" y="286" textAnchor="end" fill={ACC_DIM} fontSize="10" fontFamily={MONO} letterSpacing="1">
+        <text x="660" y="286" textAnchor="end" className="f-acc-dim" fontSize="10" fontFamily={MONO} letterSpacing="1">
           32K CONTEXT
         </text>
         {/* latency note anchored to the strip */}
-        <text x="40" y="316" fill={FOG_LOW} fontSize="10" fontFamily={MONO} letterSpacing="1">
+        <text x="40" y="316" className="f-low" fontSize="10" fontFamily={MONO} letterSpacing="1">
           BENCHMARKED AT EVERY OCTAVE · RTX 4050 · 6 GB
         </text>
       </g>
 
       {/* capability comparison */}
       <g>
-        <text x="40" y="368" fill={FOG_LOW} fontSize="10" fontFamily={MONO} letterSpacing="1">
+        <text x="40" y="368" className="f-low" fontSize="10" fontFamily={MONO} letterSpacing="1">
           SELECTIVE COPYING
         </text>
-        <rect x="200" y="358" width={134 * 0.06 * 3.2} height="10" rx="3" fill="rgba(26,25,19,0.34)" />
-        <rect x="200" y="378" width={134 * 0.67 * 3.2} height="10" rx="3" fill={ACC_DIM} />
-        <text x="200" y="352" fill={FOG_LOW} fontSize="9" fontFamily={MONO}>
+        <rect x="200" y="358" width={134 * 0.06 * 3.2} height="10" rx="3" className="f-dim" />
+        <rect x="200" y="378" width={134 * 0.67 * 3.2} height="10" rx="3" className="f-acc-dim" />
+        <text x="200" y="352" className="f-low" fontSize="9" fontFamily={MONO}>
           LTI S4D 6%
         </text>
-        <text x="200" y="404" fill={FOG_MID} fontSize="9" fontFamily={MONO}>
+        <text x="200" y="404" className="f-mid" fontSize="9" fontFamily={MONO}>
           SELECTIVE SSM 67%
         </text>
       </g>
 
       <Detail on={detail}>
-        <line x1="100" y1="150" x2="100" y2="200" stroke={LINE} strokeDasharray="2 3" />
-        <text x="100" y="216" textAnchor="middle" fill={FOG_MID} fontSize="9.5" fontFamily={MONO}>
+        <line x1="100" y1="150" x2="100" y2="200" className="s-line" strokeDasharray="2 3" />
+        <text x="100" y="216" textAnchor="middle" className="f-mid" fontSize="9.5" fontFamily={MONO}>
           PARITY ≤56% (REAL TRANSITIONS)
         </text>
-        <line x1="620" y1="150" x2="620" y2="200" stroke={ACC_DIM} strokeDasharray="2 3" />
-        <text x="620" y="216" textAnchor="middle" fill={ACC} fontSize="9.5" fontFamily={MONO}>
+        <line x1="620" y1="150" x2="620" y2="200" className="s-acc-dim" strokeDasharray="2 3" />
+        <text x="620" y="216" textAnchor="middle" className="f-acc" fontSize="9.5" fontFamily={MONO}>
           PARITY 98.3% · COMPLEX TRANSITIONS
         </text>
-        <text x="620" y="34" textAnchor="middle" fill={FOG_LOW} fontSize="9" fontFamily={MONO} letterSpacing="1">
+        <text x="620" y="34" textAnchor="middle" className="f-low" fontSize="9" fontFamily={MONO} letterSpacing="1">
           TEST-VERIFIED CHUNKED SSD PATH
         </text>
-        <line x1="560" y1="40" x2="600" y2="78" stroke={LINE} strokeDasharray="2 3" />
+        <line x1="560" y1="40" x2="600" y2="78" className="s-line" strokeDasharray="2 3" />
       </Detail>
     </svg>
   );
@@ -182,7 +175,7 @@ export function AireViz({ detail }: { detail: boolean }) {
           <g key={p}>
             {d && (
               <>
-                <path d={d} fill="none" stroke={ACC_DIM} strokeWidth="1" className="edge-flow" />
+                <path d={d} fill="none" strokeWidth="1" className="edge-flow s-acc-dim" />
                 <Pulse path={d} dur={4.6} delay={i * 0.9} />
               </>
             )}
@@ -192,10 +185,9 @@ export function AireViz({ detail }: { detail: boolean }) {
               width="140"
               height="44"
               rx="9"
-              fill="rgba(255,255,255,0.92)"
-              stroke={p === "REGRESSION" ? ACC_DIM : LINE}
+              className={`f-node ${p === "REGRESSION" ? "s-acc-dim" : "s-line"}`}
             />
-            <text x={xs} y={y + 4} textAnchor="middle" fill={p === "REGRESSION" ? ACC : FOG_HI} fontSize="10.5" fontFamily={MONO} letterSpacing="1.5">
+            <text x={xs} y={y + 4} textAnchor="middle" className="f-hi" fontSize="10.5" fontFamily={MONO} letterSpacing="1.5">
               {p}
             </text>
           </g>
@@ -204,50 +196,50 @@ export function AireViz({ detail }: { detail: boolean }) {
 
       {/* groundedness regression chart */}
       <g>
-        <line x1="300" y1="330" x2="660" y2="330" stroke={LINE} />
-        <line x1="300" y1="330" x2="300" y2="60" stroke={LINE} />
+        <line x1="300" y1="330" x2="660" y2="330" className="s-line" />
+        <line x1="300" y1="330" x2="300" y2="60" className="s-line" />
         <polyline
           points="320,167 480,167 620,330"
           fill="none"
-          stroke={ACC}
+          className="s-hi"
           strokeWidth="1.6"
         />
-        <circle cx="480" cy="167" r="3.4" fill={ACC} />
-        <circle cx="620" cy="330" r="7" fill="none" stroke={ACC} strokeWidth="1.2" opacity="0.7" />
-        <circle cx="620" cy="330" r="3" fill={ACC} />
-        <text x="320" y="152" fill={FOG_MID} fontSize="10" fontFamily={MONO}>
+        <circle cx="480" cy="167" r="3.4" className="f-acc" />
+        <circle cx="620" cy="330" r="7" fill="none" className="s-hi" strokeWidth="1.2" opacity="0.7" />
+        <circle cx="620" cy="330" r="3" className="f-acc" />
+        <text x="320" y="152" className="f-mid" fontSize="10" fontFamily={MONO}>
           v2 · 0.57
         </text>
-        <text x="620" y="352" textAnchor="end" fill={ACC} fontSize="10" fontFamily={MONO}>
+        <text x="620" y="352" textAnchor="end" className="f-acc" fontSize="10" fontFamily={MONO}>
           v3 · 0.00
         </text>
-        <text x="300" y="48" fill={FOG_LOW} fontSize="9.5" fontFamily={MONO} letterSpacing="1.5">
+        <text x="300" y="48" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="1.5">
           GROUNDEDNESS · FLAGGED REGRESSION
         </text>
         {/* abstention recovery */}
-        <polyline points="320,330 480,330 620,120" fill="none" stroke={FOG_LOW} strokeWidth="1.2" strokeDasharray="3 4" />
-        <text x="480" y="352" textAnchor="middle" fill={FOG_LOW} fontSize="10" fontFamily={MONO}>
+        <polyline points="320,330 480,330 620,120" fill="none" className="s-line-strong" strokeWidth="1.2" strokeDasharray="3 4" />
+        <text x="480" y="352" textAnchor="middle" className="f-low" fontSize="10" fontFamily={MONO}>
           v3 fix · abstention 0.0 → 1.0
         </text>
-        <text x="320" y="376" fill={FOG_LOW} fontSize="9.5" fontFamily={MONO} letterSpacing="1">
+        <text x="320" y="376" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="1">
           26-CASE SUITE · 15 S/CASE WITH LIVE RESPONDER
         </text>
       </g>
 
       <Detail on={detail}>
-        <g fontSize="9.5" fontFamily={MONO} fill={FOG_MID}>
+        <g fontSize="9.5" fontFamily={MONO} className="f-mid">
           <text x="212" y="66">groundedness</text>
           <text x="212" y="144">citation coverage</text>
           <text x="212" y="222">retrieval recall · MRR</text>
           <text x="212" y="300">failure taxonomy</text>
         </g>
         {[66, 144, 222, 300].map((y) => (
-          <line key={y} x1="200" y1={y - 3} x2="212" y2={y - 3} stroke={LINE} strokeDasharray="2 3" />
+          <line key={y} x1="200" y1={y - 3} x2="212" y2={y - 3} className="s-line" strokeDasharray="2 3" />
         ))}
-        <text x="620" y="90" fill={FOG_LOW} fontSize="9" fontFamily={MONO} letterSpacing="1">
+        <text x="620" y="90" className="f-low" fontSize="9" fontFamily={MONO} letterSpacing="1">
           DIRECTION-AWARE,
         </text>
-        <text x="620" y="106" fill={FOG_LOW} fontSize="9" fontFamily={MONO} letterSpacing="1">
+        <text x="620" y="106" className="f-low" fontSize="9" fontFamily={MONO} letterSpacing="1">
           PER-CASE ATTRIBUTION
         </text>
       </Detail>
@@ -278,13 +270,13 @@ export function AgentViz({ detail }: { detail: boolean }) {
       aria-label="State-machine ring of plan, act, observe, verify inside a sandbox boundary"
     >
       {/* sandbox boundary */}
-      <circle cx={cx} cy={cy} r="176" fill="none" stroke={ACC_DIM} strokeWidth="1" strokeDasharray="2 7" opacity="0.55" />
-      <text x={cx} y={cy - 186} textAnchor="middle" fill={FOG_LOW} fontSize="9.5" fontFamily={MONO} letterSpacing="2">
+      <circle cx={cx} cy={cy} r="176" fill="none" className="s-acc-dim" strokeWidth="1" strokeDasharray="2 7" opacity="0.55" />
+      <text x={cx} y={cy - 186} textAnchor="middle" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="2">
         SANDBOX BOUNDARY
       </text>
 
       {/* ring segments */}
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(26,25,19,0.2)" strokeWidth="1.5" />
+      <circle cx={cx} cy={cy} r={r} fill="none" className="s-line" strokeWidth="1.5" />
 
       {/* rotating highlight: a 90 degree acc arc */}
       <g
@@ -299,7 +291,7 @@ export function AgentViz({ detail }: { detail: boolean }) {
           cy={cy}
           r={r}
           fill="none"
-          stroke={ACC}
+          className="s-hi"
           strokeWidth="2.5"
           strokeLinecap="round"
           pathLength="100"
@@ -320,7 +312,7 @@ export function AgentViz({ detail }: { detail: boolean }) {
             x={lx}
             y={ly + 3}
             textAnchor="middle"
-            fill={s === "VERIFY" ? ACC : FOG_HI}
+            className="f-hi"
             fontSize="11"
             fontFamily={MONO}
             letterSpacing="2"
@@ -331,14 +323,14 @@ export function AgentViz({ detail }: { detail: boolean }) {
       })}
 
       {/* center node */}
-      <circle cx={cx} cy={cy} r="46" fill="rgba(255,255,255,0.95)" stroke={LINE} />
-      <text x={cx} y={cy - 6} textAnchor="middle" fill={FOG_HI} fontSize="10" fontFamily={MONO} letterSpacing="1">
+      <circle cx={cx} cy={cy} r="46" className="f-node s-line" />
+      <text x={cx} y={cy - 6} textAnchor="middle" className="f-hi" fontSize="10" fontFamily={MONO} letterSpacing="1">
         STATE
       </text>
-      <text x={cx} y={cy + 10} textAnchor="middle" fill={FOG_HI} fontSize="10" fontFamily={MONO} letterSpacing="1">
+      <text x={cx} y={cy + 10} textAnchor="middle" className="f-hi" fontSize="10" fontFamily={MONO} letterSpacing="1">
         MACHINE
       </text>
-      <text x={cx} y={cy + 26} textAnchor="middle" fill={FOG_LOW} fontSize="8.5" fontFamily={MONO}>
+      <text x={cx} y={cy + 26} textAnchor="middle" className="f-low" fontSize="8.5" fontFamily={MONO}>
         DECIDES, NOT THE MODEL
       </text>
 
@@ -352,27 +344,27 @@ export function AgentViz({ detail }: { detail: boolean }) {
             cx={cx + Math.cos(ang) * tr}
             cy={cy + Math.sin(ang) * tr}
             r="2.6"
-            fill="rgba(26,25,19,0.6)"
+            className="f-mid"
           />
         );
       })}
-      <text x={cx} y={cy + 76 + 46} textAnchor="middle" fill={FOG_LOW} fontSize="9.5" fontFamily={MONO} letterSpacing="1.5">
+      <text x={cx} y={cy + 76 + 46} textAnchor="middle" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="1.5">
         7 VALIDATED TOOLS
       </text>
 
       <Pulse path={ringPath} dur={7.5} />
 
       <Detail on={detail}>
-        <text x={cx} y={cy + 205} textAnchor="middle" fill={FOG_MID} fontSize="9.5" fontFamily={MONO} letterSpacing="1">
+        <text x={cx} y={cy + 205} textAnchor="middle" className="f-mid" fontSize="9.5" fontFamily={MONO} letterSpacing="1">
           SCHEMA CHECKS · AUTO / ASK / DENY · COMMAND ALLOWLISTS
         </text>
-        <text x={cx + r + 42} y={cy - 4} fill={FOG_LOW} fontSize="9" fontFamily={MONO}>
+        <text x={cx + r + 42} y={cy - 4} className="f-low" fontSize="9" fontFamily={MONO}>
           COMPLETION REQUIRES
         </text>
-        <text x={cx + r + 42} y={cy + 12} fill={FOG_LOW} fontSize="9" fontFamily={MONO}>
+        <text x={cx + r + 42} y={cy + 12} className="f-low" fontSize="9" fontFamily={MONO}>
           GREEN TEST EVIDENCE
         </text>
-        <line x1={cx + r + 4} y1={cy + 2} x2={cx + r + 36} y2={cy + 2} stroke={LINE} strokeDasharray="2 3" />
+        <line x1={cx + r + 4} y1={cy + 2} x2={cx + r + 36} y2={cy + 2} className="s-line" strokeDasharray="2 3" />
       </Detail>
     </svg>
   );

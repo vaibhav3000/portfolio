@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { NAV_LINKS, SITE } from "@/lib/data";
+import ThemeToggle from "@/components/ThemeToggle";
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -134,6 +135,7 @@ export default function Nav() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <a
               href={SITE.links.github}
               target="_blank"

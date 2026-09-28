@@ -36,13 +36,18 @@ const SECTIONS = [
   ["contact", "#contact"],
 ];
 
-async function capture(browser, { width, height, tag, sections, reduceMotion, javaScriptEnabled }) {
+async function capture(browser, { width, height, tag, sections, reduceMotion, javaScriptEnabled, dark }) {
   const ctx = await browser.newContext({
     viewport: { width, height },
     deviceScaleFactor: 1,
     reducedMotion: reduceMotion ? "reduce" : "no-preference",
     javaScriptEnabled,
   });
+  if (dark) {
+    await ctx.addInitScript(() => {
+      try { localStorage.setItem("theme", "dark"); } catch (e) {}
+    });
+  }
   const page = await ctx.newPage();
   await page.goto(BASE, { waitUntil: "networkidle" });
   await page.evaluate(() => {
@@ -103,6 +108,16 @@ async function capture(browser, { width, height, tag, sections, reduceMotion, ja
   await capture(browser, {
     width: 1440, height: 900, tag: "nojs1440", javaScriptEnabled: false,
     sections: [["hero", null], ["metrics", "#metrics"], ["contact", "#contact"]],
+  });
+
+  // dark mode captures
+  await capture(browser, {
+    width: 1440, height: 900, tag: "dk1440", dark: true,
+    sections: [["hero", null], ["intro", "#about"], ["metrics", "#metrics"], ["experience", "#experience"], ["project1", "#project-01"], ["project3", "#project-03"], ["education", "#education"], ["contact", "#contact"]],
+  });
+  await capture(browser, {
+    width: 390, height: 844, tag: "dkm390", dark: true,
+    sections: [["hero", null], ["projects", "#projects"], ["contact", "#contact"]],
   });
 
   await browser.close();

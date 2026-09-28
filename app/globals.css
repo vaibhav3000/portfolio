@@ -2,9 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------- Theme tokens (RGB triplets so Tailwind alpha modifiers work) ---- */
 :root {
-  --bg: #f4f2ee;
-  --acc: #1a1913;
+  --ink-950: 244 242 238;
+  --ink-900: 251 250 248;
+  --ink-850: 241 239 233;
+  --ink-800: 231 228 220;
+  --ink-700: 216 212 201;
+  --line: 26 25 19;
+  --fog-hi: 26 25 19;
+  --fog-mid: 82 80 74;
+  --fog-low: 110 107 99;
+  --acc: 26 25 19;
+  --grid: 26 25 19;
+  --bg: rgb(var(--ink-950));
+  --glow-a: rgba(196, 186, 160, 0.16);
+  --glow-b: rgba(170, 160, 135, 0.12);
+  --contact-glow: rgba(170, 155, 120, 0.12);
+  --shadow-glow: 0 2px 16px rgba(26, 25, 19, 0.14);
+  --shadow-float: 0 12px 40px rgba(26, 25, 19, 0.12);
+  color-scheme: light;
+}
+
+.dark {
+  /* warm coffee-black; deliberately NOT grey or blue */
+  --ink-950: 14 12 10;
+  --ink-900: 24 22 19;
+  --ink-850: 30 27 23;
+  --ink-800: 40 36 31;
+  --ink-700: 58 53 45;
+  --line: 244 241 234;
+  --fog-hi: 244 241 234;
+  --fog-mid: 166 159 146;
+  --fog-low: 124 117 105;
+  --acc: 244 241 234;
+  --grid: 244 241 234;
+  --glow-a: rgba(232, 203, 150, 0.05);
+  --glow-b: rgba(210, 170, 110, 0.04);
+  --contact-glow: rgba(232, 203, 150, 0.07);
+  --shadow-glow: 0 0 28px rgba(244, 241, 234, 0.07);
+  --shadow-float: 0 18px 48px rgba(0, 0, 0, 0.55);
+  color-scheme: dark;
 }
 
 html {
@@ -14,11 +52,12 @@ html {
 body {
   @apply bg-ink-950 text-fog-mid font-sans antialiased;
   text-rendering: optimizeLegibility;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 ::selection {
-  background: #1a1913;
-  color: #f4f2ee;
+  background: rgb(var(--acc));
+  color: rgb(var(--ink-950));
 }
 
 :focus-visible {
@@ -44,10 +83,10 @@ body {
     z-index: -1;
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
-      linear-gradient(rgba(26, 25, 19, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 25, 19, 0.035) 1px, transparent 1px),
-      radial-gradient(70rem 46rem at 82% -10%, rgba(196, 186, 160, 0.16), transparent 60%),
-      radial-gradient(60rem 44rem at -8% 108%, rgba(170, 160, 135, 0.12), transparent 62%);
+      linear-gradient(rgb(var(--grid) / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--grid) / 0.035) 1px, transparent 1px),
+      radial-gradient(70rem 46rem at 82% -10%, var(--glow-a), transparent 60%),
+      radial-gradient(60rem 44rem at -8% 108%, var(--glow-b), transparent 62%);
     background-size: 160px 160px, 88px 88px, 88px 88px, auto, auto;
     background-color: var(--bg);
   }
@@ -57,7 +96,7 @@ body {
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2.5 rounded-full bg-fog-hi px-6 py-3 text-sm font-medium text-ink-950 transition-all duration-200 hover:bg-black hover:shadow-glow;
+    @apply inline-flex items-center gap-2.5 rounded-full bg-fog-hi px-6 py-3 text-sm font-medium text-ink-950 transition-all duration-200 hover:opacity-90 hover:shadow-glow;
   }
 
   .btn-ghost {
@@ -76,6 +115,23 @@ body {
   .link-quiet:focus-visible::after {
     @apply scale-x-100;
   }
+
+  /* SVG data-viz theme tokens: swap with the page theme automatically */
+  .f-hi { fill: rgb(var(--fog-hi)); }
+  .f-mid { fill: rgb(var(--fog-mid)); }
+  .f-low { fill: rgb(var(--fog-low)); }
+  .f-node { fill: rgb(var(--ink-900)); }
+  .f-acc { fill: rgb(var(--acc)); }
+  .f-acc-soft { fill: rgb(var(--acc) / 0.85); }
+  .s-hi { stroke: rgb(var(--fog-hi)); }
+  .s-acc { stroke: rgb(var(--acc)); }
+  .s-acc-dim { stroke: rgb(var(--acc) / 0.4); }
+  .s-line { stroke: rgb(var(--line) / 0.3); }
+  .s-line-strong { stroke: rgb(var(--line) / 0.45); }
+  .s-track { stroke: rgb(var(--line) / 0.16); }
+  .s-dot-base { stroke: rgb(var(--fog-low)); }
+  .f-acc-dim { fill: rgb(var(--acc) / 0.45); }
+  .f-dim { fill: rgb(var(--fog-low) / 0.6); }
 }
 
 /* ---------- Scroll reveal (only when JS is available) ---------- */
@@ -173,7 +229,7 @@ html.js [data-reveal].is-in .m-arc {
   width: 1px;
   height: 52px;
   overflow: hidden;
-  background: rgba(26, 25, 19, 0.14);
+  background: rgb(var(--line) / 0.14);
 }
 .scroll-line::after {
   content: "";
