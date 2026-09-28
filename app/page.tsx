@@ -8,6 +8,7 @@ import Research from "@/components/Research";
 import Skills from "@/components/Skills";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
+import Cursor from "@/components/Cursor";
 import RevealObserver from "@/components/RevealObserver";
 import { SITE } from "@/lib/data";
 
@@ -50,6 +51,7 @@ export default function Home() {
         <Education />
         <Contact />
       </main>
+      <Cursor />
       <RevealObserver />
     </>
   );

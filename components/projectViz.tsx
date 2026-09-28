@@ -5,10 +5,14 @@ import { useMotionOK } from "@/components/useMotionOK";
 /**
  * Bespoke SVG scenes for the three projects. Each has a base layer (always
  * visible) and a detail layer (annotation callouts, shown via the scene's
- * Structure toggle). SMIL pulses render only when motion is welcome.
+ * Structure toggle). On reveal, nodes pop in sequence and solid strokes draw
+ * themselves (.pop / .draw driven by the wrapper's .is-in). SMIL pulses
+ * render only when motion is welcome.
  */
 
 const MONO = "var(--font-mono)";
+
+const rd = (ms: number) => ({ "--rd": `${ms}ms` }) as React.CSSProperties;
 
 function Detail({
   on,
@@ -65,7 +69,7 @@ export function MambaViz({ detail }: { detail: boolean }) {
         const x2 = STAGES[i + 1].x - 62;
         const d = `M ${x1} ${nodeY} L ${x2} ${nodeY}`;
         return (
-          <g key={i}>
+          <g key={i} className="pop" style={rd(480 + i * 130)}>
             <path d={d} fill="none" strokeWidth="1" className="edge-flow s-acc-dim" />
             <Pulse path={d} dur={3.2} delay={i * 1.05} />
           </g>
@@ -73,8 +77,8 @@ export function MambaViz({ detail }: { detail: boolean }) {
       })}
 
       {/* stage nodes */}
-      {STAGES.map((s) => (
-        <g key={s.name}>
+      {STAGES.map((s, i) => (
+        <g key={s.name} className="pop" style={rd(i * 130)}>
           <rect
             x={s.x - 62}
             y={nodeY - 30}
@@ -94,40 +98,41 @@ export function MambaViz({ detail }: { detail: boolean }) {
 
       {/* long-context sequence strip */}
       <g>
-        <line x1="40" y1="250" x2="660" y2="250" className="s-line" strokeWidth="1" />
+        <line x1="40" y1="250" x2="660" y2="250" className="s-line draw" strokeWidth="1" style={{ ...rd(520), "--len": 620 } as React.CSSProperties} />
         {Array.from({ length: 44 }).map((_, i) => (
           <circle
             key={i}
             cx={40 + i * 14.1}
             cy={250}
             r={i > 36 ? 2.6 : 1.7}
-            className={i > 36 ? "f-acc" : "f-low"}
+            className={`pop ${i > 36 ? "f-acc" : "f-low"}`}
             opacity={i > 36 ? 0.8 : 0.5}
+            style={rd(620 + Math.min(i * 14, 500))}
           />
         ))}
-        <text x="40" y="286" className="f-low" fontSize="10" fontFamily={MONO} letterSpacing="1">
+        <text x="40" y="286" className="f-low pop" fontSize="10" fontFamily={MONO} letterSpacing="1" style={rd(900)}>
           1K
         </text>
-        <text x="660" y="286" textAnchor="end" className="f-acc-dim" fontSize="10" fontFamily={MONO} letterSpacing="1">
+        <text x="660" y="286" textAnchor="end" className="f-acc-dim pop" fontSize="10" fontFamily={MONO} letterSpacing="1" style={rd(980)}>
           32K CONTEXT
         </text>
         {/* latency note anchored to the strip */}
-        <text x="40" y="316" className="f-low" fontSize="10" fontFamily={MONO} letterSpacing="1">
+        <text x="40" y="316" className="f-low pop" fontSize="10" fontFamily={MONO} letterSpacing="1" style={rd(1060)}>
           BENCHMARKED AT EVERY OCTAVE · RTX 4050 · 6 GB
         </text>
       </g>
 
       {/* capability comparison */}
       <g>
-        <text x="40" y="368" className="f-low" fontSize="10" fontFamily={MONO} letterSpacing="1">
+        <text x="40" y="368" className="f-low pop" fontSize="10" fontFamily={MONO} letterSpacing="1" style={rd(1100)}>
           SELECTIVE COPYING
         </text>
-        <rect x="200" y="358" width={134 * 0.06 * 3.2} height="10" rx="3" className="f-dim" />
-        <rect x="200" y="378" width={134 * 0.67 * 3.2} height="10" rx="3" className="f-acc-dim" />
-        <text x="200" y="352" className="f-low" fontSize="9" fontFamily={MONO}>
+        <rect x="200" y="358" width={134 * 0.06 * 3.2} height="10" rx="3" className="f-dim pop" style={rd(1180)} />
+        <rect x="200" y="378" width={134 * 0.67 * 3.2} height="10" rx="3" className="f-acc-dim pop" style={rd(1260)} />
+        <text x="200" y="352" className="f-low pop" fontSize="9" fontFamily={MONO} style={rd(1180)}>
           LTI S4D 6%
         </text>
-        <text x="200" y="404" className="f-mid" fontSize="9" fontFamily={MONO}>
+        <text x="200" y="404" className="f-mid pop" fontSize="9" fontFamily={MONO} style={rd(1260)}>
           SELECTIVE SSM 67%
         </text>
       </g>
@@ -172,10 +177,10 @@ export function AireViz({ detail }: { detail: boolean }) {
         const y = y0 + i * gap;
         const d = i < PIPE.length - 1 ? `M ${xs} ${y + 22} L ${xs} ${y + gap - 22}` : "";
         return (
-          <g key={p}>
+          <g key={p} className="pop" style={rd(i * 140)}>
             {d && (
               <>
-                <path d={d} fill="none" strokeWidth="1" className="edge-flow s-acc-dim" />
+                <path d={d} fill="none" strokeWidth="1" className="edge-flow s-acc-dim pop" style={rd(260 + i * 140)} />
                 <Pulse path={d} dur={4.6} delay={i * 0.9} />
               </>
             )}
@@ -196,32 +201,33 @@ export function AireViz({ detail }: { detail: boolean }) {
 
       {/* groundedness regression chart */}
       <g>
-        <line x1="300" y1="330" x2="660" y2="330" className="s-line" />
-        <line x1="300" y1="330" x2="300" y2="60" className="s-line" />
+        <line x1="300" y1="330" x2="660" y2="330" className="s-line pop" style={rd(420)} />
+        <line x1="300" y1="330" x2="300" y2="60" className="s-line pop" style={rd(480)} />
         <polyline
           points="320,167 480,167 620,330"
           fill="none"
-          className="s-hi"
+          className="s-hi draw"
           strokeWidth="1.6"
+          style={{ ...rd(650), "--len": 430 } as React.CSSProperties}
         />
-        <circle cx="480" cy="167" r="3.4" className="f-acc" />
-        <circle cx="620" cy="330" r="7" fill="none" className="s-hi" strokeWidth="1.2" opacity="0.7" />
-        <circle cx="620" cy="330" r="3" className="f-acc" />
-        <text x="320" y="152" className="f-mid" fontSize="10" fontFamily={MONO}>
+        <circle cx="480" cy="167" r="3.4" className="f-acc pop" style={rd(1150)} />
+        <circle cx="620" cy="330" r="7" fill="none" className="s-hi pop" strokeWidth="1.2" opacity="0.7" style={rd(1350)} />
+        <circle cx="620" cy="330" r="3" className="f-acc pop" style={rd(1350)} />
+        <text x="320" y="152" className="f-mid pop" fontSize="10" fontFamily={MONO} style={rd(1000)}>
           v2 · 0.57
         </text>
-        <text x="620" y="352" textAnchor="end" className="f-acc" fontSize="10" fontFamily={MONO}>
+        <text x="620" y="352" textAnchor="end" className="f-acc pop" fontSize="10" fontFamily={MONO} style={rd(1400)}>
           v3 · 0.00
         </text>
-        <text x="300" y="48" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="1.5">
+        <text x="300" y="48" className="f-low pop" fontSize="9.5" fontFamily={MONO} letterSpacing="1.5" style={rd(900)}>
           GROUNDEDNESS · FLAGGED REGRESSION
         </text>
         {/* abstention recovery */}
-        <polyline points="320,330 480,330 620,120" fill="none" className="s-line-strong" strokeWidth="1.2" strokeDasharray="3 4" />
-        <text x="480" y="352" textAnchor="middle" className="f-low" fontSize="10" fontFamily={MONO}>
+        <polyline points="320,330 480,330 620,120" fill="none" className="s-line-strong pop" strokeWidth="1.2" strokeDasharray="3 4" style={rd(1050)} />
+        <text x="480" y="352" textAnchor="middle" className="f-low pop" fontSize="10" fontFamily={MONO} style={rd(1450)}>
           v3 fix · abstention 0.0 → 1.0
         </text>
-        <text x="320" y="376" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="1">
+        <text x="320" y="376" className="f-low pop" fontSize="9.5" fontFamily={MONO} letterSpacing="1" style={rd(1500)}>
           26-CASE SUITE · 15 S/CASE WITH LIVE RESPONDER
         </text>
       </g>
@@ -270,21 +276,23 @@ export function AgentViz({ detail }: { detail: boolean }) {
       aria-label="State-machine ring of plan, act, observe, verify inside a sandbox boundary"
     >
       {/* sandbox boundary */}
-      <circle cx={cx} cy={cy} r="176" fill="none" className="s-acc-dim" strokeWidth="1" strokeDasharray="2 7" opacity="0.55" />
-      <text x={cx} y={cy - 186} textAnchor="middle" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="2">
+      <circle cx={cx} cy={cy} r="176" fill="none" className="s-acc-dim pop" strokeWidth="1" strokeDasharray="2 7" opacity="0.55" style={rd(0)} />
+      <text x={cx} y={cy - 186} textAnchor="middle" className="f-low pop" fontSize="9.5" fontFamily={MONO} letterSpacing="2" style={rd(150)}>
         SANDBOX BOUNDARY
       </text>
 
       {/* ring segments */}
-      <circle cx={cx} cy={cy} r={r} fill="none" className="s-line" strokeWidth="1.5" />
+      <circle cx={cx} cy={cy} r={r} fill="none" className="s-line draw" strokeWidth="1.5" style={{ ...rd(250), "--len": 742 } as React.CSSProperties} />
 
       {/* rotating highlight: a 90 degree acc arc */}
       <g
-        style={
-          motionOK
+        className="pop"
+        style={{
+          ...(motionOK
             ? { transformOrigin: `${cx}px ${cy}px`, animation: "ring-spin 9s linear infinite" }
-            : undefined
-        }
+            : {}),
+          ...rd(900),
+        }}
       >
         <circle
           cx={cx}
@@ -312,10 +320,11 @@ export function AgentViz({ detail }: { detail: boolean }) {
             x={lx}
             y={ly + 3}
             textAnchor="middle"
-            className="f-hi"
+            className="f-hi pop"
             fontSize="11"
             fontFamily={MONO}
             letterSpacing="2"
+            style={rd(480 + i * 120)}
           >
             {s}
           </text>
@@ -323,32 +332,36 @@ export function AgentViz({ detail }: { detail: boolean }) {
       })}
 
       {/* center node */}
-      <circle cx={cx} cy={cy} r="46" className="f-node s-line" />
-      <text x={cx} y={cy - 6} textAnchor="middle" className="f-hi" fontSize="10" fontFamily={MONO} letterSpacing="1">
-        STATE
-      </text>
-      <text x={cx} y={cy + 10} textAnchor="middle" className="f-hi" fontSize="10" fontFamily={MONO} letterSpacing="1">
-        MACHINE
-      </text>
-      <text x={cx} y={cy + 26} textAnchor="middle" className="f-low" fontSize="8.5" fontFamily={MONO}>
-        DECIDES, NOT THE MODEL
-      </text>
+      <g className="pop" style={rd(820)}>
+        <circle cx={cx} cy={cy} r="46" className="f-node s-line" />
+        <text x={cx} y={cy - 6} textAnchor="middle" className="f-hi" fontSize="10" fontFamily={MONO} letterSpacing="1">
+          STATE
+        </text>
+        <text x={cx} y={cy + 10} textAnchor="middle" className="f-hi" fontSize="10" fontFamily={MONO} letterSpacing="1">
+          MACHINE
+        </text>
+        <text x={cx} y={cy + 26} textAnchor="middle" className="f-low" fontSize="8.5" fontFamily={MONO}>
+          DECIDES, NOT THE MODEL
+        </text>
+      </g>
 
       {/* seven tools on an inner orbit */}
-      {Array.from({ length: 7 }).map((_, i) => {
-        const ang = (-90 + i * (360 / 7)) * (Math.PI / 180);
-        const tr = 76;
-        return (
-          <circle
-            key={i}
-            cx={cx + Math.cos(ang) * tr}
-            cy={cy + Math.sin(ang) * tr}
-            r="2.6"
-            className="f-mid"
-          />
-        );
-      })}
-      <text x={cx} y={cy + 76 + 46} textAnchor="middle" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="1.5">
+      <g className="pop" style={rd(1000)}>
+        {Array.from({ length: 7 }).map((_, i) => {
+          const ang = (-90 + i * (360 / 7)) * (Math.PI / 180);
+          const tr = 76;
+          return (
+            <circle
+              key={i}
+              cx={cx + Math.cos(ang) * tr}
+              cy={cy + Math.sin(ang) * tr}
+              r="2.6"
+              className="f-mid"
+            />
+          );
+        })}
+      </g>
+      <text x={cx} y={cy + 76 + 46} textAnchor="middle" className="f-low pop" fontSize="9.5" fontFamily={MONO} letterSpacing="1.5" style={rd(1080)}>
         7 VALIDATED TOOLS
       </text>
 

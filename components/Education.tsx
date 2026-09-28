@@ -71,47 +71,35 @@ export default function Education() {
         {/* Leadership */}
         <div
           data-reveal
-          className="rounded-2xl border border-line bg-ink-900/40 p-7 md:p-9"
+          className="rounded-2xl border border-line bg-ink-900/40 p-7 md:p-9 lg:col-span-2"
         >
           <p className="micro">Leadership</p>
-          <h3 className="mt-5 text-2xl font-light tracking-[-0.01em] text-fog-hi">
-            Sci-Tech Coordinator · Rhapsody Fest, IISc
-          </h3>
-          <p className="mt-2 text-sm text-fog-mid">2023 - 2026</p>
-          <ul className="mt-6 space-y-3.5">
-            <li className="flex gap-3.5 text-sm leading-relaxed text-fog-mid">
-              <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-acc/70" aria-hidden="true" />
-              <span>
-                Led end-to-end organization of three inter-college gaming
-                tournaments and a competitive coding contest for{" "}
-                <span className="text-fog-hi">200+ registered teams</span>.
-              </span>
-            </li>
-            <li className="flex gap-3.5 text-sm leading-relaxed text-fog-mid">
-              <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-acc/70" aria-hidden="true" />
-              <span>
-                Administered a <span className="text-fog-hi">500+ member</span>{" "}
-                community for registration and tech support, and drove fest
-                publicity through digital campaigns.
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Achievement */}
-        <div
-          data-reveal
-          style={{ "--rd": "100ms" } as React.CSSProperties}
-          className="rounded-2xl border border-line bg-ink-900/40 p-7 md:p-9"
-        >
-          <p className="micro">Achievement</p>
-          <h3 className="mt-5 text-2xl font-light tracking-[-0.01em] text-fog-hi">
-            JEE Advanced 2023
-          </h3>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-fog-mid">
-            All India Rank <span className="text-fog-hi">2412</span>: top 1.34%
-            among 180,000+ candidates nationwide.
-          </p>
+          <div className="mt-5 grid gap-8 md:grid-cols-2 md:items-start">
+            <div>
+              <h3 className="text-2xl font-light tracking-[-0.01em] text-fog-hi">
+                Sci-Tech Coordinator · Rhapsody Fest, IISc
+              </h3>
+              <p className="mt-2 text-sm text-fog-mid">2023 - 2026</p>
+            </div>
+            <ul className="space-y-3.5">
+              <li className="flex gap-3.5 text-sm leading-relaxed text-fog-mid">
+                <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-acc/70" aria-hidden="true" />
+                <span>
+                  Led end-to-end organization of three inter-college gaming
+                  tournaments and a competitive coding contest for{" "}
+                  <span className="text-fog-hi">200+ registered teams</span>.
+                </span>
+              </li>
+              <li className="flex gap-3.5 text-sm leading-relaxed text-fog-mid">
+                <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-acc/70" aria-hidden="true" />
+                <span>
+                  Administered a <span className="text-fog-hi">500+ member</span>{" "}
+                  community for registration and tech support, and drove fest
+                  publicity through digital campaigns.
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </Section>

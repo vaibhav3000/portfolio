@@ -66,7 +66,7 @@ async function capture(browser, { width, height, tag, sections, reduceMotion, ja
           window.scrollTo({ top: Math.max(0, y), behavior: "instant" });
         }
       }, sel);
-      await page.waitForTimeout(1400);
+      await page.waitForTimeout(2600);
     } else if (name === "hero") {
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
       await page.waitForTimeout(2200);

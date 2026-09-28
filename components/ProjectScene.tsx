@@ -90,6 +90,7 @@ export default function ProjectScene({
           </a>
           <button
             type="button"
+            data-magnetictype="button"
             onClick={() => setDetail((v) => !v)}
             aria-expanded={detail}
             aria-controls={`viz-${project.id}`}
@@ -105,7 +106,7 @@ export default function ProjectScene({
 
       <div
         id={`viz-${project.id}`}
-        className={`lg:col-span-7 ${alt ? "lg:order-1" : ""}`}
+        className={`scene-viz lg:col-span-7 ${alt ? "lg:order-1" : ""}`}
         data-reveal
       >
         <div className="rounded-2xl border border-line bg-ink-900/40 p-4 md:p-7">

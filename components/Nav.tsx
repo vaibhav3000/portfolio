@@ -158,6 +158,7 @@ export default function Nav() {
               href={SITE.links.resume}
               target="_blank"
               rel="noopener noreferrer"
+              data-magnetic
               className="ml-1 hidden rounded-full border border-white/20 px-4 py-2 text-[13px] text-fog-hi transition-all duration-200 hover:border-acc/60 hover:text-white sm:inline-flex"
             >
               Resume

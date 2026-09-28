@@ -1,3 +1,4 @@
+import CountUp from "@/components/CountUp";
 import Section from "@/components/Section";
 import { METRICS } from "@/lib/data";
 
@@ -6,8 +7,8 @@ function BigValue({ value }: { value: string }) {
   const suffix = value.endsWith("×") || value.endsWith("%") ? value.slice(-1) : "";
   const main = suffix ? value.slice(0, -1) : value;
   return (
-    <p className="text-[clamp(3.4rem,8vw,7.5rem)] font-extralight leading-[0.95] tracking-[-0.02em] text-fog-hi tabular-nums">
-      {main}
+    <p className="text-[clamp(2.7rem,5.5vw,5.2rem)] font-extralight leading-[0.95] tracking-[-0.02em] text-fog-hi tabular-nums">
+      <CountUp value={main} />
       {suffix && <span className="text-fog-mid">{suffix}</span>}
     </p>
   );
@@ -192,6 +193,7 @@ export default function Metrics() {
       id="metrics"
       index="02"
       label="Technical proof"
+      tight
       title="Measured, not claimed."
       lede="Four numbers from real benchmark runs. Each one shaped a decision: which architecture to deploy, and what to trust about it."
     >
@@ -202,17 +204,17 @@ export default function Metrics() {
             <article
               key={m.label}
               data-reveal
-              className="grid items-center gap-10 border-t border-line py-14 last:border-b md:py-16 lg:grid-cols-12"
+              className="grid items-center gap-8 border-t border-line py-9 last:border-b md:py-11 lg:grid-cols-12"
             >
               <div className="lg:col-span-7">
                 <p className="micro">
                   M.{String(i + 1).padStart(2, "0")}
                 </p>
-                <div className="mt-7">
+                <div className="mt-5">
                   <BigValue value={m.value} />
                 </div>
-                <p className="mt-4 text-lg text-fog-hi/90">{m.label}</p>
-                <p className="mt-3 max-w-xl text-sm leading-relaxed text-fog-mid">
+                <p className="mt-3 text-lg text-fog-hi/90">{m.label}</p>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-fog-mid">
                   {m.context}
                 </p>
               </div>

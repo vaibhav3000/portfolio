@@ -50,7 +50,7 @@ export default function Hero() {
           data-reveal
           style={{ "--rd": "360ms" } as React.CSSProperties}
         >
-          <a href="#projects" className="btn-primary">
+          <a href="#projects" className="btn-primary" data-magnetic>
             View Projects
             <span aria-hidden="true" className="text-base leading-none">
               ↓
@@ -60,7 +60,7 @@ export default function Hero() {
             href={SITE.links.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-ghost"
+            className="btn-ghost" data-magnetic
           >
             View Resume
           </a>
