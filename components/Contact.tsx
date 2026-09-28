@@ -1,115 +1,132 @@
 import { SITE } from "@/lib/data";
 
-const CHANNELS = [
-  {
-    label: "email",
-    value: SITE.email,
-    href: `mailto:${SITE.email}`,
-    external: false,
-  },
-  {
-    label: "linkedin",
-    value: "in/vaibhav-mahore",
-    href: SITE.links.linkedin,
-    external: true,
-  },
-  {
-    label: "github",
-    value: "vaibhav3000",
-    href: SITE.links.github,
-    external: true,
-  },
-  {
-    label: "resume",
-    value: "resume.pdf",
-    href: SITE.links.resume,
-    external: true,
-  },
-];
-
+/** Closing scene: the visual resolves to calm; type and links carry it. */
 export default function Contact() {
   return (
-    <section id="contact" className="relative scroll-mt-16 overflow-hidden">
-      {/* closing glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-acc-green/5 blur-3xl"
-        aria-hidden="true"
-      />
-
-      <div className="container-x py-28 md:py-36">
-        <p data-reveal className="text-center font-mono text-sm text-fog-mid">
-          <span className="text-acc-green">$</span> ping vaibhav --lets-build
-        </p>
-
-        <h2
-          data-reveal
-          style={{ "--rd": "80ms" } as React.CSSProperties}
-          className="mx-auto mt-8 max-w-3xl text-center font-display text-5xl font-semibold tracking-tight text-fog-hi md:text-7xl"
-        >
-          Let&apos;s build something{" "}
-          <span className="text-grad">useful.</span>
-        </h2>
-
-        <p
-          data-reveal
-          style={{ "--rd": "160ms" } as React.CSSProperties}
-          className="mx-auto mt-6 max-w-xl text-center leading-relaxed text-fog-mid"
-        >
-          Email, LinkedIn, or GitHub: pick a channel. Responsive to interesting
-          problems.
-        </p>
-
-        <div
-          data-reveal
-          style={{ "--rd": "240ms" } as React.CSSProperties}
-          className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-4"
-        >
-          {CHANNELS.map((c) => (
-            <a
-              key={c.label}
-              href={c.href}
-              {...(c.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-              className="group bg-ink-900/80 px-5 py-7 transition-colors hover:bg-ink-800"
-            >
-              <p className="font-mono text-[11px] text-acc-green">
-                {c.label}
-                <span className="ml-2 inline-block text-fog-low transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-acc-green">
-                  ↗
-                </span>
-              </p>
-              <p className="mt-2.5 break-all text-sm text-fog-mid transition-colors group-hover:text-fog-hi">
-                {c.value}
-              </p>
-            </a>
-          ))}
+    <>
+      <section
+        id="contact"
+        className="relative overflow-hidden scroll-mt-20"
+        aria-label="Contact"
+      >
+        {/* calm field: one soft glow rising from below, nothing moving */}
+        <div className="absolute inset-0" aria-hidden="true">
+          <div className="absolute inset-x-0 bottom-0 h-[60%] bg-[radial-gradient(60rem_34rem_at_50%_115%,rgba(170,155,120,0.12),transparent_65%)]" />
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink-950 to-transparent" />
         </div>
 
-        <p
-          data-reveal
-          style={{ "--rd": "320ms" } as React.CSSProperties}
-          className="mt-6 text-center font-mono text-xs text-fog-low"
-        >
-          <a href={SITE.phoneHref} className="transition-colors hover:text-fog-mid">
-            {SITE.phone}
-          </a>
-          <span className="mx-3 text-fog-low/50">·</span>
-          {SITE.location}
-        </p>
+        <div className="container-x relative z-10 flex min-h-[92svh] flex-col justify-center py-32">
+          <p className="micro" data-reveal>
+            <span className="text-acc">08</span>
+            <span className="mx-2 text-fog-low/70">/</span>
+            Next
+          </p>
 
-        {/* footer */}
-        <footer className="mt-24 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 font-mono text-[11px] text-fog-low sm:flex-row">
-          <p>© 2026 {SITE.name} · designed &amp; built from scratch</p>
-          <p>
-            <span className="text-acc-green">$</span> exit{" "}
-            <span className="text-fog-mid">0</span>
+          <h2
+            className="mt-9 max-w-4xl text-balance text-[clamp(2.6rem,6.5vw,5.5rem)] font-light leading-[1.02] tracking-[-0.03em] text-fog-hi"
+            data-reveal
+            style={{ "--rd": "100ms" } as React.CSSProperties}
+          >
+            Let&apos;s build something intelligent.
+          </h2>
+
+          <a
+            href={`mailto:${SITE.email}`}
+            className="link-quiet mt-10 w-fit text-xl text-fog-hi md:text-2xl"
+            data-reveal
+            style={{ "--rd": "200ms" } as React.CSSProperties}
+          >
+            {SITE.email}
+            <span aria-hidden="true" className="text-base">
+              ↗
+            </span>
+          </a>
+
+          <div
+            className="mt-14 flex flex-wrap items-center gap-x-9 gap-y-4 border-t border-line pt-9"
+            data-reveal
+            style={{ "--rd": "300ms" } as React.CSSProperties}
+          >
+            <a
+              href={SITE.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-quiet"
+            >
+              GitHub
+              <span aria-hidden="true" className="text-[11px]">
+                ↗
+              </span>
+            </a>
+            <a
+              href={SITE.links.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-quiet"
+            >
+              LinkedIn
+              <span aria-hidden="true" className="text-[11px]">
+                ↗
+              </span>
+            </a>
+            <a
+              href={SITE.links.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-quiet"
+            >
+              Resume
+              <span aria-hidden="true" className="text-[11px]">
+                ↗
+              </span>
+            </a>
+            <a href={SITE.phoneHref} className="link-quiet">
+              {SITE.phone}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-line">
+        <div className="container-x flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-fog-mid">
+            <span className="text-fog-hi">Vaibhav Mahore</span>
+            <span className="mx-2.5 text-fog-low/60" aria-hidden="true">
+              ·
+            </span>
+            AI/ML Engineer
+            <span className="mx-2.5 text-fog-low/60" aria-hidden="true">
+              ·
+            </span>
+            Bangalore, India
           </p>
-          <p>
-            press <span className="text-fog-mid">1–6</span> to jump · bangalore, IN
-          </p>
-        </footer>
-      </div>
-    </section>
+          <div className="flex items-center gap-7 text-sm">
+            <a
+              href={SITE.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-fog-low transition-colors hover:text-fog-hi"
+            >
+              GitHub
+            </a>
+            <a
+              href={SITE.links.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-fog-low transition-colors hover:text-fog-hi"
+            >
+              LinkedIn
+            </a>
+            <a
+              href={`mailto:${SITE.email}`}
+              className="text-fog-low transition-colors hover:text-fog-hi"
+            >
+              Email
+            </a>
+            <span className="micro">&copy; 2026</span>
+          </div>
+        </div>
+      </footer>
+    </>
   );
 }

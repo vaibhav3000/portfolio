@@ -1,44 +1,38 @@
 import Section from "@/components/Section";
 import { SKILLS } from "@/lib/data";
 
-const SPANS = ["md:col-span-2", "md:col-span-4", "md:col-span-4", "md:col-span-2", "md:col-span-6"];
-
 export default function Skills() {
   return (
     <Section
       id="skills"
-      index="04"
-      cmd="skills --tree --no-fake-percentages"
-      title="Toolchain."
-      note="Grouped the way they're actually used: no proficiency bars, no invented numbers."
+      index="06"
+      label="Capabilities"
+      title="A toolkit, organized by what it builds."
     >
-      <div className="grid gap-4 md:grid-cols-6">
-        {SKILLS.map((g, i) => (
+      <dl className="border-t border-line">
+        {SKILLS.map((s, i) => (
           <div
-            key={g.slug}
+            key={s.slug}
             data-reveal
-            style={{ "--rd": `${i * 70}ms` } as React.CSSProperties}
-            className={`group rounded-xl border border-line bg-ink-900/60 p-5 transition-colors duration-300 hover:border-fog-low/40 ${SPANS[i]}`}
+            style={{ "--rd": `${i * 60}ms` } as React.CSSProperties}
+            className="grid gap-3 border-b border-line py-8 md:grid-cols-12 md:gap-8"
           >
-            <p className="font-mono text-[11px] text-fog-low">
-              <span className="text-acc-green">$</span> ls ~/skills/{g.slug}
-            </p>
-            <h3 className="mb-4 mt-2 font-display text-lg font-medium tracking-tight text-fog-hi">
-              {g.name}
-            </h3>
-            <ul className="flex flex-wrap gap-1.5">
-              {g.items.map((s) => (
-                <li
-                  key={s}
-                  className="chip transition-colors group-hover:border-fog-low/30"
-                >
-                  {s}
-                </li>
+            <dt className="micro md:col-span-3 md:pt-1.5">{s.name}</dt>
+            <dd className="flex flex-wrap items-baseline gap-y-1.5 md:col-span-9">
+              {s.items.map((item, j) => (
+                <span key={item} className="whitespace-nowrap text-[15px] leading-relaxed text-fog-hi/85 md:text-base">
+                  {item}
+                  {j < s.items.length - 1 && (
+                    <span className="ml-2.5 text-fog-low/50" aria-hidden="true">
+                      ·
+                    </span>
+                  )}
+                </span>
               ))}
-            </ul>
+            </dd>
           </div>
         ))}
-      </div>
+      </dl>
     </Section>
   );
 }

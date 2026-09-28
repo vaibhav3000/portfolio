@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NAV_LINKS, SITE } from "@/lib/data";
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -23,19 +23,17 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
-  // Header state + reading progress
+  // Compact bar state
   useEffect(() => {
     let raf = 0;
     const onScroll = () => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
-        const y = window.scrollY;
-        setScrolled(y > 24);
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        setProgress(max > 0 ? Math.min(y / max, 1) : 0);
+        setScrolled(window.scrollY > 32);
       });
     };
     onScroll();
@@ -64,133 +62,131 @@ export default function Nav() {
     return () => io.disconnect();
   }, []);
 
-  // Keyboard shortcuts: 1–6 jump to sections (ignored while typing)
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      const target = e.target as HTMLElement | null;
-      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) return;
-      const link = NAV_LINKS.find((l) => String(Number(l.n)) === e.key);
-      if (link) {
-        document.getElementById(link.id)?.scrollIntoView({ behavior: "smooth" });
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  // Lock body scroll when the mobile menu is open
+  // Mobile menu: scroll lock, Escape, focus in/out
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    if (open) {
+      closeRef.current?.focus();
+    }
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
 
   useEffect(() => {
-    const onEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && open) {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
     };
-    window.addEventListener("keydown", onEsc);
-    return () => window.removeEventListener("keydown", onEsc);
-  }, []);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled || open
-            ? "border-b border-line bg-ink-950/80 backdrop-blur-md"
-            : "border-b border-transparent"
+          scrolled && !open
+            ? "border-b border-line bg-ink-950/70 backdrop-blur-xl"
+            : "border-b border-transparent bg-transparent"
         }`}
       >
-        <div className="container-x flex h-16 items-center justify-between gap-4">
+        <div
+          className={`container-x flex items-center justify-between gap-6 transition-all duration-300 ${
+            scrolled ? "h-14" : "h-20"
+          }`}
+        >
           <a
             href="#top"
-            className="font-mono text-sm tracking-tight"
-            aria-label="Back to top"
+            className="group flex shrink-0 items-center gap-2.5 whitespace-nowrap text-sm font-medium tracking-tight text-fog-hi"
+            aria-label="Vaibhav Mahore, back to top"
           >
-            <span className="text-acc-green">vm@iisc</span>
-            <span className="text-fog-low">:~$</span>
-            <span className="blink ml-1 inline-block h-4 w-[7px] translate-y-[3px] bg-acc-green/80" />
+            <span
+              className="inline-block h-1.5 w-1.5 rounded-full bg-acc transition-transform duration-300 group-hover:scale-125"
+              aria-hidden="true"
+            />
+            Vaibhav Mahore
           </a>
 
-          <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-5 xl:gap-7 lg:flex" aria-label="Primary">
             {NAV_LINKS.map((l) => (
               <a
                 key={l.id}
                 href={`#${l.id}`}
-                className={`font-mono text-xs transition-colors ${
-                  active === l.id ? "text-acc-green" : "text-fog-mid hover:text-fog-hi"
+                aria-current={active === l.id ? "true" : undefined}
+                className={`relative text-[13.5px] transition-colors duration-200 ${
+                  active === l.id
+                    ? "text-fog-hi"
+                    : "text-fog-mid hover:text-fog-hi"
                 }`}
               >
-                <span className={active === l.id ? "text-acc-green/70" : "text-fog-low/70"}>
-                  {l.n}
-                </span>{" "}
                 {l.label}
+                <span
+                  className={`absolute -left-3 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-acc transition-opacity duration-200 ${
+                    active === l.id ? "opacity-100" : "opacity-0"
+                  }`}
+                  aria-hidden="true"
+                />
               </a>
             ))}
-            <span className="h-4 w-px bg-line" aria-hidden="true" />
+          </nav>
+
+          <div className="flex items-center gap-2">
             <a
               href={SITE.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-fog-mid transition-colors hover:text-fog-hi"
+              className="hidden h-9 w-9 items-center justify-center rounded-full text-fog-mid transition-colors hover:text-fog-hi sm:flex"
               aria-label="GitHub profile"
             >
-              <GitHubIcon className="h-[18px] w-[18px]" />
+              <GitHubIcon className="h-[17px] w-[17px]" />
             </a>
             <a
               href={SITE.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-fog-mid transition-colors hover:text-fog-hi"
+              className="hidden h-9 w-9 items-center justify-center rounded-full text-fog-mid transition-colors hover:text-fog-hi sm:flex"
               aria-label="LinkedIn profile"
             >
-              <LinkedInIcon className="h-[18px] w-[18px]" />
+              <LinkedInIcon className="h-[17px] w-[17px]" />
             </a>
             <a
               href={SITE.links.resume}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-md border border-acc-green/30 px-3 py-1.5 font-mono text-xs text-acc-green transition-all hover:bg-acc-green/10 hover:shadow-glow"
+              className="ml-1 hidden rounded-full border border-white/20 px-4 py-2 text-[13px] text-fog-hi transition-all duration-200 hover:border-acc/60 hover:text-white sm:inline-flex"
             >
-              resume.pdf
+              Resume
             </a>
-          </nav>
-
-          <button
-            type="button"
-            className="relative z-50 flex h-10 w-10 items-center justify-center lg:hidden"
-            aria-expanded={open}
-            aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen((v) => !v)}
-          >
-            <span
-              className={`absolute h-px w-6 bg-fog-hi transition-transform duration-300 ${
-                open ? "rotate-45" : "-translate-y-[4px]"
-              }`}
-            />
-            <span
-              className={`absolute h-px w-6 bg-fog-hi transition-transform duration-300 ${
-                open ? "-rotate-45" : "translate-y-[4px]"
-              }`}
-            />
-          </button>
+            <button
+              ref={toggleRef}
+              type="button"
+              className="relative flex h-10 w-10 items-center justify-center lg:hidden"
+              aria-expanded={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((v) => !v)}
+            >
+              <span
+                className={`absolute h-px w-6 bg-fog-hi transition-transform duration-300 ${
+                  open ? "rotate-45" : "-translate-y-[4px]"
+                }`}
+              />
+              <span
+                className={`absolute h-px w-6 bg-fog-hi transition-transform duration-300 ${
+                  open ? "-rotate-45" : "translate-y-[4px]"
+                }`}
+              />
+            </button>
+          </div>
         </div>
-
-        {/* Reading progress */}
-        <div
-          className="absolute bottom-[-1px] left-0 h-px origin-left bg-gradient-to-r from-acc-green to-acc-cyan transition-transform duration-150"
-          style={{ width: "100%", transform: `scaleX(${progress})` }}
-          aria-hidden="true"
-        />
       </header>
 
-      {/* Mobile menu */}
+      {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col bg-ink-950/95 pt-24 backdrop-blur-xl transition-all duration-300 lg:hidden ${
-          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        className={`fixed inset-0 z-40 flex flex-col bg-ink-950/95 pt-24 backdrop-blur-2xl transition-all duration-300 lg:hidden ${
+          open ? "visible opacity-100" : "invisible opacity-0"
         }`}
         aria-hidden={!open}
       >
@@ -205,24 +201,37 @@ export default function Nav() {
               }`}
               style={{ transitionDelay: open ? `${80 + i * 45}ms` : "0ms" }}
             >
-              <span className="font-mono text-xs text-acc-green">[{l.n}]</span>
-              <span className="font-display text-3xl font-medium tracking-tight text-fog-hi">
+              <span className="micro">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="text-3xl font-light tracking-tight text-fog-hi">
                 {l.label}
               </span>
             </a>
           ))}
         </nav>
         <div
-          className={`container-x mt-auto flex items-center justify-between pb-10 font-mono text-xs text-fog-low transition-opacity duration-500 ${
+          className={`container-x mt-auto flex items-center justify-between pb-10 transition-opacity duration-500 ${
             open ? "opacity-100" : "opacity-0"
           }`}
           style={{ transitionDelay: open ? "360ms" : "0ms" }}
         >
-          <span className="flex items-center gap-4">
-            <a href={SITE.links.github} target="_blank" rel="noopener noreferrer" className="hover:text-fog-hi">github</a>
-            <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-fog-hi">linkedin</a>
+          <span className="flex items-center gap-5 text-sm">
+            <a href={SITE.links.github} target="_blank" rel="noopener noreferrer" className="text-fog-mid hover:text-fog-hi">
+              GitHub
+            </a>
+            <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className="text-fog-mid hover:text-fog-hi">
+              LinkedIn
+            </a>
           </span>
-          <a href={SITE.links.resume} target="_blank" rel="noopener noreferrer" className="text-acc-green">resume.pdf ↗</a>
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={() => setOpen(false)}
+            className="rounded-full border border-line px-4 py-2 text-sm text-fog-hi"
+          >
+            Close
+          </button>
         </div>
       </div>
     </>

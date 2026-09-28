@@ -1,38 +1,48 @@
 import type { ReactNode } from "react";
 
+/**
+ * Shared section chrome: micro-label + hairline, display title, optional lede.
+ * No prompts, no terminal voice; the label reads like an exhibition caption.
+ */
 export default function Section({
   id,
   index,
-  cmd,
+  label,
   title,
-  note,
+  lede,
   children,
   className = "",
 }: {
   id: string;
   index: string;
-  cmd: string;
+  label: string;
   title: ReactNode;
-  note?: string;
+  lede?: ReactNode;
   children: ReactNode;
   className?: string;
 }) {
   return (
-    <section id={id} className={`relative scroll-mt-16 ${className}`}>
-      <div className="container-x py-24 md:py-32">
+    <section id={id} className={`relative scroll-mt-20 ${className}`}>
+      <div className="container-x py-28 md:py-40">
         <div data-reveal>
-          <div className="flex items-baseline justify-between gap-4 border-b border-line pb-4">
-            <p className="font-mono text-sm text-fog-mid">
-              <span className="text-acc-green">$</span> {cmd}
+          <div className="flex items-center gap-5">
+            <p className="micro shrink-0">
+              <span className="text-acc">{index}</span>
+              <span className="mx-2 text-fog-low/70">/</span>
+              {label}
             </p>
-            <p className="font-mono text-xs text-fog-low">/{index}</p>
+            <span className="h-px w-16 bg-line md:w-24" aria-hidden="true" />
           </div>
-          <h2 className="mt-10 font-display text-4xl font-semibold tracking-tight text-fog-hi md:text-5xl">
+          <h2 className="mt-10 max-w-3xl text-balance text-4xl font-medium tracking-[-0.03em] text-fog-hi md:text-[3.4rem] md:leading-[1.05]">
             {title}
           </h2>
-          {note && <p className="mt-4 max-w-2xl leading-relaxed text-fog-mid">{note}</p>}
+          {lede && (
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-fog-mid md:text-lg">
+              {lede}
+            </p>
+          )}
         </div>
-        <div className="mt-14 md:mt-16">{children}</div>
+        <div className="mt-16 md:mt-20">{children}</div>
       </div>
     </section>
   );

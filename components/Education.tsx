@@ -5,32 +5,26 @@ export default function Education() {
   return (
     <Section
       id="education"
-      index="05"
-      cmd="cat education.yaml && ls credentials --verified"
-      title="Foundations."
+      index="07"
+      label="Foundations"
+      title="The base the work stands on."
     >
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid items-start gap-5 lg:grid-cols-2">
         {/* IISc */}
         <div
           data-reveal
-          className="rounded-xl border border-line bg-ink-900/60 p-6 md:p-8"
+          className="rounded-2xl border border-line bg-ink-900/40 p-7 md:p-9"
         >
-          <p className="font-mono text-[11px] text-fog-low">
-            <span className="text-acc-green">$</span> cat education/institute.yaml
-          </p>
-          <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-fog-hi">
-            Indian Institute of Science <span className="text-fog-low">(IISc)</span>
+          <p className="micro">Education</p>
+          <h3 className="mt-5 text-2xl font-light tracking-[-0.01em] text-fog-hi">
+            Indian Institute of Science, Bangalore
           </h3>
-          <p className="mt-2 font-mono text-xs leading-relaxed text-fog-mid">
-            Bangalore · B.Tech in Mathematics and Computing
+          <p className="mt-2 text-sm text-fog-mid">
+            B.Tech in Mathematics and Computing · Aug 2023 - Present
           </p>
-          <p className="mt-1 flex items-center gap-2 font-mono text-[11px] text-fog-low">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-acc-green" />
-            Aug 2023 - Present
-          </p>
-          <div className="mt-6 border-t border-line pt-6">
-            <p className="font-mono text-[11px] text-fog-low">relevant_courses:</p>
-            <ul className="mt-3 flex flex-wrap gap-1.5">
+          <div className="mt-7 border-t border-line pt-6">
+            <p className="micro">Relevant coursework</p>
+            <ul className="mt-4 flex flex-wrap gap-2">
               {COURSES.map((c) => (
                 <li key={c} className="chip">
                   {c}
@@ -38,9 +32,9 @@ export default function Education() {
               ))}
             </ul>
           </div>
-          <p className="mt-6 border-t border-line pt-4 font-mono text-[11px] leading-relaxed text-fog-low">
-            <span className="text-fog-mid">prior:</span> St. Ann&apos;s Senior
-            Secondary School, CBSE, Class XII 2023 · Class X 2021
+          <p className="mt-7 border-t border-line pt-5 text-xs leading-relaxed text-fog-low">
+            Prior: St. Ann&apos;s Senior Secondary School, CBSE · Class XII 2023
+            · Class X 2021
           </p>
         </div>
 
@@ -48,31 +42,24 @@ export default function Education() {
         <div
           data-reveal
           style={{ "--rd": "100ms" } as React.CSSProperties}
-          className="rounded-xl border border-line bg-ink-900/60 p-6 md:p-8"
+          className="rounded-2xl border border-line bg-ink-900/40 p-7 md:p-9"
         >
-          <p className="font-mono text-[11px] text-fog-low">
-            <span className="text-acc-green">$</span> ls credentials --verified
-          </p>
-          <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-fog-hi">
-            Oracle Certified
+          <p className="micro">Certifications</p>
+          <h3 className="mt-5 text-2xl font-light tracking-[-0.01em] text-fog-hi">
+            Oracle Professional
           </h3>
-          <p className="mt-1 font-mono text-[11px] text-fog-low">aug 2025</p>
-          <ul className="mt-6 space-y-3">
+          <p className="mt-2 text-sm text-fog-mid">August 2025</p>
+          <ul className="mt-7 space-y-3">
             {[ORACLE.genai, ORACLE.dataScience].map((c) => (
               <li key={c.name}>
                 <a
                   href={c.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-4 rounded-lg border border-line bg-ink-850 px-4 py-3.5 transition-all hover:border-acc-green/40"
+                  className="group flex items-center justify-between gap-4 rounded-xl border border-line px-4 py-3.5 transition-colors duration-200 hover:border-acc/40"
                 >
-                  <span>
-                    <span className="block text-sm text-fog-hi">{c.name}</span>
-                    <span className="font-mono text-[11px] text-fog-low">
-                      oracle · professional credential
-                    </span>
-                  </span>
-                  <span className="font-mono text-xs text-fog-low transition-colors group-hover:text-acc-green">
+                  <span className="text-sm text-fog-hi">{c.name}</span>
+                  <span className="text-xs text-fog-low transition-colors group-hover:text-acc">
                     badge ↗
                   </span>
                 </a>
@@ -84,39 +71,28 @@ export default function Education() {
         {/* Leadership */}
         <div
           data-reveal
-          className="rounded-xl border border-line bg-ink-900/60 p-6 md:p-8"
+          className="rounded-2xl border border-line bg-ink-900/40 p-7 md:p-9"
         >
-          <p className="font-mono text-[11px] text-fog-low">
-            <span className="text-acc-green">$</span> cat leadership.log
-          </p>
-          <h3 className="mt-4 font-display text-xl font-semibold tracking-tight text-fog-hi">
-            Sci-Tech Coordinator, Rhapsody Fest, IISc
+          <p className="micro">Leadership</p>
+          <h3 className="mt-5 text-2xl font-light tracking-[-0.01em] text-fog-hi">
+            Sci-Tech Coordinator · Rhapsody Fest, IISc
           </h3>
-          <p className="mt-1 font-mono text-[11px] text-fog-low">2023 - 2026</p>
-          <ul className="mt-5 space-y-3">
-            <li className="flex gap-3 text-sm leading-relaxed text-fog-mid">
-              <span className="mt-[3px] font-mono text-xs text-acc-green">▸</span>
+          <p className="mt-2 text-sm text-fog-mid">2023 - 2026</p>
+          <ul className="mt-6 space-y-3.5">
+            <li className="flex gap-3.5 text-sm leading-relaxed text-fog-mid">
+              <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-acc/70" aria-hidden="true" />
               <span>
                 Led end-to-end organization of three inter-college gaming
-                tournaments and a competitive coding contest, managing the full event
-                lifecycle for <span className="text-fog-hi">200+ registered teams</span>.
+                tournaments and a competitive coding contest for{" "}
+                <span className="text-fog-hi">200+ registered teams</span>.
               </span>
             </li>
-            <li className="flex gap-3 text-sm leading-relaxed text-fog-mid">
-              <span className="mt-[3px] font-mono text-xs text-acc-green">▸</span>
+            <li className="flex gap-3.5 text-sm leading-relaxed text-fog-mid">
+              <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-acc/70" aria-hidden="true" />
               <span>
-                Administered a <span className="text-fog-hi">500+ member</span> Discord
-                community for registration and tech support; drove fest publicity
-                through digital campaigns across colleges.
-              </span>
-            </li>
-            <li className="flex gap-3 text-sm leading-relaxed text-fog-mid">
-              <span className="mt-[3px] font-mono text-xs text-acc-green">▸</span>
-              <span>
-                Organized and conducted a Competitive Coding Contest at Rhapsody
-                Fest, IISc, overseeing problem curation and execution for{" "}
-                <span className="text-fog-hi">200+ participants</span> across
-                multiple colleges.
+                Administered a <span className="text-fog-hi">500+ member</span>{" "}
+                community for registration and tech support, and drove fest
+                publicity through digital campaigns.
               </span>
             </li>
           </ul>
@@ -126,21 +102,16 @@ export default function Education() {
         <div
           data-reveal
           style={{ "--rd": "100ms" } as React.CSSProperties}
-          className="flex flex-col justify-between rounded-xl border border-line bg-ink-900/60 p-6 md:p-8"
+          className="rounded-2xl border border-line bg-ink-900/40 p-7 md:p-9"
         >
-          <p className="font-mono text-[11px] text-fog-low">
-            <span className="text-acc-green">$</span> cat achievements.txt
+          <p className="micro">Achievement</p>
+          <h3 className="mt-5 text-2xl font-light tracking-[-0.01em] text-fog-hi">
+            JEE Advanced 2023
+          </h3>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-fog-mid">
+            All India Rank <span className="text-fog-hi">2412</span>: top 1.34%
+            among 180,000+ candidates nationwide.
           </p>
-          <div className="mt-8">
-            <p className="font-mono text-5xl text-fog-hi md:text-6xl">
-              AIR&nbsp;<span className="text-grad">2412</span>
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-fog-mid">
-              All India Rank 2412 in{" "}
-              <span className="text-fog-hi">JEE Advanced 2023</span>: top 1.34%
-              among 180,000+ candidates nationwide.
-            </p>
-          </div>
         </div>
       </div>
     </Section>

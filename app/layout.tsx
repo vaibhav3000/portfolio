@@ -1,16 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const sans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const display = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
   display: "swap",
 });
 
@@ -58,7 +52,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060709",
+  themeColor: "#F4F2EE",
   width: "device-width",
   initialScale: 1,
 };
@@ -67,10 +61,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${sans.variable} ${display.variable} ${mono.variable}`}
-    >
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <head>
         {/* Marks JS availability so scroll-reveal styles only hide content when they can be shown again */}
         <script

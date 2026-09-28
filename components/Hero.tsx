@@ -1,124 +1,111 @@
-import HeroVisual from "@/components/HeroVisual";
+import HeroField from "@/components/HeroField";
+import HeroFieldFallback from "@/components/HeroFieldFallback";
 import { SITE } from "@/lib/data";
 
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden">
-      {/* vertical side note (desktop) */}
-      <p
-        className="absolute left-4 top-1/2 hidden -translate-y-1/2 font-mono text-[10px] tracking-[0.35em] text-fog-low/60 xl:block"
-        style={{ writingMode: "vertical-rl", transform: "rotate(180deg) translateY(50%)" }}
-        aria-hidden="true"
-      >
-        B.TECH MATHEMATICS &amp; COMPUTING · IISC BANGALORE
-      </p>
+    <section id="top" className="relative overflow-hidden" aria-label="Introduction">
+      {/* Signature visual: static field first, WebGL fades in over it */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <HeroFieldFallback />
+        <HeroField />
+        {/* readability scrims: left for type, bottom for the transition out */}
+        <div className="absolute inset-0 bg-gradient-to-r from-ink-950/70 via-ink-950/20 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-ink-950" />
+      </div>
 
-      <div className="container-x grid min-h-[100svh] items-center gap-14 pb-20 pt-32 lg:grid-cols-[1.12fr_0.88fr] lg:pt-24">
-        <div>
-          <p data-reveal className="font-mono text-sm text-fog-mid">
-            <span className="text-acc-green">$</span> whoami
-          </p>
+      <div className="container-x relative z-10 flex min-h-[100svh] flex-col justify-center pb-24 pt-36">
+        <p className="micro flex items-center gap-3" data-reveal>
+          <span
+            className="inline-block h-1.5 w-1.5 rounded-full bg-acc"
+            aria-hidden="true"
+          />
+          AI/ML Engineer
+          <span className="text-fog-low/60" aria-hidden="true">
+            ·
+          </span>
+          Bangalore, India
+        </p>
 
-          <h1 className="mt-6 font-display font-semibold tracking-tight">
-            <span
-              data-reveal
-              style={{ "--rd": "60ms" } as React.CSSProperties}
-              className="block text-[13vw] leading-[0.95] sm:text-6xl md:text-7xl xl:text-[5.6rem]"
-            >
-              VAIBHAV
+        <h1 className="mt-7 text-[clamp(3.6rem,10.5vw,10rem)] font-light leading-[0.93] tracking-[-0.035em] text-fog-hi">
+          <span className="block" data-reveal>
+            Vaibhav
+          </span>
+          <span className="block" data-reveal style={{ "--rd": "120ms" } as React.CSSProperties}>
+            Mahore
+          </span>
+        </h1>
+
+        <p
+          className="mt-9 max-w-[34rem] text-lg leading-relaxed text-fog-mid md:text-xl"
+          data-reveal
+          style={{ "--rd": "240ms" } as React.CSSProperties}
+        >
+          Building reliable AI systems, efficient sequence models, and
+          evaluation infrastructure for intelligent software.
+        </p>
+
+        <div
+          className="mt-11 flex flex-wrap items-center gap-4"
+          data-reveal
+          style={{ "--rd": "360ms" } as React.CSSProperties}
+        >
+          <a href="#projects" className="btn-primary">
+            View Projects
+            <span aria-hidden="true" className="text-base leading-none">
+              ↓
             </span>
-            <span
-              data-reveal
-              style={{ "--rd": "120ms" } as React.CSSProperties}
-              className="text-grad block text-[13vw] leading-[0.95] sm:text-6xl md:text-7xl xl:text-[5.6rem]"
-            >
-              MAHORE
-            </span>
-          </h1>
-
-          <p
-            data-reveal
-            style={{ "--rd": "180ms" } as React.CSSProperties}
-            className="mt-6 font-mono text-sm tracking-wide text-fog-mid"
+          </a>
+          <a
+            href={SITE.links.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost"
           >
-            <span className="text-acc-cyan">AI/ML ENGINEER</span>
-            <span className="text-fog-low"> · </span>
-            B.TECH MATH &amp; COMPUTING, IISC BANGALORE
-          </p>
-
-          <p
-            data-reveal
-            style={{ "--rd": "240ms" } as React.CSSProperties}
-            className="mt-8 max-w-xl text-lg leading-relaxed text-fog-mid"
-          >
-            I build reliable AI systems, investigate efficient sequence models,
-            and turn research ideas into verifiable engineering systems.
-          </p>
-
-          <div
-            data-reveal
-            style={{ "--rd": "300ms" } as React.CSSProperties}
-            className="mt-10 flex flex-wrap items-center gap-4"
-          >
-            <a href="#projects" className="btn-primary">
-              <span className="text-acc-green">$</span> view projects
-            </a>
-            <a href={SITE.links.github} target="_blank" rel="noopener noreferrer" className="btn-ghost">
-              <span className="text-fog-low">github.com/</span>vaibhav3000
-            </a>
-          </div>
-
-          <p
-            data-reveal
-            style={{ "--rd": "360ms" } as React.CSSProperties}
-            className="mt-6 font-mono text-xs text-fog-low"
-          >
-            <a href={SITE.links.linkedin} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-acc-cyan">
-              linkedin ↗
-            </a>
-            <span className="mx-3 text-fog-low/50">|</span>
-            <a href={SITE.links.resume} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-acc-cyan">
-              resume.pdf ↗
-            </a>
-            <span className="mx-3 text-fog-low/50">|</span>
-            <a href={SITE.links.leetcode} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-acc-cyan">
-              leetcode ↗
-            </a>
-          </p>
+            View Resume
+          </a>
         </div>
 
-        <div data-reveal style={{ "--rd": "200ms" } as React.CSSProperties} className="relative">
-          <HeroVisual />
-
-          {/* floating terminal metadata card */}
-          <div className="term absolute -bottom-6 left-0 w-56 sm:w-64">
-            <div className="term-bar">
-              <span className="term-dot" />
-              <span className="term-dot" />
-              <span className="term-dot" />
-              <span className="term-title">meta · zsh</span>
-            </div>
-            <div className="space-y-2.5 p-4 font-mono text-[11px] leading-relaxed">
-              <div>
-                <p className="text-acc-green">$ focus</p>
-                <p className="text-fog-mid">sequence modeling</p>
-                <p className="text-fog-mid">llm evaluation</p>
-                <p className="text-fog-mid">ai agents</p>
-              </div>
-              <div>
-                <p className="text-acc-green">$ based</p>
-                <p className="text-fog-mid">bangalore, india</p>
-              </div>
-            </div>
-          </div>
+        <div
+          className="mt-9 flex items-center gap-7"
+          data-reveal
+          style={{ "--rd": "460ms" } as React.CSSProperties}
+        >
+          <a
+            href={SITE.links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-quiet text-[13px] text-fog-mid"
+          >
+            GitHub
+            <span aria-hidden="true" className="text-[11px]">
+              ↗
+            </span>
+          </a>
+          <a
+            href={SITE.links.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-quiet text-[13px] text-fog-mid"
+          >
+            LinkedIn
+            <span aria-hidden="true" className="text-[11px]">
+              ↗
+            </span>
+          </a>
         </div>
       </div>
 
-      {/* scroll cue */}
-      <div className="container-x relative hidden justify-center pb-10 lg:flex">
-        <div className="flex flex-col items-center gap-3">
-          <span className="font-mono text-[10px] tracking-[0.3em] text-fog-low">SCROLL</span>
-          <span className="scroll-line" aria-hidden="true" />
+      {/* bottom bar: scroll cue + registration coordinates */}
+      <div className="absolute inset-x-0 bottom-0 z-10">
+        <div className="container-x flex items-end justify-between pb-9">
+          <div className="flex items-center gap-4" aria-hidden="true">
+            <span className="micro">Scroll</span>
+            <span className="scroll-line block" />
+          </div>
+          <p className="micro hidden sm:block" aria-hidden="true">
+            12.97° N / 77.59° E
+          </p>
         </div>
       </div>
     </section>

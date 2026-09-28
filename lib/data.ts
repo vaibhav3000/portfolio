@@ -216,10 +216,82 @@ export const ORACLE = {
 };
 
 export const NAV_LINKS = [
-  { n: "01", id: "about", label: "about" },
-  { n: "02", id: "experience", label: "experience" },
-  { n: "03", id: "projects", label: "projects" },
-  { n: "04", id: "skills", label: "skills" },
-  { n: "05", id: "education", label: "education" },
-  { n: "06", id: "contact", label: "contact" },
+  { id: "about", label: "About" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
+  { id: "research", label: "Research" },
+  { id: "skills", label: "Skills" },
+  { id: "contact", label: "Contact" },
 ] as const;
+
+/** The four headline numbers, all taken verbatim from CV experience bullets. */
+export const METRICS = [
+  {
+    value: "10.7×",
+    label: "lower latency",
+    context:
+      "WiMamba vs Transformer at 4×4 patch size on AWS A10G GPUs: 30 ms vs 327 ms, with O(T) linear scaling in sequence length.",
+  },
+  {
+    value: "42.6×",
+    label: "less GPU memory",
+    context:
+      "113 MB vs 4.8 GB for the same workload, the difference between one GPU and a small cluster for channel experiments.",
+  },
+  {
+    value: "0.9626",
+    label: "composite score",
+    context:
+      "Geographic OOD transfer from Florida to San Diego across 5 tasks, +16.6% over the baseline.",
+  },
+  {
+    value: "98.5%",
+    label: "performance retained",
+    context:
+      "Soft Unfreezing parameter-efficient fine-tuning with 75% of parameters frozen, matching full fine-tuning.",
+  },
+] as const;
+
+/** Research notes: every line traceable to CV experience or project bullets. */
+export type ResearchNote = {
+  id: string;
+  title: string;
+  line: string;
+  meta: string;
+  href?: string;
+};
+
+export const RESEARCH: ResearchNote[] = [
+  {
+    id: "wimamba",
+    title: "State-space models for wireless channels",
+    line: "Benchmarking WiMamba against Transformers for channel estimation and interpolation: linear-time sequence modeling that holds up where attention runs out of memory.",
+    meta: "Ericsson India · May - Jul 2026",
+  },
+  {
+    id: "ood-transfer",
+    title: "Geographic out-of-distribution generalization",
+    line: "Models trained on Florida channel data transferred to San Diego across 5 tasks, holding a 0.9626 composite score with 7.4–7.7 dB lower NMSE.",
+    meta: "Ericsson India · May - Jul 2026",
+  },
+  {
+    id: "soft-unfreezing",
+    title: "Soft Unfreezing: parameter-efficient fine-tuning",
+    line: "A linear-probing strategy that freezes 75% of parameters yet retains 98.5% of full fine-tuning performance.",
+    meta: "Ericsson India · May - Jul 2026",
+  },
+  {
+    id: "s4-mamba3",
+    title: "S4 → Mamba-3, implemented from first principles",
+    line: "Minimal S4D, Mamba, Mamba-2 and Mamba-3 in pure PyTorch with a test-verified chunked SSD path: complex-valued transitions solve parity tracking at 98.3% where LTI S4D collapses to 6%.",
+    meta: "Independent · s4-to-mamba",
+    href: "https://github.com/vaibhav3000/s4-to-mamba",
+  },
+  {
+    id: "evaluation-evidence",
+    title: "Evaluation as replayable evidence",
+    line: "A trace-based engine for LLM/RAG reliability: deterministic metrics, a failure taxonomy, and direction-aware regression detection with per-case attribution.",
+    meta: "Independent · AIRE",
+    href: "https://github.com/vaibhav3000/aire",
+  },
+];
