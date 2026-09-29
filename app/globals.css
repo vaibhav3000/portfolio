@@ -47,9 +47,12 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
+  overflow-x: clip;
   @apply bg-ink-950 text-fog-mid font-sans antialiased;
   text-rendering: optimizeLegibility;
   transition: background-color 0.35s ease, color 0.35s ease;

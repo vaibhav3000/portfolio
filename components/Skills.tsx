@@ -20,7 +20,7 @@ export default function Skills() {
             <dt className="micro md:col-span-3 md:pt-1.5">{s.name}</dt>
             <dd className="flex flex-wrap items-baseline gap-y-1.5 md:col-span-9">
               {s.items.map((item, j) => (
-                <span key={item} className="whitespace-nowrap text-[15px] leading-relaxed text-fog-hi/85 md:text-base">
+                <span key={item} className="text-[15px] leading-relaxed text-fog-hi/85 md:text-base">
                   {item}
                   {j < s.items.length - 1 && (
                     <span className="ml-2.5 text-fog-low/50" aria-hidden="true">

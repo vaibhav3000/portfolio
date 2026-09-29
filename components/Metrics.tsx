@@ -66,7 +66,7 @@ function VizMemory() {
               rx="1.5"
               fill="none"
               className="s-line"
-              strokeWidth="1"
+              strokeWidth="1.5"
             />
           );
         })}
@@ -82,18 +82,18 @@ function VizMemory() {
             opacity="0.9"
           />
         ))}
-        <text x="430" y="105" className="f-acc" fontSize="11" fontFamily="var(--font-mono)">
+        <text x="430" y="105" className="f-acc" fontSize="15" fontFamily="var(--font-mono)">
           113 MB
         </text>
-        <text x="8" y="120" className="f-mid" fontSize="11" fontFamily="var(--font-mono)">
+        <text x="8" y="120" className="f-mid" fontSize="15" fontFamily="var(--font-mono)">
           4.8 GB
         </text>
         <line x1="8" y1="140" x2="205" y2="140" className="s-line" strokeDasharray="1 5" />
         <line x1="430" y1="140" x2="470" y2="140" className="s-line-strong" strokeDasharray="1 5" />
-        <text x="8" y="162" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+        <text x="8" y="162" className="f-mid" fontSize="14" fontFamily="var(--font-mono)" letterSpacing="2">
           EXPANDED STATE
         </text>
-        <text x="430" y="162" className="f-hi" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+        <text x="430" y="162" className="f-hi" fontSize="14" fontFamily="var(--font-mono)" letterSpacing="2">
           COMPACT
         </text>
       </svg>
@@ -128,22 +128,22 @@ function VizScore() {
         strokeWidth="1.5"
         strokeDasharray="2 3"
       />
-      <text x="268" y="58" className="f-mid" fontSize="10" fontFamily="var(--font-mono)">
+      <text x="268" y="58" className="f-mid" fontSize="14" fontFamily="var(--font-mono)">
         BASELINE
       </text>
       <text x="180" y="106" textAnchor="middle" className="f-acc" fontSize="26" fontFamily="var(--font-sans)" fontWeight="300">
         +16.6%
       </text>
-      <text x="180" y="128" textAnchor="middle" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+      <text x="180" y="128" textAnchor="middle" className="f-mid" fontSize="14" fontFamily="var(--font-mono)" letterSpacing="2">
         OVER BASELINE
       </text>
-      <text x="330" y="80" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
+      <text x="330" y="80" className="f-mid" fontSize="14" fontFamily="var(--font-mono)" letterSpacing="1">
         5 TRANSFER TASKS
       </text>
-      <text x="330" y="104" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
+      <text x="330" y="104" className="f-mid" fontSize="14" fontFamily="var(--font-mono)" letterSpacing="1">
         FLORIDA → SAN DIEGO
       </text>
-      <text x="330" y="128" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
+      <text x="330" y="128" className="f-mid" fontSize="14" fontFamily="var(--font-mono)" letterSpacing="1">
         NMSE 7.4–7.7 dB LOWER
       </text>
     </svg>
@@ -169,15 +169,15 @@ function VizParams() {
               rx="2"
               className={tuned ? "f-acc-soft" : "s-line"}
             
-              strokeWidth="1"
+              strokeWidth="1.5"
             />
           );
         })}
         <line x1="8" y1="110" x2="514" y2="110" className="s-line-strong" strokeDasharray="3 4" />
-        <text x="8" y="132" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+        <text x="8" y="132" className="f-mid" fontSize="14" fontFamily="var(--font-mono)" letterSpacing="2">
           75% FROZEN
         </text>
-        <text x="514" y="132" textAnchor="end" className="f-mid" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="2">
+        <text x="514" y="132" textAnchor="end" className="f-mid" fontSize="14" fontFamily="var(--font-mono)" letterSpacing="2">
           98.5% RETAINED
         </text>
       </svg>
