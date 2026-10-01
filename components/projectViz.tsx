@@ -90,7 +90,7 @@ export function MambaViz({ detail }: { detail: boolean }) {
           <text x={s.x} y={nodeY - 6} textAnchor="middle" className="f-hi" fontSize="16" fontFamily={MONO}>
             {s.name}
           </text>
-          <text x={s.x} y={nodeY + 14} textAnchor="middle" className="f-low" fontSize="16" fontFamily={MONO} letterSpacing="1">
+          <text x={s.x} y={nodeY + 14} textAnchor="middle" className="f-low" fontSize="11" fontFamily={MONO} letterSpacing="1">
             {s.sub.toUpperCase()}
           </text>
         </g>
@@ -224,11 +224,11 @@ export function AireViz({ detail }: { detail: boolean }) {
         </text>
         {/* abstention recovery */}
         <polyline points="320,330 480,330 620,120" fill="none" className="s-line-strong pop" strokeWidth="1.8" strokeDasharray="3 4" style={rd(1050)} />
-        <text x="480" y="352" textAnchor="middle" className="f-low pop" fontSize="14" fontFamily={MONO} style={rd(1450)}>
-          v3 fix · abstention 0.0 → 1.0
+        <text x="480" y="378" textAnchor="middle" className="f-low pop" fontSize="13" fontFamily={MONO} style={rd(1450)}>
+          ABSTENTION 0.0 → 1.0
         </text>
-        <text x="320" y="376" className="f-low pop" fontSize="13.5" fontFamily={MONO} letterSpacing="1" style={rd(1500)}>
-          26-CASE SUITE · 15 S/CASE WITH LIVE RESPONDER
+        <text x="40" y="404" className="f-low pop" fontSize="13" fontFamily={MONO} letterSpacing="1" style={rd(1500)}>
+          26-CASE SUITE · 15 S/CASE · LIVE RESPONDER
         </text>
       </g>
 
@@ -340,7 +340,7 @@ export function AgentViz({ detail }: { detail: boolean }) {
         <text x={cx} y={cy + 10} textAnchor="middle" className="f-hi" fontSize="14" fontFamily={MONO} letterSpacing="1">
           MACHINE
         </text>
-        <text x={cx} y={cy + 26} textAnchor="middle" className="f-low" fontSize="16" fontFamily={MONO}>
+        <text x={cx} y={cy + 70} textAnchor="middle" className="f-low" fontSize="10.5" fontFamily={MONO} letterSpacing="1">
           DECIDES, NOT THE MODEL
         </text>
       </g>
@@ -361,7 +361,7 @@ export function AgentViz({ detail }: { detail: boolean }) {
           );
         })}
       </g>
-      <text x={cx} y={cy + 76 + 46} textAnchor="middle" className="f-low pop" fontSize="13.5" fontFamily={MONO} letterSpacing="1.5" style={rd(1080)}>
+      <text x={cx} y={cy + 148} textAnchor="middle" className="f-low pop" fontSize="13.5" fontFamily={MONO} letterSpacing="1.5" style={rd(1080)}>
         7 VALIDATED TOOLS
       </text>
 

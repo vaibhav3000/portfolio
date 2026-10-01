@@ -10,6 +10,7 @@ export type CaseMetric = { value: string; label: string };
 export type CaseStudy = {
   slug: string;
   num: string;
+  short: string;
   title: string;
   tagline: string;
   period: string;
@@ -27,6 +28,7 @@ export type CaseStudy = {
     rows: { label: string; values: string[] }[];
     note?: string;
   };
+  archFigure?: CaseFigure;
   figures: CaseFigure[];
   findings: string[];
   decisions: { title: string; body: string }[];
@@ -48,6 +50,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "s4-to-mamba",
     num: "01",
+    short: "S4 → Mamba-3",
     title: "Efficient Sequence Modeling: From S4 to Mamba-3",
     tagline:
       "Five sequence architectures implemented from first principles, trained at matched budgets, and measured against their own papers' claims - OOM points included.",
@@ -100,6 +103,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       ],
       note: "All values from results/*.json (parity_*, selective_copy_*, imdb_*, efficiency_gpu.json). IMDb rows for Mamba-1/3 were skipped on wall-clock budget, documented in the README. Points past 6 GB VRAM ran via WDDM shared-memory spill, which also distorts near-OOM timings - recorded as data.",
     },
+    archFigure: { src: "/projects/s4-to-mamba/task-formulation.png", caption: "The three task formulations (from the report): cumulative-XOR parity, selective copying, and exact copying - each probes a different state capability." },
     figures: [
       { src: "/projects/s4-to-mamba/parity.png", caption: "Cumulative-XOR parity accuracy. Only the complex-transition model clears chance; every real-transition baseline sits near 0.5." },
       { src: "/projects/s4-to-mamba/selcopy.png", caption: "Selective copying, train L=64 / test L=128. Selective SSMs learn the task; LTI S4D collapses to 6%." },
@@ -151,6 +155,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "aire",
     num: "02",
+    short: "AIRE",
     title: "AIRE: AI Reliability & Evaluation Engine",
     tagline:
       "A trace-based evaluation engine that turns LLM/RAG behavior into replayable evidence: deterministic metrics, a failure taxonomy, and direction-aware regression detection.",
@@ -255,6 +260,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "repo-engineer",
     num: "03",
+    short: "Repo Engineer",
     title: "Autonomous Repository Engineer",
     tagline:
       "A verified tool-using coding agent: the planner only proposes actions, a deterministic state machine decides, and completion requires green test evidence - never model claims.",

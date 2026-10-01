@@ -78,9 +78,9 @@ export default function ProjectScene({
           data-reveal
           style={{ "--rd": "320ms" } as React.CSSProperties}
         >
-          <Link href={`/projects/${project.id}/`} className="link-quiet">
-            Read the case study
-            <span aria-hidden="true" className="text-[11px]">→</span>
+          <Link href={`/projects/${project.id}/`} className="btn-ghost" data-magnetic>
+            Explore case study
+            <span aria-hidden="true">→</span>
           </Link>
           <a
             href={project.demo}
@@ -97,12 +97,10 @@ export default function ProjectScene({
             href={project.repo}
             target="_blank"
             rel="noopener noreferrer"
-            className="link-quiet"
+            className="link-quiet text-[13px] text-fog-mid"
           >
-            Repository
-            <span aria-hidden="true" className="text-[11px]">
-              ↗
-            </span>
+            GitHub
+            <span aria-hidden="true" className="text-[11px]">↗</span>
           </a>
           <a
             href={project.report}
@@ -117,7 +115,6 @@ export default function ProjectScene({
           </a>
           <button
             type="button"
-            data-magnetictype="button"
             onClick={() => setDetail((v) => !v)}
             aria-expanded={detail}
             aria-controls={`viz-${project.id}`}

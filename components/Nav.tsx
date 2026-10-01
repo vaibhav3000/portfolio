@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { NAV_LINKS, SITE } from "@/lib/data";
+import { CASE_STUDIES } from "@/lib/caseStudies";
 import ThemeToggle from "@/components/ThemeToggle";
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -24,7 +26,9 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
+  const [projOpen, setProjOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const projRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   // Compact bar state
@@ -62,6 +66,24 @@ export default function Nav() {
     sections.forEach((s) => io.observe(s));
     return () => io.disconnect();
   }, []);
+
+  // Projects dropdown: close on outside click or Escape
+  useEffect(() => {
+    if (!projOpen) return;
+    const onDoc = (e: MouseEvent) => {
+      if (projRef.current && !projRef.current.contains(e.target as Node))
+        setProjOpen(false);
+    };
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setProjOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onEsc);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onEsc);
+    };
+  }, [projOpen]);
 
   // Mobile menu: scroll lock, Escape, focus in/out
   useEffect(() => {
@@ -112,26 +134,81 @@ export default function Nav() {
           </a>
 
           <nav className="hidden items-center gap-5 xl:gap-7 lg:flex" aria-label="Primary">
-            {NAV_LINKS.map((l) => (
-              <a
-                key={l.id}
-                href={`/#${l.id}`}
-                aria-current={active === l.id ? "true" : undefined}
-                className={`relative text-[13.5px] transition-colors duration-200 ${
-                  active === l.id
-                    ? "text-fog-hi"
-                    : "text-fog-mid hover:text-fog-hi"
-                }`}
-              >
-                {l.label}
-                <span
-                  className={`absolute -left-3 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-acc transition-opacity duration-200 ${
-                    active === l.id ? "opacity-100" : "opacity-0"
+            {NAV_LINKS.map((l) =>
+              l.id === "projects" ? (
+                <div key={l.id} ref={projRef} className="relative">
+                  <button
+                    type="button"
+                    aria-expanded={projOpen}
+                    aria-haspopup="true"
+                    onClick={() => setProjOpen((v) => !v)}
+                    className={`relative flex items-center gap-1.5 text-[13.5px] transition-colors duration-200 ${
+                      projOpen ? "text-fog-hi" : "text-fog-mid hover:text-fog-hi"
+                    }`}
+                  >
+                    {l.label}
+                    <span
+                      aria-hidden="true"
+                      className={`text-[9px] transition-transform duration-200 ${projOpen ? "rotate-180" : ""}`}
+                    >
+                      ▾
+                    </span>
+                  </button>
+                  {projOpen && (
+                    <div className="absolute right-0 top-full z-50 mt-4 w-[360px] rounded-2xl border border-line bg-ink-900/90 p-2 shadow-float backdrop-blur-xl">
+                      <p className="micro px-3 pb-1 pt-2">Projects</p>
+                      {CASE_STUDIES.map((c) => (
+                        <Link
+                          key={c.slug}
+                          href={`/projects/${c.slug}/`}
+                          onClick={() => setProjOpen(false)}
+                          className="group flex items-baseline gap-3.5 rounded-xl px-3 py-3 transition-colors duration-150 hover:bg-ink-850"
+                        >
+                          <span className="micro pt-0.5 text-acc">{c.num}</span>
+                          <span>
+                            <span className="block text-sm text-fog-hi">{c.short}</span>
+                            <span className="mt-0.5 block text-xs leading-snug text-fog-low">
+                              {c.slug === "s4-to-mamba"
+                                ? "From S4 to Mamba-3, implemented and benchmarked"
+                                : c.slug === "aire"
+                                  ? "AI Reliability & Evaluation Engine"
+                                  : "Verified tool-using coding agent"}
+                            </span>
+                          </span>
+                        </Link>
+                      ))}
+                      <Link
+                        href="/#projects"
+                        onClick={() => setProjOpen(false)}
+                        className="link-quiet mx-3 my-2 inline-flex text-xs text-fog-mid"
+                      >
+                        All projects
+                        <span aria-hidden="true" className="text-[10px]">↓</span>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <a
+                  key={l.id}
+                  href={`/#${l.id}`}
+                  aria-current={active === l.id ? "true" : undefined}
+                  className={`relative text-[13.5px] transition-colors duration-200 ${
+                    active === l.id
+                      ? "text-fog-hi"
+                      : "text-fog-mid hover:text-fog-hi"
                   }`}
-                  aria-hidden="true"
-                />
-              </a>
-            ))}
+                >
+                  {l.label}
+                  <span
+                    className={`absolute -left-3 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-acc transition-opacity duration-200 ${
+                      active === l.id ? "opacity-100" : "opacity-0"
+                    }`}
+                    aria-hidden="true"
+                  />
+                </a>
+              )
+            )}
           </nav>
 
           <div className="flex items-center gap-2">
@@ -213,6 +290,28 @@ export default function Nav() {
             </a>
           ))}
         </nav>
+        <div
+          className={`container-x mt-8 transition-opacity duration-500 ${
+            open ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ transitionDelay: open ? "320ms" : "0ms" }}
+        >
+          <p className="micro">Projects</p>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {CASE_STUDIES.map((c) => (
+              <li key={c.slug}>
+                <Link
+                  href={`/projects/${c.slug}/`}
+                  onClick={() => setOpen(false)}
+                  className="inline-flex items-baseline gap-2 rounded-full border border-line px-3.5 py-2 text-sm text-fog-hi"
+                >
+                  <span className="font-mono text-[10px] text-acc">{c.num}</span>
+                  {c.short}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div
           className={`container-x mt-auto flex items-center justify-between pb-10 transition-opacity duration-500 ${
             open ? "opacity-100" : "opacity-0"

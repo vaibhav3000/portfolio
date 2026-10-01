@@ -28,7 +28,7 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
-      data-magnetictype="button"
+      data-magnetic
       onClick={toggle}
       aria-label={
         dark === null

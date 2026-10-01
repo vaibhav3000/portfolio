@@ -1,0 +1,129 @@
+"use client";
+
+import { useRef, useState } from "react";
+import Link from "next/link";
+import { CASE_STUDIES } from "@/lib/caseStudies";
+import { PROJECTS } from "@/lib/data";
+import { AireViz, AgentViz, MambaViz } from "@/components/projectViz";
+
+/**
+ * Project Deep Dive: an editorial selector that previews each case study
+ * (existing animated SVG scene + one key metric) and links into the full
+ * page. Tabs follow the WAI-ARIA tabs pattern (roving tabindex, arrows).
+ */
+
+const VISUALS = { mamba: MambaViz, aire: AireViz, agent: AgentViz } as const;
+
+export default function DeepDive() {
+  const [active, setActive] = useState(0);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const study = CASE_STUDIES[active];
+  const project = PROJECTS.find((p) => p.id === study.slug) ?? PROJECTS[0];
+  const Visual = VISUALS[project.visual];
+  const metric = study.metrics[0];
+
+  const onKey = (e: React.KeyboardEvent) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    const next =
+      e.key === "ArrowRight"
+        ? (active + 1) % CASE_STUDIES.length
+        : (active + CASE_STUDIES.length - 1) % CASE_STUDIES.length;
+    setActive(next);
+    tabRefs.current[next]?.focus();
+  };
+
+  return (
+    <div className="rounded-2xl border border-line bg-ink-900/40 p-5 md:p-8">
+      {/* selector */}
+      <div
+        role="tablist"
+        aria-label="Project deep dive"
+        onKeyDown={onKey}
+        className="-mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-1 md:mx-0 md:px-0"
+      >
+        {CASE_STUDIES.map((c, i) => (
+          <button
+            key={c.slug}
+            ref={(el) => {
+              tabRefs.current[i] = el;
+            }}
+            role="tab"
+            id={`dd-tab-${c.slug}`}
+            aria-selected={i === active}
+            aria-controls={`dd-panel-${c.slug}`}
+            tabIndex={i === active ? 0 : -1}
+            onClick={() => setActive(i)}
+            className={`group shrink-0 snap-start rounded-full border px-4 py-2.5 text-left transition-colors duration-200 ${
+              i === active
+                ? "border-acc/60 bg-acc/10 text-fog-hi"
+                : "border-line text-fog-mid hover:border-fog-mid/40 hover:text-fog-hi"
+            }`}
+          >
+            <span
+              className={`mr-2.5 font-mono text-[10px] tracking-[0.14em] ${
+                i === active ? "text-acc" : "text-fog-low"
+              }`}
+            >
+              {c.num}
+            </span>
+            <span className="text-[13.5px]">{c.short}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* preview */}
+      <div
+        key={study.slug}
+        role="tabpanel"
+        id={`dd-panel-${study.slug}`}
+        aria-labelledby={`dd-tab-${study.slug}`}
+        className="dd-fade mt-8 grid items-center gap-8 lg:grid-cols-12 lg:gap-12"
+      >
+        <div className="lg:col-span-5">
+          <p className="micro">
+            <span className="text-acc">{study.num}</span>
+            <span className="mx-2 text-fog-low/70">/ 03</span>
+            {project.domain}
+          </p>
+          <h3 className="mt-5 text-balance text-2xl font-light leading-[1.1] tracking-[-0.02em] text-fog-hi md:text-[2rem]">
+            {study.title}
+          </h3>
+          <p className="mt-4 text-sm leading-relaxed text-fog-mid md:text-[15px]">
+            {study.tagline}
+          </p>
+          <div className="mt-6 border-t border-line pt-5">
+            <p className="text-2xl font-extralight tracking-tight text-fog-hi tabular-nums md:text-3xl">
+              {metric.value}
+            </p>
+            <p className="mt-1 text-[11px] leading-snug text-fog-low">{metric.label}</p>
+          </div>
+          <div className="mt-7 flex flex-wrap items-center gap-5">
+            <Link href={`/projects/${study.slug}/`} className="btn-ghost" data-magnetic>
+              Explore full case study
+              <span aria-hidden="true">→</span>
+            </Link>
+            <a
+              href={study.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-quiet text-[13px] text-fog-mid"
+            >
+              GitHub
+              <span aria-hidden="true" className="text-[11px]">↗</span>
+            </a>
+          </div>
+        </div>
+        <div className="lg:col-span-7">
+          <div className="rounded-xl border border-line bg-ink-950/60 p-3 md:p-5">
+            <Visual detail={false} />
+          </div>
+          <p className="mt-2.5 text-center text-[10px] uppercase tracking-[0.16em] text-fog-low/80">
+            Teaching schematic · full evidence on the case-study page
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

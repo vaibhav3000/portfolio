@@ -86,12 +86,37 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
       {/* page header */}
       <header className="container-x pt-32 md:pt-40">
         <div data-reveal>
-          <Link
-            href="/#projects"
-            className="link-quiet text-[13px] text-fog-mid"
-          >
-            <span aria-hidden="true">←</span> All projects
-          </Link>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <Link
+              href="/#projects"
+              className="link-quiet text-[13px] text-fog-mid"
+            >
+              <span aria-hidden="true">←</span> All projects
+            </Link>
+            <nav aria-label="Projects" className="flex items-center gap-1.5">
+              {CASE_STUDIES.map((c) =>
+                c.slug === study.slug ? (
+                  <span
+                    key={c.slug}
+                    aria-current="page"
+                    className="inline-flex items-baseline gap-2 rounded-full border border-acc/50 bg-acc/10 px-3.5 py-1.5 text-xs text-fog-hi"
+                  >
+                    <span className="font-mono text-[10px] text-acc">{c.num}</span>
+                    {c.short}
+                  </span>
+                ) : (
+                  <Link
+                    key={c.slug}
+                    href={`/projects/${c.slug}/`}
+                    className="inline-flex items-baseline gap-2 rounded-full border border-line px-3.5 py-1.5 text-xs text-fog-mid transition-colors duration-200 hover:border-fog-mid/40 hover:text-fog-hi"
+                  >
+                    <span className="font-mono text-[10px] text-fog-low">{c.num}</span>
+                    {c.short}
+                  </Link>
+                )
+              )}
+            </nav>
+          </div>
           <p className="micro mt-10">
             <span className="text-acc">{study.num}</span>
             <span className="mx-2 text-fog-low/70">/ 03</span>
@@ -154,6 +179,9 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
                 </div>
               ))}
             </dl>
+            {study.archFigure && (
+              <Figure src={study.archFigure.src} caption={study.archFigure.caption} />
+            )}
           </Section>
 
           <Section index="04" label="Approach" title="The mechanisms that matter.">
