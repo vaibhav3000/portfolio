@@ -100,7 +100,7 @@ export default function Nav() {
           }`}
         >
           <a
-            href="#top"
+            href="/"
             className="group flex shrink-0 items-center gap-2.5 whitespace-nowrap text-sm font-medium tracking-tight text-fog-hi"
             aria-label="Vaibhav Mahore, back to top"
           >
@@ -115,7 +115,7 @@ export default function Nav() {
             {NAV_LINKS.map((l) => (
               <a
                 key={l.id}
-                href={`#${l.id}`}
+                href={`/#${l.id}`}
                 aria-current={active === l.id ? "true" : undefined}
                 className={`relative text-[13.5px] transition-colors duration-200 ${
                   active === l.id
@@ -197,7 +197,7 @@ export default function Nav() {
           {NAV_LINKS.map((l, i) => (
             <a
               key={l.id}
-              href={`#${l.id}`}
+              href={`/#${l.id}`}
               onClick={() => setOpen(false)}
               className={`flex items-baseline gap-4 border-b border-line py-5 transition-all duration-500 ${
                 open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { Project } from "@/lib/data";
 import { AireViz, AgentViz, MambaViz } from "@/components/projectViz";
 
@@ -77,6 +78,10 @@ export default function ProjectScene({
           data-reveal
           style={{ "--rd": "320ms" } as React.CSSProperties}
         >
+          <Link href={`/projects/${project.id}/`} className="link-quiet">
+            Read the case study
+            <span aria-hidden="true" className="text-[11px]">→</span>
+          </Link>
           <a
             href={project.demo}
             target="_blank"
@@ -94,7 +99,7 @@ export default function ProjectScene({
             rel="noopener noreferrer"
             className="link-quiet"
           >
-            View repository
+            Repository
             <span aria-hidden="true" className="text-[11px]">
               ↗
             </span>
