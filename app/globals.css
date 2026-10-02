@@ -29,7 +29,7 @@
 
 .dark {
   /* warm coffee-black; deliberately NOT grey or blue */
-  --ink-950: 13 12 10;
+  --ink-950: 8 8 9;
   --ink-900: 34 31 26;
   --ink-850: 44 40 34;
   --ink-800: 60 54 45;
@@ -41,7 +41,7 @@
   --fog-low: 154 146 132;
   --acc: 247 243 235;
   --grid: 247 243 235;
-  --grid-a: 0.06;
+  --grid-a: 0;
   --glow-a: rgba(232, 203, 150, 0.09);
   --glow-b: rgba(210, 170, 110, 0.06);
   --contact-glow: rgba(232, 203, 150, 0.11);
