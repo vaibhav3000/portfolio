@@ -167,7 +167,7 @@ export function AireViz({ detail }: { detail: boolean }) {
   const gap = 78;
   return (
     <svg
-      viewBox="0 0 700 430"
+      viewBox="0 0 700 446"
       className="w-full"
       role="img"
       aria-label="Evaluation pipeline from input to attribution beside a regression trace"
@@ -206,25 +206,25 @@ export function AireViz({ detail }: { detail: boolean }) {
         <polyline
           points="320,167 480,167 620,330"
           fill="none"
-          className="s-hi draw"
+          className="s-warn draw"
           strokeWidth="2.2"
           style={{ ...rd(650), "--len": 430 } as React.CSSProperties}
         />
-        <circle cx="480" cy="167" r="3.4" className="f-acc pop" style={rd(1150)} />
-        <circle cx="620" cy="330" r="7" fill="none" className="s-hi pop" strokeWidth="1.8" opacity="0.7" style={rd(1350)} />
-        <circle cx="620" cy="330" r="3" className="f-acc pop" style={rd(1350)} />
+        <circle cx="480" cy="167" r="3.4" className="f-warn pop" style={rd(1150)} />
+        <circle cx="620" cy="330" r="7" fill="none" className="s-warn pop" strokeWidth="1.8" opacity="0.7" style={rd(1350)} />
+        <circle cx="620" cy="330" r="3" className="f-warn pop" style={rd(1350)} />
         <text x="320" y="152" className="f-mid pop" fontSize="14" fontFamily={MONO} style={rd(1000)}>
           v2 · 0.57
         </text>
-        <text x="620" y="352" textAnchor="end" className="f-acc pop" fontSize="14" fontFamily={MONO} style={rd(1400)}>
+        <text x="620" y="352" textAnchor="end" className="f-warn pop" fontSize="14" fontFamily={MONO} style={rd(1400)}>
           v3 · 0.00
         </text>
         <text x="300" y="48" className="f-low pop" fontSize="13.5" fontFamily={MONO} letterSpacing="1.5" style={rd(900)}>
           GROUNDEDNESS · FLAGGED REGRESSION
         </text>
         {/* abstention recovery */}
-        <polyline points="320,330 480,330 620,120" fill="none" className="s-line-strong pop" strokeWidth="1.8" strokeDasharray="3 4" style={rd(1050)} />
-        <text x="480" y="378" textAnchor="middle" className="f-low pop" fontSize="13" fontFamily={MONO} style={rd(1450)}>
+        <polyline points="320,330 480,330 620,120" fill="none" className="s-ok pop" strokeWidth="1.8" strokeDasharray="3 4" style={rd(1050)} />
+        <text x="480" y="378" textAnchor="middle" className="f-ok pop" fontSize="13" fontFamily={MONO} style={rd(1450)}>
           ABSTENTION 0.0 → 1.0
         </text>
         <text x="40" y="422" className="f-low pop" fontSize="12" fontFamily={MONO} letterSpacing="1" style={rd(1500)}>
@@ -233,7 +233,7 @@ export function AireViz({ detail }: { detail: boolean }) {
       </g>
 
       <Detail on={detail}>
-        <text x="40" y="424" className="f-mid" fontSize="11" fontFamily={MONO}>
+        <text x="40" y="438" className="f-mid" fontSize="11" fontFamily={MONO}>
           metrics: groundedness · citation coverage · recall / MRR · taxonomy · attribution
         </text>
       </Detail>

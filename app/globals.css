@@ -14,6 +14,8 @@
   --fog-mid: 82 80 74;
   --fog-low: 110 107 99;
   --acc: 26 25 19;
+  --ok: 26 25 19;
+  --warn: 26 25 19;
   --grid: 26 25 19;
   --line-a: 0.1;
   --grid-a: 0.035;
@@ -40,6 +42,8 @@
   --fog-mid: 197 190 177;
   --fog-low: 154 146 132;
   --acc: 245 184 65;
+  --ok: 143 214 181;
+  --warn: 235 145 120;
   --grid: 247 243 235;
   --grid-a: 0;
   --glow-a: rgba(232, 203, 150, 0.09);
@@ -145,6 +149,10 @@ body {
   .s-track { stroke: rgb(var(--line) / 0.16); }
   .s-dot-base { stroke: rgb(var(--fog-low)); }
   .f-acc-dim { fill: rgb(var(--acc) / 0.45); }
+  .f-ok { fill: rgb(var(--ok)); }
+  .f-warn { fill: rgb(var(--warn)); }
+  .s-ok { stroke: rgb(var(--ok)); }
+  .s-warn { stroke: rgb(var(--warn)); }
   .f-dim { fill: rgb(var(--fog-low) / 0.6); }
 }
 

@@ -14,11 +14,15 @@ const THEMES = {
     acc: "#26241d",
     base: "#8a8578",
     hot: new THREE.Color(0.05, 0.05, 0.04),
+    ok: "#26241d",
+    warn: "#26241d",
   },
   dark: {
     acc: "#e9c882",
     base: "#857b66",
     hot: new THREE.Color(1.0, 0.98, 0.92),
+    ok: "#8fd6b5",
+    warn: "#eb9178",
   },
 } as const;
 
@@ -256,7 +260,8 @@ export function mountField(canvas: HTMLCanvasElement): () => void {
     (fieldMat.uniforms.uAcc.value as THREE.Color).set(t.acc);
     (fieldMat.uniforms.uBase.value as THREE.Color).set(t.base);
     (fieldMat.uniforms.uHot.value as THREE.Color).copy(t.hot);
-    for (const m of pulseMats) (m.uniforms.uAcc.value as THREE.Color).set(t.acc);
+    const pulseColors = [t.acc, t.acc, (t as any).ok, t.acc, (t as any).warn, t.acc];
+    pulseMats.forEach((m, i) => (m.uniforms.uAcc.value as THREE.Color).set(pulseColors[i % pulseColors.length]));
     lineMats.forEach((m, i) => {
       m.color.set(t.acc);
       m.opacity = lineBaseOpacity[i] * (dark ? 1.3 : 1);

@@ -102,15 +102,15 @@ export default function LabAgent() {
 
         {/* COMPLETE + REPLAN badges */}
         <g style={{ opacity: lab.step === 7 ? 1 : 0.3, transition: "opacity .5s" }}>
-          <rect x={CN.VERIFY[0] + 16} y={CN.VERIFY[1] - 46} width={NW - 32} height={NH - 6} rx="9" className="f-node" style={{ stroke: lab.step === 7 ? "rgb(var(--acc) / 0.8)" : "rgb(var(--fog-mid) / 0.45)", fill: lab.step === 7 ? "rgb(var(--acc) / 0.15)" : undefined }} />
+          <rect x={CN.VERIFY[0] + 16} y={CN.VERIFY[1] - 46} width={NW - 32} height={NH - 6} rx="9" className="f-node" style={{ stroke: lab.step === 7 ? "rgb(var(--ok) / 0.8)" : "rgb(var(--fog-mid) / 0.45)", fill: lab.step === 7 ? "rgb(var(--ok) / 0.12)" : undefined }} />
           <text x={CN.VERIFY[0] + 16 + (NW - 32) / 2} y={CN.VERIFY[1] - 46 + 20} textAnchor="middle" className={lab.step === 7 ? "f-hi" : "f-low"} fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1">
             COMPLETE
           </text>
           <path d={`M ${CN.VERIFY[0] + NW / 2} ${CN.VERIFY[1] - 12} L ${CN.VERIFY[0] + NW / 2} ${CN.VERIFY[1] - 14}`} className="s-acc-dim" strokeWidth="1.5" />
         </g>
         <g style={{ opacity: lab.step === 6 ? 1 : 0.3, transition: "opacity .5s" }}>
-          <rect x="230" y="216" width="64" height="26" rx="8" className="f-node" style={{ stroke: lab.step === 6 ? "rgb(var(--acc) / 0.7)" : "rgb(var(--fog-mid) / 0.45)" }} />
-          <text x="262" y="233" textAnchor="middle" className={lab.step === 6 ? "f-hi" : "f-low"} fontSize="9" fontFamily="var(--font-mono)">
+          <rect x="230" y="216" width="64" height="26" rx="8" className="f-node" style={{ stroke: lab.step === 6 ? "rgb(var(--warn) / 0.8)" : "rgb(var(--fog-mid) / 0.45)" }} />
+          <text x="262" y="233" textAnchor="middle" className={lab.step === 6 ? "f-warn" : "f-low"} fontSize="9" fontFamily="var(--font-mono)">
             REPLAN
           </text>
         </g>
@@ -133,7 +133,7 @@ export default function LabAgent() {
               height={2}
               rx="1"
               style={{
-                fill: lab.step === 7 || i < 4 ? "rgb(var(--acc) / 0.8)" : "rgb(var(--fog-mid) / 0.35)",
+                fill: lab.step === 7 || i < 4 ? "rgb(var(--ok) / 0.85)" : "rgb(var(--fog-mid) / 0.35)",
                 transition: `fill .4s ${i * 0.12}s`,
               }}
             />
