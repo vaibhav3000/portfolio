@@ -233,20 +233,8 @@ export function AireViz({ detail }: { detail: boolean }) {
       </g>
 
       <Detail on={detail}>
-        <g fontSize="13.5" fontFamily={MONO} className="f-mid">
-          <text x="212" y="66">groundedness</text>
-          <text x="212" y="144">citation coverage</text>
-          <text x="212" y="222">retrieval recall · MRR</text>
-          <text x="212" y="300">failure taxonomy</text>
-        </g>
-        {[66, 144, 222, 300].map((y) => (
-          <line key={y} x1="200" y1={y - 3} x2="212" y2={y - 3} className="s-line" strokeDasharray="2 3" />
-        ))}
-        <text x="620" y="90" className="f-low" fontSize="16" fontFamily={MONO} letterSpacing="1">
-          DIRECTION-AWARE,
-        </text>
-        <text x="620" y="106" className="f-low" fontSize="16" fontFamily={MONO} letterSpacing="1">
-          PER-CASE ATTRIBUTION
+        <text x="40" y="424" className="f-mid" fontSize="11" fontFamily={MONO}>
+          metrics: groundedness · citation coverage · recall / MRR · taxonomy · attribution
         </text>
       </Detail>
     </svg>

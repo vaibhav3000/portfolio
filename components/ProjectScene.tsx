@@ -53,7 +53,7 @@ export default function ProjectScene({
         </ul>
 
         <dl
-          className="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-line pt-7 sm:grid-cols-4"
+          className="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-line pt-7"
           data-reveal
           style={{ "--rd": "260ms" } as React.CSSProperties}
         >
