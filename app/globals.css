@@ -306,6 +306,10 @@ html.js [data-reveal].is-in .m-arc {
   }
 }
 
+.fade-r {
+  background: linear-gradient(to left, rgb(var(--ink-900) / 0.9), transparent);
+}
+
 /* Deep-dive preview swap */
 @keyframes ddfade {
   from {
