@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { LabControls, MeasuredBadge, useLabKeyboard, useLabSteps } from "@/components/lab/shared";
 
+const BP = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 /**
  * Project 02 explainer: the AIRE lifecycle as an executable pipeline - ten
  * stages from query to report, each with its real readout. Pipeline nodes
@@ -138,7 +140,7 @@ export default function LabAire() {
         )}
         {step === 9 && (
           <div className="overflow-hidden rounded-xl border border-line bg-white" style={{ animation: "ddfade .6s" }}>
-            <Image src="/projects/aire/aire_live.png" alt="Live Gemini versus deterministic v2: quality gains against log-scale operational cost" width={1100} height={430} className="h-auto w-full" />
+            <Image src={BP + "/projects/aire/aire_live.png"} alt="Live Gemini versus deterministic v2: quality gains against log-scale operational cost" width={1100} height={430} className="h-auto w-full" />
           </div>
         )}
         <p className="min-h-[40px] text-sm leading-relaxed text-fog-mid" style={{ animation: "ddfade .6s" }}>

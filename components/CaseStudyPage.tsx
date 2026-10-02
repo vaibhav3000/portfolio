@@ -2,9 +2,24 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CaseStudy } from "@/lib/caseStudies";
 import { CASE_STUDIES } from "@/lib/caseStudies";
+import LabAgent from "@/components/lab/LabAgent";
+import LabAire from "@/components/lab/LabAire";
+import LabMamba from "@/components/lab/LabMamba";
 
 /* Shared case-study page. Server component; content comes from
    lib/caseStudies.ts so pages stay editable without touching the UI. */
+
+const BP = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const LABS: Record<string, () => JSX.Element> = {
+  "s4-to-mamba": LabMamba,
+  aire: LabAire,
+  "repo-engineer": LabAgent,
+};
+
+export function CaseLab({ slug }: { slug: string }) {
+  const Lab = LABS[slug];
+  return Lab ? <Lab /> : null;
+}
 
 function SectionHead({ index, label }: { index: string; label: string }) {
   return (
@@ -60,12 +75,12 @@ function Figure({ src, caption, priority }: { src: string; caption: string; prio
     <figure data-reveal className="mt-10">
       <div className="overflow-hidden rounded-2xl border border-line bg-white">
         <Image
-          src={src}
+          src={BP + src}
           alt={caption}
           width={1100}
           height={620}
           priority={priority}
-          sizes="(max-width: 767px) 100vw, 900px"
+          sizes="(max-width: 767px) 100vw, 780px"
           className="h-auto w-full"
         />
       </div>
@@ -80,6 +95,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
   const idx = CASE_STUDIES.findIndex((c) => c.slug === study.slug);
   const prev = CASE_STUDIES[(idx + CASE_STUDIES.length - 1) % CASE_STUDIES.length];
   const next = CASE_STUDIES[(idx + 1) % CASE_STUDIES.length];
+  const Lab = LABS[study.slug];
 
   return (
     <main className="relative">
@@ -122,7 +138,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
             <span className="mx-2 text-fog-low/70">/ 03</span>
             Case study
           </p>
-          <h1 className="mt-6 max-w-4xl text-balance text-4xl font-light leading-[1.05] tracking-[-0.03em] text-fog-hi md:text-6xl">
+          <h1 className="mt-6 max-w-4xl text-balance text-4xl font-light leading-[1.05] tracking-[-0.03em] text-fog-hi md:text-[3.4rem]">
             {study.title}
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-fog-mid md:text-lg">
@@ -150,8 +166,27 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
         <span className="mt-14 block h-px w-full bg-line" aria-hidden="true" />
       </header>
 
+      {/* interactive lab: the matching explainer on every case page */}
+      <div className="container-x pb-4">
+        <div className="mx-auto max-w-[820px]">
+          <section aria-label="Interactive lab">
+            <div data-reveal className="flex items-center gap-5">
+              <p className="micro shrink-0">
+                <span className="text-acc">Lab</span>
+                <span className="mx-2 text-fog-low/70">/</span>
+                See it run
+              </p>
+              <span className="h-px w-16 bg-line md:w-24" aria-hidden="true" />
+            </div>
+            <div data-reveal className="mt-6">
+              {Lab ? <Lab /> : null}
+            </div>
+          </section>
+        </div>
+      </div>
+
       <div className="container-x pb-28 md:pb-36">
-        <div className="mx-auto max-w-[880px]">
+        <div className="mx-auto max-w-[820px]">
           <Section index="01" label="Overview" title="What this is.">
             <Prose>
               {study.overview.map((p, i) => <p key={i}>{p}</p>)}

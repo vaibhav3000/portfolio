@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { LabControls, MeasuredBadge, useLabKeyboard, useLabSteps } from "@/components/lab/shared";
 
+const BP = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 /**
  * Project 01 explainer: tokens -> recurrent state -> selectivity -> chunked
  * SSD -> equivalence testing -> the real efficiency + parity figures.
@@ -180,14 +182,14 @@ export default function LabMamba() {
         {lab.step === 5 && (
           <div style={{ animation: "ddfade .6s" }}>
             <div className="mx-auto max-w-[680px] overflow-hidden rounded-xl border border-line bg-white">
-              <Image src="/projects/s4-to-mamba/efficiency.png" alt="Measured training-step latency and peak memory versus sequence length for all five architectures" width={1100} height={560} className="h-auto w-full" />
+              <Image src={BP + "/projects/s4-to-mamba/efficiency.png"} alt="Measured training-step latency and peak memory versus sequence length for all five architectures" width={1100} height={560} className="h-auto w-full" />
             </div>
           </div>
         )}
         {lab.step === 6 && (
           <div style={{ animation: "ddfade .6s" }} className="grid gap-4 sm:grid-cols-[260px_1fr] sm:items-center">
             <div className="overflow-hidden rounded-xl border border-line bg-white">
-              <Image src="/projects/s4-to-mamba/parity.png" alt="Parity accuracy: only the complex-transition model clears chance" width={520} height={330} className="h-auto w-full" />
+              <Image src={BP + "/projects/s4-to-mamba/parity.png"} alt="Parity accuracy: only the complex-transition model clears chance" width={520} height={330} className="h-auto w-full" />
             </div>
             <dl className="space-y-2.5">
               {[
