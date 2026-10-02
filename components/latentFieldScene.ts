@@ -11,9 +11,10 @@ import * as THREE from "three";
 // coffee-black (dark). The observer below keeps them in sync with the toggle.
 const THEMES = {
   light: {
-    acc: "#26241d",
+    acc: "#3a3327",
     base: "#8a8578",
     hot: new THREE.Color(0.05, 0.05, 0.04),
+    gold: "#b8860b",
     ok: "#2e7d5b",
     warn: "#c05b3a",
   },
@@ -21,6 +22,7 @@ const THEMES = {
     acc: "#e9c882",
     base: "#857b66",
     hot: new THREE.Color(1.0, 0.98, 0.92),
+    gold: "#f5b841",
     ok: "#8fd6b5",
     warn: "#eb9178",
   },
@@ -260,7 +262,7 @@ export function mountField(canvas: HTMLCanvasElement): () => void {
     (fieldMat.uniforms.uAcc.value as THREE.Color).set(t.acc);
     (fieldMat.uniforms.uBase.value as THREE.Color).set(t.base);
     (fieldMat.uniforms.uHot.value as THREE.Color).copy(t.hot);
-    const pulseColors = [t.acc, t.acc, (t as any).ok, t.acc, (t as any).warn, t.acc];
+    const pulseColors = [t.acc, (t as any).gold, t.ok, t.acc, (t as any).warn, (t as any).gold];
     pulseMats.forEach((m, i) => (m.uniforms.uAcc.value as THREE.Color).set(pulseColors[i % pulseColors.length]));
     lineMats.forEach((m, i) => {
       m.color.set(t.acc);

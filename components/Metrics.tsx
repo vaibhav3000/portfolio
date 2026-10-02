@@ -9,7 +9,7 @@ function BigValue({ value }: { value: string }) {
   return (
     <p className="text-[clamp(2.7rem,5.5vw,5.2rem)] font-extralight leading-[0.95] tracking-[-0.02em] text-fog-hi tabular-nums">
       <CountUp value={main} />
-      {suffix && <span className="text-fog-mid">{suffix}</span>}
+      {suffix && <span className="text-acc">{suffix}</span>}
     </p>
   );
 }
@@ -36,7 +36,7 @@ function VizLatency() {
         </div>
         <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink-700/60">
           <div
-            className="m-bar h-full rounded-full bg-fog-hi"
+            className="m-bar h-full rounded-full bg-acc"
             style={{ width: "9.2%", transitionDelay: "0.45s" }}
           />
         </div>
@@ -115,7 +115,7 @@ function VizScore() {
         strokeLinecap="round"
         pathLength="100"
         strokeDasharray="96.26 100"
-        className="m-arc s-hi"
+        className="m-arc s-acc"
         transform="rotate(-90 180 110)"
       />
       {/* baseline tick at 79.66% */}
