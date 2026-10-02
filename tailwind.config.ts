@@ -16,7 +16,7 @@ const config: Config = {
           800: "rgb(var(--ink-800) / <alpha-value>)",
           700: "rgb(var(--ink-700) / <alpha-value>)",
         },
-        line: "rgb(var(--line) / 0.1)",
+        line: "rgb(var(--line) / var(--line-a))",
         fog: {
           hi: "rgb(var(--fog-hi) / <alpha-value>)",
           mid: "rgb(var(--fog-mid) / <alpha-value>)",
