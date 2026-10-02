@@ -14,8 +14,8 @@ const THEMES = {
     acc: "#26241d",
     base: "#8a8578",
     hot: new THREE.Color(0.05, 0.05, 0.04),
-    ok: "#26241d",
-    warn: "#26241d",
+    ok: "#2e7d5b",
+    warn: "#c05b3a",
   },
   dark: {
     acc: "#e9c882",

@@ -39,7 +39,7 @@ export default function InteractiveLab() {
   };
 
   return (
-    <div className="rounded-2xl border border-line bg-ink-900/40 p-5 md:p-8">
+    <div className="mx-auto w-full max-w-[980px] rounded-2xl border border-line bg-ink-900/40 p-5 md:p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="micro">
           <span className="text-acc">Interactive lab</span>

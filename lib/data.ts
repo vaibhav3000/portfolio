@@ -271,24 +271,6 @@ export type ResearchNote = {
 
 export const RESEARCH: ResearchNote[] = [
   {
-    id: "wimamba",
-    title: "State-space models for wireless channels",
-    line: "Benchmarking WiMamba against Transformers for channel estimation and interpolation: linear-time sequence modeling that holds up where attention runs out of memory.",
-    meta: "Ericsson India · May - Jul 2026",
-  },
-  {
-    id: "ood-transfer",
-    title: "Geographic out-of-distribution generalization",
-    line: "Models trained on Florida channel data transferred to San Diego across 5 tasks, holding a 0.9626 composite score with 7.4–7.7 dB lower NMSE.",
-    meta: "Ericsson India · May - Jul 2026",
-  },
-  {
-    id: "soft-unfreezing",
-    title: "Soft Unfreezing: parameter-efficient fine-tuning",
-    line: "A linear-probing strategy that freezes 75% of parameters yet retains 98.5% of full fine-tuning performance.",
-    meta: "Ericsson India · May - Jul 2026",
-  },
-  {
     id: "s4-mamba3",
     title: "S4 → Mamba-3, implemented from first principles",
     line: "Minimal S4D, Mamba, Mamba-2 and Mamba-3 in pure PyTorch with a test-verified chunked SSD path: complex-valued transitions solve parity tracking at 98.3% where LTI S4D collapses to 6%.",

@@ -4,19 +4,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
  * Shared machinery for the Interactive Project Lab: a step machine
- * (play/pause/step/reset/speed), the control row, and the two evidence
- * badges that separate teaching schematics from measured project results.
+ * (play/pause/step/reset/speed/seek), the control row with a clickable
+ * progress strip, and the evidence badges separating teaching schematics
+ * from measured project results.
  */
 
 export function useLabSteps(total: number) {
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
-  const reduced = useRef(false);
-
-  useEffect(() => {
-    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
 
   useEffect(() => {
     if (!playing) return;
@@ -27,7 +23,7 @@ export function useLabSteps(total: number) {
     }
     const t = setTimeout(
       () => setStep((s) => Math.min(s + 1, total - 1)),
-      950 / speed
+      1050 / speed
     );
     return () => clearTimeout(t);
   }, [playing, step, speed, total]);
@@ -50,22 +46,29 @@ export function useLabSteps(total: number) {
     setPlaying(false);
     setStep(0);
   }, []);
+  const seek = useCallback(
+    (n: number) => {
+      setPlaying(false);
+      setStep(Math.max(0, Math.min(n, total - 1)));
+    },
+    [total]
+  );
 
-  return { step, playing, speed, total, play, pause, toggle, fwd, back, reset, setSpeed };
+  return { step, playing, speed, total, play, pause, toggle, fwd, back, reset, seek, setSpeed };
 }
 
 export type Lab = ReturnType<typeof useLabSteps>;
 
 export function LabControls({ lab }: { lab: Lab }) {
   const btn =
-    "inline-flex h-9 min-w-9 items-center justify-center rounded-full border border-line px-3 text-xs text-fog-mid transition-colors duration-150 hover:border-fog-mid/40 hover:text-fog-hi";
+    "inline-flex h-8 min-w-8 items-center justify-center rounded-full border border-line px-3 text-xs text-fog-mid transition-colors duration-150 hover:border-fog-mid/40 hover:text-fog-hi cursor-pointer";
   return (
     <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Lab controls">
       <button
         type="button"
         onClick={lab.toggle}
         aria-label={lab.playing ? "Pause" : "Play"}
-        className="inline-flex h-9 items-center gap-2 rounded-full bg-fog-hi px-4 text-xs font-medium text-ink-950 transition-opacity hover:opacity-90"
+        className="inline-flex h-8 items-center gap-2 rounded-full bg-fog-hi px-4 text-xs font-medium text-ink-950 transition-opacity hover:opacity-90 cursor-pointer"
       >
         {lab.playing ? "❚❚ Pause" : "▶ Play"}
       </button>
@@ -86,7 +89,7 @@ export function LabControls({ lab }: { lab: Lab }) {
             onClick={() => lab.setSpeed(sp)}
             aria-pressed={lab.speed === sp}
             aria-label={`Speed ${sp}x`}
-            className={`h-9 rounded-full border px-2.5 text-[11px] transition-colors duration-150 ${
+            className={`h-8 rounded-full border px-2.5 text-[11px] transition-colors duration-150 cursor-pointer ${
               lab.speed === sp
                 ? "border-acc/60 bg-acc/10 text-fog-hi"
                 : "border-line text-fog-low hover:text-fog-mid"
@@ -99,24 +102,21 @@ export function LabControls({ lab }: { lab: Lab }) {
       <span className="micro ml-auto tabular-nums">
         {String(lab.step + 1).padStart(2, "0")} / {String(lab.total).padStart(2, "0")}
       </span>
-      <div className="mt-3 w-full">
-        <LabProgress lab={lab} />
+      {/* clickable progress strip: seek to any step */}
+      <div className="mt-2.5 flex w-full gap-1" aria-hidden="true">
+        {Array.from({ length: lab.total }).map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            tabIndex={-1}
+            aria-label={`Go to step ${i + 1}`}
+            onClick={() => lab.seek(i)}
+            className={`h-1 flex-1 cursor-pointer rounded-full transition-colors duration-300 hover:bg-fog-mid/60 ${
+              i <= lab.step ? "bg-acc" : "bg-line"
+            }`}
+          />
+        ))}
       </div>
-    </div>
-  );
-}
-
-export function LabProgress({ lab }: { lab: Lab }) {
-  return (
-    <div className="flex gap-1" aria-hidden="true">
-      {Array.from({ length: lab.total }).map((_, i) => (
-        <span
-          key={i}
-          className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
-            i <= lab.step ? "bg-acc" : "bg-line"
-          }`}
-        />
-      ))}
     </div>
   );
 }
