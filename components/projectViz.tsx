@@ -90,7 +90,7 @@ export function MambaViz({ detail }: { detail: boolean }) {
           <text x={s.x} y={nodeY - 6} textAnchor="middle" className="f-hi" fontSize="16" fontFamily={MONO}>
             {s.name}
           </text>
-          <text x={s.x} y={nodeY + 14} textAnchor="middle" className="f-low" fontSize="11" fontFamily={MONO} letterSpacing="1">
+          <text x={s.x} y={nodeY + 14} textAnchor="middle" className="f-low" fontSize="9.5" fontFamily={MONO} letterSpacing="0.5">
             {s.sub.toUpperCase()}
           </text>
         </g>
@@ -124,29 +124,29 @@ export function MambaViz({ detail }: { detail: boolean }) {
 
       {/* capability comparison */}
       <g>
-        <text x="40" y="368" className="f-low pop" fontSize="14" fontFamily={MONO} letterSpacing="1" style={rd(1100)}>
-          SELECTIVE COPYING
+        <text x="40" y="346" className="f-low pop" fontSize="11" fontFamily={MONO} letterSpacing="1" style={rd(1100)}>
+          SELECTIVE COPYING · TEST L=128
         </text>
-        <rect x="200" y="358" width={134 * 0.06 * 3.2} height="10" rx="3" className="f-dim pop" style={rd(1180)} />
-        <rect x="200" y="378" width={134 * 0.67 * 3.2} height="10" rx="3" className="f-acc-dim pop" style={rd(1260)} />
-        <text x="200" y="352" className="f-low pop" fontSize="16" fontFamily={MONO} style={rd(1180)}>
+        <text x="40" y="378" className="f-mid pop" fontSize="11" fontFamily={MONO} style={rd(1180)}>
           LTI S4D 6%
         </text>
-        <text x="200" y="404" className="f-mid pop" fontSize="16" fontFamily={MONO} style={rd(1260)}>
+        <rect x="200" y="368" width={134 * 0.06 * 3.2} height="9" rx="3" className="f-dim pop" style={rd(1180)} />
+        <text x="40" y="406" className="f-mid pop" fontSize="11" fontFamily={MONO} style={rd(1260)}>
           SELECTIVE SSM 67%
         </text>
+        <rect x="200" y="396" width={134 * 0.67 * 3.2} height="9" rx="3" className="f-acc-dim pop" style={rd(1260)} />
       </g>
 
       <Detail on={detail}>
         <line x1="100" y1="150" x2="100" y2="200" className="s-line" strokeDasharray="2 3" />
-        <text x="100" y="216" textAnchor="middle" className="f-mid" fontSize="13.5" fontFamily={MONO}>
+        <text x="12" y="216" textAnchor="start" className="f-mid" fontSize="11" fontFamily={MONO}>
           PARITY ≤56% (REAL TRANSITIONS)
         </text>
         <line x1="620" y1="150" x2="620" y2="200" className="s-acc-dim" strokeDasharray="2 3" />
-        <text x="620" y="216" textAnchor="middle" className="f-acc" fontSize="13.5" fontFamily={MONO}>
+        <text x="688" y="216" textAnchor="end" className="f-acc" fontSize="11" fontFamily={MONO}>
           PARITY 98.3% · COMPLEX TRANSITIONS
         </text>
-        <text x="620" y="34" textAnchor="middle" className="f-low" fontSize="16" fontFamily={MONO} letterSpacing="1">
+        <text x="688" y="34" textAnchor="end" className="f-low" fontSize="11" fontFamily={MONO} letterSpacing="1">
           TEST-VERIFIED CHUNKED SSD PATH
         </text>
         <line x1="560" y1="40" x2="600" y2="78" className="s-line" strokeDasharray="2 3" />
@@ -368,7 +368,7 @@ export function AgentViz({ detail }: { detail: boolean }) {
       <Pulse path={ringPath} dur={7.5} />
 
       <Detail on={detail}>
-        <text x={cx} y={cy + 205} textAnchor="middle" className="f-mid" fontSize="13.5" fontFamily={MONO} letterSpacing="1">
+        <text x={cx} y={cy + 205} textAnchor="middle" className="f-mid" fontSize="11" fontFamily={MONO} letterSpacing="1">
           SCHEMA CHECKS · AUTO / ASK / DENY · COMMAND ALLOWLISTS
         </text>
         <text x={cx + r + 42} y={cy - 4} className="f-low" fontSize="16" fontFamily={MONO}>
