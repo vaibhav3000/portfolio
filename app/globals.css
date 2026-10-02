@@ -17,6 +17,7 @@
   --grid: 26 25 19;
   --line-a: 0.1;
   --grid-a: 0.035;
+  --noise-a: 0.4;
   --bg: rgb(var(--ink-950));
   --glow-a: rgba(196, 186, 160, 0.16);
   --glow-b: rgba(170, 160, 135, 0.12);
@@ -89,13 +90,19 @@ body {
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
-      linear-gradient(rgb(var(--grid) / var(--grid-a)) 1px, transparent 1px),
+    background-image: linear-gradient(rgb(var(--grid) / var(--grid-a)) 1px, transparent 1px),
       linear-gradient(90deg, rgb(var(--grid) / var(--grid-a)) 1px, transparent 1px),
       radial-gradient(70rem 46rem at 82% -10%, var(--glow-a), transparent 60%),
       radial-gradient(60rem 44rem at -8% 108%, var(--glow-b), transparent 62%);
-    background-size: 160px 160px, 88px 88px, 88px 88px, auto, auto;
+    background-size: 88px 88px, 88px 88px, auto, auto;
     background-color: var(--bg);
+  }
+  .bg-scene::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: var(--noise-a);
   }
 
   .chip {
