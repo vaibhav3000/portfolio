@@ -98,6 +98,24 @@ export function LabControls({ lab }: { lab: Lab }) {
       <span className="micro ml-auto tabular-nums">
         {String(lab.step + 1).padStart(2, "0")} / {String(lab.total).padStart(2, "0")}
       </span>
+      <div className="mt-3 w-full">
+        <LabProgress lab={lab} />
+      </div>
+    </div>
+  );
+}
+
+export function LabProgress({ lab }: { lab: Lab }) {
+  return (
+    <div className="flex gap-1" aria-hidden="true">
+      {Array.from({ length: lab.total }).map((_, i) => (
+        <span
+          key={i}
+          className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
+            i <= lab.step ? "bg-acc" : "bg-line"
+          }`}
+        />
+      ))}
     </div>
   );
 }

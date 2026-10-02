@@ -1,27 +1,37 @@
 "use client";
 
-import { Lab, LabControls, MeasuredBadge, SchematicBadge, useLabKeyboard, useLabSteps } from "@/components/lab/shared";
+import Image from "next/image";
+import { LabControls, MeasuredBadge, useLabKeyboard, useLabSteps } from "@/components/lab/shared";
 
 /**
- * Project 01 explainer: how an SSM reads a sequence, what selectivity and
- * chunked SSD change, and where the measured numbers come from.
+ * Project 01 explainer: one persistent scene - tokens flow into a fixed-size
+ * state, selectivity lights up, chunked SSD partitions the strip, then the
+ * REAL benchmark figures carry the evidence (efficiency sweep + parity).
  */
 
 const TOKENS = 12;
+const TX = (i: number) => 22 + i * 51;
 
 export default function LabMamba() {
   const STEPS = 6;
   const lab = useLabSteps(STEPS);
   const key = useLabKeyboard(lab);
   const on = (k: number) => lab.step >= k;
+  const selective = (i: number) => on(2) && (i === 2 || i === 6 || i === 9);
+  const stateFill = (i: number) => {
+    if (!on(1)) return 0;
+    if (!on(2)) return i < 7 ? 1 : 0;
+    if (!on(3)) return i === 2 || i === 6 || i === 9 ? 1 : i < 7 ? 0.35 : 0;
+    return 1;
+  };
 
   const texts = [
-    "A sequence of tokens enters the model. Every architecture in this study reads the same input through the same skeleton.",
-    "The SSM idea: a fixed-size state flows along the sequence, one update per token - O(T) operations, O(1) state per step.",
-    "Mamba makes Δ, B, C input-dependent: the model chooses what to remember and what to forget at every position.",
-    "Mamba-2 rewrites the scan as chunked matmuls with a carried state - tested equivalent to the sequential loop at 1e-3.",
-    "How the costs scale with sequence length (sketch of the trend; the real sweep is on the case-study page).",
-    "The numbers that came out of the study, measured on a 6 GB RTX 4050 and committed as JSON.",
+    "A sequence of tokens enters the model. Every architecture in the study reads this same input through one shared skeleton.",
+    "The SSM core: a fixed-size state flows along the sequence, one update per token - O(T) operations, O(1) state per step.",
+    "Mamba makes Δ, B, C input-dependent: highlighted tokens reshape the state update. What to remember becomes a decision.",
+    "Mamba-2 rewrites the recurrence as chunked block-matmuls with a carried state - proven equivalent to the sequential loop at 1e-3.",
+    "The real efficiency sweep on the 6 GB RTX 4050: attention's training step reaches 186 s at 32K while SSM forms hold - until memory runs out.",
+    "And the capability result the study is about: only complex-valued transitions clear chance on cumulative-XOR parity.",
   ];
 
   return (
@@ -31,137 +41,141 @@ export default function LabMamba() {
       aria-label="Sequence modeling lab: use space to play or pause, arrows to step, R to reset"
       className="rounded-xl border border-line bg-ink-950/60 p-4 outline-none focus-visible:border-acc/50 md:p-5"
     >
-      <div className="relative h-[330px] sm:h-[300px]">
-        {/* step 0-3: token row */}
-        <div
-          className="absolute inset-x-0 top-1 flex justify-between transition-all duration-700"
-          style={{ opacity: lab.step <= 3 ? 1 : 0.12 }}
-        >
-          {Array.from({ length: TOKENS }).map((_, i) => {
-            const selective = on(2) && (i === 2 || i === 6 || i === 9);
-            return (
-              <div key={i} className="flex flex-col items-center gap-1">
-                {selective && (
-                  <span className="font-mono text-[9px] leading-none text-acc">ΔBC</span>
-                )}
-                <span
-                  className={`flex h-6 w-6 items-center justify-center rounded border font-mono text-[9px] transition-colors duration-500 sm:h-7 sm:w-7 sm:text-[10px] ${
-                    selective
-                      ? "border-acc/70 bg-acc/15 text-fog-hi"
-                      : "border-line text-fog-low"
-                  }`}
-                >
-                  x{i + 1}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* step 1: recurrence arrow + state + formula */}
-        <div
-          className="absolute inset-x-0 top-[92px] transition-all duration-700"
-          style={{ opacity: lab.step === 1 ? 1 : 0, transform: lab.step === 1 ? "none" : "translateY(10px)" }}
-        >
-          <svg viewBox="0 0 640 60" className="w-full" aria-hidden="true">
-            
-            {Array.from({ length: 6 }).map((_, i) => (
-              <path
-                key={i}
-                d={`M ${53 + i * 107} 4 v 18 h 30`}
-                fill="none"
-                stroke="rgb(var(--acc) / 0.4)"
-                strokeWidth="1.5"
+      <svg viewBox="0 0 640 210" className="lab-scene w-full" role="img" aria-label="Tokens flowing into a recurrent state, selective updates, and chunked processing">
+        {/* tokens */}
+        {Array.from({ length: TOKENS }).map((_, i) => {
+          const sel = selective(i);
+          const dim = on(4);
+          return (
+            <g key={i} style={{ opacity: dim ? 0.25 : 1, transition: "opacity .6s" }}>
+              {sel && (
+                <text x={TX(i) + 17} y="14" textAnchor="middle" className="f-acc" fontSize="10" fontFamily="var(--font-mono)">
+                  ΔBC
+                </text>
+              )}
+              <rect
+                x={TX(i)}
+                y={sel ? 18 : 22}
+                width="34"
+                height="28"
+                rx="6"
+                className={sel ? "f-acc-soft" : "f-node s-line"}
+                style={{ stroke: sel ? "rgb(var(--acc) / 0.8)" : undefined, transition: "all .5s" }}
               />
-            ))}
-            <rect x="240" y="26" width="160" height="30" rx="8" className="f-node" style={{ stroke: "rgb(var(--acc) / 0.5)" }} />
-            <text x="320" y="45" textAnchor="middle" className="f-hi" fontSize="12" fontFamily="var(--font-mono)">
-              state hₜ (fixed size)
-            </text>
-          </svg>
-          <p className="mt-1 text-center font-mono text-[11px] text-fog-mid">
-            xₜ = Āxₜ₋₁ + B̄uₜ &nbsp;·&nbsp; yₜ = Cxₜ
+              <text x={TX(i) + 17} y={sel ? 37 : 41} textAnchor="middle" className={sel ? "f-hi" : "f-mid"} fontSize="10" fontFamily="var(--font-mono)">
+                x{i + 1}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* recurrence arrows + state bar (step >= 1) */}
+        <g style={{ opacity: on(1) && !on(3) ? 1 : 0.15, transition: "opacity .6s" }}>
+          {Array.from({ length: TOKENS }).map((_, i) => (
+            <line key={i} x1={TX(i) + 17} y1="54" x2={TX(i) + 17} y2={on(2) && selective(i) ? 76 : 70} className={selective(i) ? "s-acc-dim" : "s-line"} strokeWidth="1.5" />
+          ))}
+          <rect x="22" y="82" width="596" height="26" rx="7" className="f-node s-line-strong" style={{ stroke: "rgb(var(--acc) / 0.35)" }} />
+          {Array.from({ length: TOKENS }).map((_, i) => {
+            const f = stateFill(i);
+            return f > 0 ? (
+              <rect
+                key={i}
+                x={24 + i * 49.4}
+                y="84.5"
+                width="47.4"
+                height="21"
+                rx="4"
+                style={{
+                  fill: selective(i) && on(2) ? "rgb(var(--acc) / 0.75)" : "rgb(var(--acc) / 0.35)",
+                  opacity: f,
+                  transition: "opacity .6s, fill .6s",
+                }}
+              />
+            ) : null;
+          })}
+          <text x="316" y="126" textAnchor="middle" className="f-mid" fontSize="12" fontFamily="var(--font-mono)">
+            state hₜ = Ā·hₜ₋₁ + B̄·xₜ → yₜ = C·hₜ
+          </text>
+        </g>
+
+        {/* chunked SSD brackets (step 3) */}
+        <g style={{ opacity: on(3) && !on(4) ? 1 : 0, transition: "opacity .6s" }}>
+          {[0, 1, 2, 3].map((c) => (
+            <g key={c}>
+              <path d={`M ${22 + c * 149} 118 v 8 h 149 v -8`} fill="none" className="s-acc-dim" strokeWidth="1.5" />
+              <text x={22 + c * 149 + 74.5} y="142" textAnchor="middle" className="f-acc" fontSize="10" fontFamily="var(--font-mono)">
+                chunk {c + 1}
+              </text>
+              {c < 3 && (
+                <text x={22 + c * 149 + 149} y="136" textAnchor="middle" className="f-mid" fontSize="11" fontFamily="var(--font-mono)">
+                  →
+                </text>
+              )}
+            </g>
+          ))}
+          <text x="316" y="164" textAnchor="middle" className="f-mid" fontSize="11" fontFamily="var(--font-mono)">
+            block matmuls + carried (N, P) state · T/64 chunks
+          </text>
+        </g>
+
+        {/* architecture evolution strip */}
+        <g style={{ opacity: on(4) || on(5) ? 0.2 : 1, transition: "opacity .6s" }}>
+          {["S4D", "Mamba", "Mamba-2", "Mamba-3"].map((n, i) => (
+            <g key={n}>
+              <rect x={34 + i * 152} y="150" width="118" height="40" rx="9" className="f-node s-line-strong" />
+              <text x={34 + i * 152 + 59} y="167" textAnchor="middle" className="f-hi" fontSize="12" fontFamily="var(--font-mono)">
+                {n}
+              </text>
+              <text x={34 + i * 152 + 59} y="182" textAnchor="middle" className="f-low" fontSize="8.5" fontFamily="var(--font-mono)">
+                {["LTI · conv", "selective", "chunked SSD", "complex Δ"][i]}
+              </text>
+              {i < 3 && <path d={`M ${152 + i * 152} 170 h 32`} fill="none" className="edge-flow s-acc-dim" strokeWidth="1.5" />}
+            </g>
+          ))}
+        </g>
+      </svg>
+
+      {/* step content below the scene */}
+      <div className="mt-2 min-h-[120px]">
+        {on(4) && (
+          <div style={{ animation: "ddfade .6s" }}>
+            <div className="mb-2 flex items-center gap-3">
+              <MeasuredBadge />
+              <span className="text-xs text-fog-low">results/efficiency_gpu.json · CUDA events · 5 repeats · batch 8</span>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-line bg-white">
+              <Image src="/projects/s4-to-mamba/efficiency.png" alt="Measured training-step latency and peak memory versus sequence length for all five architectures" width={1100} height={560} className="h-auto w-full" />
+            </div>
+          </div>
+        )}
+        {lab.step === 5 && (
+          <div style={{ animation: "ddfade .6s" }} className="mt-4 grid gap-4 sm:grid-cols-[300px_1fr] sm:items-center">
+            <div className="overflow-hidden rounded-xl border border-line bg-white">
+              <Image src="/projects/s4-to-mamba/parity.png" alt="Parity accuracy: only the complex-transition model clears chance" width={520} height={330} className="h-auto w-full" />
+            </div>
+            <dl className="space-y-3">
+              {[
+                ["0.983", "parity, Mamba-3 - baselines sit at chance"],
+                ["67% / 6.4%", "selective copying: Mamba-2 vs LTI S4D"],
+                ["14 tests", "chunked ≡ sequential · FFT ≡ recurrent · λ=1 reduction"],
+              ].map(([v, l]) => (
+                <div key={l} className="flex items-baseline gap-4 border-b border-line pb-2.5">
+                  <dt className="w-28 shrink-0 text-lg font-light tracking-tight text-fog-hi tabular-nums">{v}</dt>
+                  <dd className="text-[13px] leading-snug text-fog-mid">{l}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+        {!on(4) && (
+          <p className="text-sm leading-relaxed text-fog-mid" style={{ animation: "ddfade .6s" }}>
+            {texts[lab.step]}
           </p>
-        </div>
-
-        {/* step 3: chunks */}
-        <div
-          className="absolute inset-x-0 top-[100px] transition-all duration-700"
-          style={{ opacity: lab.step === 3 ? 1 : 0, transform: lab.step === 3 ? "none" : "translateY(10px)" }}
-        >
-          <div className="flex justify-between gap-2">
-            {[0, 1, 2].map((c) => (
-              <div key={c} className="flex-1 rounded-lg border border-dashed border-acc/40 px-2 py-2 text-center">
-                <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-fog-low">
-                  chunk {c + 1}
-                </p>
-                <p className="mt-0.5 font-mono text-[10px] text-fog-mid">
-                  {c < 2 ? "state → next chunk" : "final state"}
-                </p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-2 text-center font-mono text-[11px] text-fog-mid">
-            T/64 chunks · block matmuls + carried (N, P) state
-          </p>
-        </div>
-
-        {/* step 4: scaling sketch */}
-        <div
-          className="absolute inset-x-0 top-[86px] transition-all duration-700"
-          style={{ opacity: lab.step === 4 ? 1 : 0, transform: lab.step === 4 ? "none" : "translateY(10px)" }}
-        >
-          <svg viewBox="0 0 640 180" className="w-full" role="img" aria-label="Sketch: attention cost bends upward with sequence length while the SSM line stays flat">
-            <line x1="50" y1="150" x2="610" y2="150" className="s-line" />
-            <line x1="50" y1="150" x2="50" y2="20" className="s-line" />
-            <polyline points="60,142 200,136 340,120 480,84 600,30" fill="none" className="s-line-strong" strokeWidth="2" />
-            <polyline points="60,140 200,138 340,135 480,131 600,128" fill="none" className="s-acc" strokeWidth="2" />
-            <text x="612" y="34" className="f-mid" fontSize="11" fontFamily="var(--font-mono)" textAnchor="end">
-              attention
-            </text>
-            <text x="612" y="120" className="f-acc" fontSize="11" fontFamily="var(--font-mono)" textAnchor="end">
-              SSM
-            </text>
-            <text x="330" y="172" className="f-low" fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle">
-              sequence length (log) →
-            </text>
-          </svg>
-          <div className="mt-1 flex items-center gap-3">
-            <SchematicBadge />
-            <p className="text-xs text-fog-low">Endpoints reflect the measured sweep; curves sketch the trend.</p>
-          </div>
-        </div>
-
-        {/* step 5: measured */}
-        <div
-          className="absolute inset-x-0 top-[64px] transition-all duration-700"
-          style={{ opacity: lab.step === 5 ? 1 : 0, transform: lab.step === 5 ? "none" : "translateY(10px)" }}
-        >
-          <div className="flex items-center gap-3">
-            <MeasuredBadge />
-            <p className="text-xs text-fog-low">results/*.json · RTX 4050 6 GB · seed 42</p>
-          </div>
-          <dl className="mt-4 space-y-3.5">
-            {[
-              ["0.983 vs 0.51-0.56", "cumulative-XOR parity: only complex transitions clear chance"],
-              ["67% vs 6.4%", "selective copying: selective SSMs learn it, LTI S4D collapses"],
-              ["30 ms → 186 s", "Transformer train step, 1K → 32K tokens"],
-            ].map(([v, l]) => (
-              <div key={l} className="flex items-baseline gap-4 border-b border-line pb-3">
-                <dt className="w-44 shrink-0 text-xl font-light tracking-tight text-fog-hi tabular-nums">{v}</dt>
-                <dd className="text-[13px] leading-snug text-fog-mid">{l}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+        )}
       </div>
 
-      {/* explanation + controls */}
       <div className="mt-4 border-t border-line pt-4">
-        <p className="min-h-[40px] text-sm leading-relaxed text-fog-mid">{texts[lab.step]}</p>
-        <div className="mt-3">
-          <LabControls lab={lab} />
-        </div>
+        <LabControls lab={lab} />
       </div>
     </div>
   );

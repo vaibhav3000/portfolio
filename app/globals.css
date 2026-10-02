@@ -310,6 +310,12 @@ html.js [data-reveal].is-in .m-arc {
   background: linear-gradient(to left, rgb(var(--ink-900) / 0.9), transparent);
 }
 
+.lab-scene {
+  background: rgb(var(--ink-850) / 0.5);
+  border: 1px solid rgb(var(--line) / 0.5);
+  border-radius: 12px;
+}
+
 /* Deep-dive preview swap */
 @keyframes ddfade {
   from {
