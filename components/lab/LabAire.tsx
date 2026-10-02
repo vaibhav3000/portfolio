@@ -43,7 +43,7 @@ export default function LabAire() {
       aria-label="AIRE evaluation pipeline lab: use space to play or pause, arrows to step, R to reset"
       className="rounded-xl border border-line bg-ink-950/60 p-4 outline-none focus-visible:border-acc/50 md:p-5"
     >
-      <svg viewBox="0 0 640 216" className="lab-scene w-full" role="img" aria-label="AIRE pipeline: query, retrieve, respond, trace, metrics, taxonomy, regression, report">
+      <svg viewBox="0 0 640 216" className="lab-scene mx-auto w-full max-w-[1000px]" role="img" aria-label="AIRE pipeline: query, retrieve, respond, trace, metrics, taxonomy, regression, report">
         {/* edges */}
         {NODES.slice(0, -1).map((_, i) => {
           const [x1, y1] = POS[i];
@@ -135,7 +135,7 @@ export default function LabAire() {
           </div>
         )}
         {lab.step === 7 && (
-          <div className="overflow-hidden rounded-xl border border-line bg-white" style={{ animation: "ddfade .6s" }}>
+          <div className="mx-auto max-w-[900px] overflow-hidden rounded-xl border border-line bg-white" style={{ animation: "ddfade .6s" }}>
             <Image src="/projects/aire/aire_live.png" alt="Live Gemini versus deterministic v2: quality gains against log-scale operational cost" width={1100} height={430} className="h-auto w-full" />
           </div>
         )}

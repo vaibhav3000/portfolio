@@ -43,7 +43,7 @@ export default function LabAgent() {
       aria-label="Agent loop lab: use space to play or pause, arrows to step, R to reset"
       className="rounded-xl border border-line bg-ink-950/60 p-4 outline-none focus-visible:border-acc/50 md:p-5"
     >
-      <svg viewBox="0 0 640 300" className="lab-scene w-full" role="img" aria-label="Planner proposes; proposals pass validate and jail gates into the plan-act-observe-verify loop; completion requires green tests">
+      <svg viewBox="0 0 640 300" className="lab-scene mx-auto w-full max-w-[1000px]" role="img" aria-label="Planner proposes; proposals pass validate and jail gates into the plan-act-observe-verify loop; completion requires green tests">
         {/* planner */}
         <rect x="16" y="108" width="150" height="72" rx="10" fill="none" className={lab.step === 0 || lab.step === 6 ? "s-line-strong" : "s-line"} style={{ strokeDasharray: "5 4" }} />
         <text x="91" y="132" textAnchor="middle" className="f-low" fontSize="9.5" fontFamily="var(--font-mono)" letterSpacing="1.5">

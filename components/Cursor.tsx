@@ -3,15 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Custom cursor: an instant ink dot + a lerped hairline ring, both rendered
- * with difference blending so they invert over any surface in either theme.
- * The ring expands over interactive elements; elements marked [data-magnetic]
- * are gently pulled toward the pointer. Only mounts for fine pointers with
- * motion allowed; native cursor stays if JS is off or reduced motion is set.
+ * Custom cursor: a single difference-blend dot that shrinks over
+ * interactive elements and gently magnets [data-magnetic] targets.
+ * Only mounts for fine pointers with motion allowed; the native cursor
+ * stays if JS is off or reduced motion is set.
  */
 export default function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
 
   useEffect(() => {
@@ -23,15 +21,12 @@ export default function Cursor() {
   useEffect(() => {
     if (!active) return;
     const dot = dotRef.current;
-    const ring = ringRef.current;
-    if (!dot || !ring) return;
+    if (!dot) return;
 
     document.documentElement.classList.add("has-cursor");
 
     let mx = -100;
     let my = -100;
-    let rx = -100;
-    let ry = -100;
     let shown = false;
     let interactive = false;
     let pressed = false;
@@ -42,10 +37,7 @@ export default function Cursor() {
       my = e.clientY;
       if (!shown) {
         shown = true;
-        rx = mx;
-        ry = my;
         dot.style.opacity = "1";
-        ring.style.opacity = "1";
       }
     };
     const onOver = (e: MouseEvent) => {
@@ -62,7 +54,6 @@ export default function Cursor() {
     const onLeave = () => {
       shown = false;
       dot.style.opacity = "0";
-      ring.style.opacity = "0";
       if (mag) {
         mag.style.transform = "";
         mag = null;
@@ -78,17 +69,9 @@ export default function Cursor() {
     let raf = 0;
     const loop = () => {
       raf = requestAnimationFrame(loop);
-
       dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%) scale(${
-        pressed ? 0.6 : interactive ? 0.45 : 1
+        pressed ? 0.7 : interactive ? 1.5 : 1
       })`;
-
-      rx += (mx - rx) * 0.16;
-      ry += (my - ry) * 0.16;
-      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%) scale(${
-        pressed ? 0.8 : interactive ? 1.7 : 1
-      })`;
-      ring.style.opacity = shown ? (interactive ? "0.9" : "1") : "0";
 
       if (mag) {
         const rect = mag.getBoundingClientRect();
@@ -112,10 +95,5 @@ export default function Cursor() {
   }, [active]);
 
   if (!active) return null;
-  return (
-    <>
-      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
-      <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
-    </>
-  );
+  return <div ref={dotRef} className="cursor-dot" aria-hidden="true" />;
 }

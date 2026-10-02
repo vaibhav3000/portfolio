@@ -92,43 +92,49 @@ export default function InteractiveLab() {
         role="tabpanel"
         id={`dd-panel-${study.slug}`}
         aria-labelledby={`dd-tab-${study.slug}`}
-        className="dd-fade mt-8 grid items-start gap-8 lg:grid-cols-12 lg:gap-12"
+        className="dd-fade mt-8"
       >
-        <div className="lg:col-span-5">
-          <p className="micro">
-            <span className="text-acc">{study.num}</span>
-            <span className="mx-2 text-fog-low/70">/ 03</span>
-            {project.domain}
-          </p>
-          <h3 className="mt-5 text-balance text-2xl font-light leading-[1.1] tracking-[-0.02em] text-fog-hi md:text-[2rem]">
-            {study.title}
-          </h3>
-          <p className="mt-4 text-sm leading-relaxed text-fog-mid md:text-[15px]">
-            {study.tagline}
-          </p>
-          <div className="mt-6 border-t border-line pt-5">
-            <p className="text-2xl font-extralight tracking-tight text-fog-hi tabular-nums md:text-3xl">
-              {metric.value}
+        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6 border-b border-line pb-6">
+          <div className="max-w-2xl">
+            <p className="micro">
+              <span className="text-acc">{study.num}</span>
+              <span className="mx-2 text-fog-low/70">/ 03</span>
+              {project.domain}
             </p>
-            <p className="mt-1 text-[11px] leading-snug text-fog-low">{metric.label}</p>
+            <h3 className="mt-4 text-balance text-2xl font-light leading-[1.1] tracking-[-0.02em] text-fog-hi md:text-[2rem]">
+              {study.title}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-fog-mid md:text-[15px]">
+              {study.tagline}
+            </p>
           </div>
-          <div className="mt-7 flex flex-wrap items-center gap-5">
-            <Link href={`/projects/${study.slug}/`} className="btn-ghost" data-magnetic>
-              Explore full case study
-              <span aria-hidden="true">→</span>
-            </Link>
-            <a
-              href={study.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-quiet text-[13px] text-fog-mid"
-            >
-              GitHub
-              <span aria-hidden="true" className="text-[11px]">↗</span>
-            </a>
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
+            <div>
+              <p className="text-3xl font-extralight tracking-tight text-fog-hi tabular-nums md:text-4xl">
+                {metric.value}
+              </p>
+              <p className="mt-1 max-w-[220px] text-[11px] leading-snug text-fog-low">
+                {metric.label}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-5">
+              <Link href={`/projects/${study.slug}/`} className="btn-ghost" data-magnetic>
+                Explore full case study
+                <span aria-hidden="true">→</span>
+              </Link>
+              <a
+                href={study.repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-quiet text-[13px] text-fog-mid"
+              >
+                GitHub
+                <span aria-hidden="true" className="text-[11px]">↗</span>
+              </a>
+            </div>
           </div>
         </div>
-        <div className="lg:col-span-7">
+        <div className="mt-8">
           <Explainer />
         </div>
       </div>

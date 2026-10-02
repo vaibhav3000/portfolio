@@ -143,8 +143,7 @@ html.has-cursor,
 html.has-cursor * {
   cursor: none !important;
 }
-.cursor-dot,
-.cursor-ring {
+.cursor-dot {
   position: fixed;
   top: 0;
   left: 0;
@@ -152,19 +151,12 @@ html.has-cursor * {
   pointer-events: none;
   border-radius: 9999px;
   opacity: 0;
+  width: 9px;
+  height: 9px;
+  background: #fff;
   will-change: transform;
   mix-blend-mode: difference;
   transition: opacity 0.3s ease;
-}
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: #fff;
-}
-.cursor-ring {
-  width: 34px;
-  height: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -172,8 +164,7 @@ html.has-cursor * {
   html.has-cursor * {
     cursor: auto !important;
   }
-  .cursor-dot,
-  .cursor-ring {
+  .cursor-dot {
     display: none;
   }
 }

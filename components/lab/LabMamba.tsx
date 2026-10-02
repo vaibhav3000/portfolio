@@ -41,7 +41,7 @@ export default function LabMamba() {
       aria-label="Sequence modeling lab: use space to play or pause, arrows to step, R to reset"
       className="rounded-xl border border-line bg-ink-950/60 p-4 outline-none focus-visible:border-acc/50 md:p-5"
     >
-      <svg viewBox="0 0 640 210" className="lab-scene w-full" role="img" aria-label="Tokens flowing into a recurrent state, selective updates, and chunked processing">
+      <svg viewBox="0 0 640 210" className="lab-scene mx-auto w-full max-w-[1000px]" role="img" aria-label="Tokens flowing into a recurrent state, selective updates, and chunked processing">
         {/* tokens */}
         {Array.from({ length: TOKENS }).map((_, i) => {
           const sel = selective(i);
@@ -143,7 +143,7 @@ export default function LabMamba() {
               <MeasuredBadge />
               <span className="text-xs text-fog-low">results/efficiency_gpu.json · CUDA events · 5 repeats · batch 8</span>
             </div>
-            <div className="overflow-hidden rounded-xl border border-line bg-white">
+            <div className="mx-auto max-w-[900px] overflow-hidden rounded-xl border border-line bg-white">
               <Image src="/projects/s4-to-mamba/efficiency.png" alt="Measured training-step latency and peak memory versus sequence length for all five architectures" width={1100} height={560} className="h-auto w-full" />
             </div>
           </div>

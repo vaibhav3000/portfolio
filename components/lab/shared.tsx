@@ -20,9 +20,10 @@ export function useLabSteps(total: number) {
 
   useEffect(() => {
     if (!playing) return;
+    // hold on the last step, then auto-reset and keep looping
     if (step >= total - 1) {
-      setPlaying(false);
-      return;
+      const t = setTimeout(() => setStep(0), 1600 / speed);
+      return () => clearTimeout(t);
     }
     const t = setTimeout(
       () => setStep((s) => Math.min(s + 1, total - 1)),
