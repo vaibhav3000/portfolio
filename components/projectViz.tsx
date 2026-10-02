@@ -227,7 +227,7 @@ export function AireViz({ detail }: { detail: boolean }) {
         <text x="480" y="378" textAnchor="middle" className="f-low pop" fontSize="13" fontFamily={MONO} style={rd(1450)}>
           ABSTENTION 0.0 → 1.0
         </text>
-        <text x="40" y="404" className="f-low pop" fontSize="13" fontFamily={MONO} letterSpacing="1" style={rd(1500)}>
+        <text x="40" y="422" className="f-low pop" fontSize="12" fontFamily={MONO} letterSpacing="1" style={rd(1500)}>
           26-CASE SUITE · 15 S/CASE · LIVE RESPONDER
         </text>
       </g>
@@ -327,9 +327,6 @@ export function AgentViz({ detail }: { detail: boolean }) {
         </text>
         <text x={cx} y={cy + 10} textAnchor="middle" className="f-hi" fontSize="14" fontFamily={MONO} letterSpacing="1">
           MACHINE
-        </text>
-        <text x={cx} y={cy + 70} textAnchor="middle" className="f-low" fontSize="10.5" fontFamily={MONO} letterSpacing="1">
-          DECIDES, NOT THE MODEL
         </text>
       </g>
 
