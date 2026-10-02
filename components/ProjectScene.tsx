@@ -78,12 +78,34 @@ export default function ProjectScene({
           style={{ "--rd": "320ms" } as React.CSSProperties}
         >
           <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-quiet"
+          >
+            Live demo
+            <span aria-hidden="true" className="text-[11px]">
+              ↗
+            </span>
+          </a>
+          <a
             href={project.repo}
             target="_blank"
             rel="noopener noreferrer"
             className="link-quiet"
           >
             View repository
+            <span aria-hidden="true" className="text-[11px]">
+              ↗
+            </span>
+          </a>
+          <a
+            href={project.report}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-quiet"
+          >
+            Technical report
             <span aria-hidden="true" className="text-[11px]">
               ↗
             </span>

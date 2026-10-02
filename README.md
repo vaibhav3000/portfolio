@@ -26,9 +26,11 @@ is intentionally not used.
 
 ## Deployment (GitHub Pages)
 
-Fully automated via GitHub Actions: `git push` to `main` builds the static
-export and deploys it with the official `actions/deploy-pages` flow
-(workflow: `.github/workflows/deploy.yml`).
+Branch-based: build the static export locally and push it to the `gh-pages`
+branch, which GitHub Pages serves (source: `gh-pages`, path `/`):
+
+    NEXT_PUBLIC_BASE_PATH=/portfolio npm run build
+    # then push the contents of out/ to gh-pages (with .nojekyll)
 
 The deployed URL is controlled by two build-time env vars, set in the workflow:
 

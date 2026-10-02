@@ -76,6 +76,8 @@ export type Project = {
   metrics: { value: string; label: string }[];
   stack: string[];
   repo: string;
+  demo: string;
+  report: string;
   visual: "mamba" | "aire" | "agent";
 };
 
@@ -90,16 +92,18 @@ export const PROJECTS: Project[] = [
     points: [
       "Implemented minimal S4D, Mamba, Mamba-2 and Mamba-3 from first principles, including a chunked State-Space-Duality path test-verified against a sequential scan.",
       "Benchmarked latency, memory and throughput at 1K–32K sequence lengths on a 6 GB RTX 4050.",
-      "Reproduced the Mamba-3 paper's capability claim: complex-valued transitions solve parity tracking (98.3%) where real-transition SSMs and Transformers stay at chance (≤56%); on selective copying, LTI S4D collapses (6%) vs 67% for selective SSMs.",
+      "Reproduced the Mamba-3 paper's capability claim: complex-valued transitions solve parity tracking (98.3%) where real-transition SSMs and Transformers stay at chance (≤56.3%); on selective copying, LTI S4D collapses (6%) vs 67% for Mamba-1/2.",
     ],
     metrics: [
       { value: "98.3%", label: "parity tracking solved" },
-      { value: "≤56%", label: "real-transition / transformer baseline" },
+      { value: "≤56.3%", label: "real-transition / transformer baseline" },
       { value: "1K–32K", label: "sequence lengths benchmarked" },
       { value: "6 GB", label: "RTX 4050, full test suite" },
     ],
     stack: ["Python", "PyTorch", "NumPy", "SciPy", "Hugging Face", "Matplotlib", "pytest"],
     repo: "https://github.com/vaibhav3000/s4-to-mamba",
+    demo: "https://vaibhav3000.github.io/s4-to-mamba/",
+    report: "https://github.com/vaibhav3000/s4-to-mamba/blob/main/reports/Efficient_Sequence_Modeling_S4_to_Mamba3.pdf",
     visual: "mamba",
   },
   {
@@ -122,6 +126,8 @@ export const PROJECTS: Project[] = [
     ],
     stack: ["Python", "pytest", "HTML/CSS"],
     repo: "https://github.com/vaibhav3000/aire",
+    demo: "https://vaibhav3000.github.io/aire/",
+    report: "https://github.com/vaibhav3000/aire/blob/main/reports/AIRE_AI_Reliability_Evaluation_Engine.pdf",
     visual: "aire",
   },
   {
@@ -144,6 +150,8 @@ export const PROJECTS: Project[] = [
     ],
     stack: ["Python", "pytest", "Git"],
     repo: "https://github.com/vaibhav3000/repo-engineer",
+    demo: "https://vaibhav3000.github.io/repo-engineer/",
+    report: "https://github.com/vaibhav3000/repo-engineer/blob/main/reports/Autonomous_Repository_Engineer.pdf",
     visual: "agent",
   },
 ];
