@@ -8,7 +8,7 @@ export default function Research() {
       index="05"
       label="Research"
       title="Questions I keep returning to."
-      lede="Work-in-progress notes rather than publications: benchmarks, transfer studies, and evaluation methodology. Every line below is traceable to a project on this page or to my Ericsson work."
+      lede="Work-in-progress notes rather than publications. Every entry below links to a public repository on this page."
     >
       <ol className="border-t border-line">
         {RESEARCH.map((r, i) => (
