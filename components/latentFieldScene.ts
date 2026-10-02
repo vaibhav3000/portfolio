@@ -17,7 +17,7 @@ const THEMES = {
   },
   dark: {
     acc: "#f2eee4",
-    base: "#6b655a",
+    base: "#7d7462",
     hot: new THREE.Color(1.0, 0.98, 0.92),
   },
 } as const;

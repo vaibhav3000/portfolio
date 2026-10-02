@@ -28,22 +28,22 @@
 
 .dark {
   /* warm coffee-black; deliberately NOT grey or blue */
-  --ink-950: 10 9 8;
-  --ink-900: 38 35 30;
-  --ink-850: 46 42 36;
-  --ink-800: 58 53 45;
-  --ink-700: 74 68 58;
-  --line: 244 241 234;
-  --line-a: 0.18;
-  --fog-hi: 246 242 234;
-  --fog-mid: 181 174 160;
-  --fog-low: 138 130 116;
-  --acc: 246 242 234;
-  --grid: 244 241 234;
-  --grid-a: 0.05;
-  --glow-a: rgba(232, 203, 150, 0.07);
-  --glow-b: rgba(210, 170, 110, 0.05);
-  --contact-glow: rgba(232, 203, 150, 0.09);
+  --ink-950: 27 23 18;
+  --ink-900: 44 39 31;
+  --ink-850: 56 50 41;
+  --ink-800: 72 65 54;
+  --ink-700: 96 87 73;
+  --line: 247 243 235;
+  --line-a: 0.28;
+  --fog-hi: 247 243 235;
+  --fog-mid: 197 190 177;
+  --fog-low: 154 146 132;
+  --acc: 247 243 235;
+  --grid: 247 243 235;
+  --grid-a: 0.06;
+  --glow-a: rgba(232, 203, 150, 0.09);
+  --glow-b: rgba(210, 170, 110, 0.06);
+  --contact-glow: rgba(232, 203, 150, 0.11);
   --shadow-glow: 0 0 32px rgba(246, 242, 234, 0.09);
   --shadow-float: 0 18px 48px rgba(0, 0, 0, 0.6);
   color-scheme: dark;
