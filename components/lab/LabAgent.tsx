@@ -21,6 +21,7 @@ const NH = 32;
 
 // step -> which loop node is active
 const STEP_NODE: Record<number, string> = { 0: "ANALYZE", 1: "PLAN", 4: "ACT", 5: "OBSERVE", 6: "VERIFY", 8: "VERIFY", 9: "COMPLETE" };
+const NODE_HUE: Record<string, string> = { PLAN: "--gold", ACT: "--teal", OBSERVE: "--ok", VERIFY: "--warn", COMPLETE: "--ok" };
 
 export default function LabAgent() {
   const STEPS = 10;
@@ -140,6 +141,7 @@ export default function LabAgent() {
           return (
             <g key={name} className="cursor-pointer" onClick={() => lab.seek(seekStep)}>
               <rect x={x} y={y} width={NW} height={NH} rx="9" className="f-node" style={{ stroke: active ? "rgb(var(--acc) / 0.8)" : "rgba(226,232,240,0.18)", fill: active ? "rgb(var(--acc) / 0.12)" : undefined, transition: "all .5s" }} />
+              <rect x={x + 10} y={y} width="24" height="3" rx="1.5" style={{ fill: `rgb(var(${(NODE_HUE[name] ?? "--gold")}) / 0.85)` }} />
               <text x={x + NW / 2} y={y + NH / 2 + 4} textAnchor="middle" className={active ? "f-hi" : "f-mid"} fontSize="10.5" fontFamily="var(--font-mono)" letterSpacing="1">
                 {name}
               </text>

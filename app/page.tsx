@@ -1,7 +1,8 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Intro from "@/components/Intro";
-import Metrics from "@/components/Metrics";
+import InteractiveLab from "@/components/InteractiveLab";
+import Section from "@/components/Section";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import Research from "@/components/Research";
@@ -43,7 +44,15 @@ export default function Home() {
       <main>
         <Hero />
         <Intro />
-        <Metrics />
+        <Section
+          id="lab"
+          index="02"
+          label="Interactive lab"
+          title="Watch the systems run."
+          lede="Play, step, and reset each one - teaching schematics on top, measured numbers underneath."
+        >
+          <InteractiveLab />
+        </Section>
         <Experience />
         <Projects />
         <Research />

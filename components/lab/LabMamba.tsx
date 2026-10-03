@@ -72,8 +72,12 @@ export default function LabMamba() {
                 width="34"
                 height="27"
                 rx="6"
-                className={sel || picked ? "f-acc-soft" : "f-node s-line"}
-                style={{ stroke: sel ? "rgb(var(--acc) / 0.8)" : picked ? "rgb(var(--acc) / 0.5)" : undefined, transition: "all .5s" }}
+                className={sel || picked ? "f-acc-soft" : "f-node"}
+                style={{
+                  stroke: sel ? "rgb(var(--acc) / 0.8)" : picked ? "rgb(var(--acc) / 0.5)" : "rgb(var(--gold) / 0.35)",
+                  background: sel || picked ? undefined : "rgb(var(--gold) / 0.05)",
+                  transition: "all .5s",
+                }}
               />
               <text x={TX(i) + 17} y={sel || picked ? 35 : 39} textAnchor="middle" className={sel ? "f-hi" : "f-mid"} fontSize="10" fontFamily="var(--font-mono)">
                 x{i + 1}
@@ -159,8 +163,8 @@ export default function LabMamba() {
         <g style={{ opacity: lab.step === 4 ? 0 : lab.step >= 5 ? 0.12 : 1, transition: "opacity .6s" }}>
           {["S4D", "Mamba", "Mamba-2", "Mamba-3"].map((n, i) => (
             <g key={n}>
-              <rect x={34 + i * 152} y="146" width="118" height="40" rx="9" className="f-node s-line-strong" />
-              <text x={34 + i * 152 + 59} y="163" textAnchor="middle" className="f-hi" fontSize="12" fontFamily="var(--font-mono)">
+              <rect x={34 + i * 152} y="146" width="118" height="40" rx="9" className="f-node" style={{ borderTop: `2px solid rgb(${["var(--teal)", "var(--gold)", "var(--warn)", "var(--ok)"][i]})` }} />
+              <text x={34 + i * 152 + 59} y="163" textAnchor="middle" className={["f-teal", "f-gold", "f-warn", "f-ok"][i]} fontSize="12" fontFamily="var(--font-mono)">
                 {n}
               </text>
               <text x={34 + i * 152 + 59} y="178" textAnchor="middle" className="f-low" fontSize="8.5" fontFamily="var(--font-mono)">

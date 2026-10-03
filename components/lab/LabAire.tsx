@@ -13,6 +13,7 @@ const BP = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
  */
 
 const NODES = ["QUERY", "RETRIEVE", "RESPOND", "TRACE", "METRICS", "TAXONOMY", "REGRESSION", "REPORT"];
+const HUE = ["--teal", "--gold", "--teal", "--ok", "--gold", "--teal", "--warn", "--ok"];
 const NW = 130;
 const NH = 46;
 const POS = [
@@ -102,6 +103,7 @@ export default function LabAire() {
                   transition: "fill .5s, stroke .5s",
                 }}
               />
+              <rect x={x + 10} y={y} width="26" height="3" rx="1.5" style={{ fill: `rgb(var(${HUE[i]}) / 0.8)` }} />
               <text
                 x={x + NW / 2}
                 y={y + NH / 2 + 4}
@@ -113,7 +115,7 @@ export default function LabAire() {
               >
                 {n}
               </text>
-              <text x={x + 8} y={y - 6} className={done || active ? "f-acc" : "f-low"} fontSize="9" fontFamily="var(--font-mono)">
+              <text x={x + 8} y={y - 6} className={done || active ? "f-gold" : "f-low"} fontSize="9" fontFamily="var(--font-mono)">
                 {String(i + 1).padStart(2, "0")}
               </text>
             </g>

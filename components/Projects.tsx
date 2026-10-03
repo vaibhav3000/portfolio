@@ -1,5 +1,4 @@
 import Section from "@/components/Section";
-import InteractiveLab from "@/components/InteractiveLab";
 import ProjectScene from "@/components/ProjectScene";
 import { PROJECTS } from "@/lib/data";
 
@@ -17,8 +16,7 @@ export default function Projects() {
       }
       lede="Three deep dives. Every claim traces to a benchmark, a test suite, or a public repository."
     >
-      <InteractiveLab />
-      <div className="mt-20 md:mt-24">
+      <div>
         {PROJECTS.map((p, i) => (
           <ProjectScene key={p.id} project={p} alt={i % 2 === 1} />
         ))}

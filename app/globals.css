@@ -14,6 +14,8 @@
   --fog-mid: 82 80 74;
   --fog-low: 110 107 99;
   --acc: 166 75 42;
+  --gold: 184 134 11;
+  --teal: 46 110 100;
   --ok: 31 122 91;
   --warn: 180 70 45;
   --grid: 26 25 19;
@@ -42,6 +44,8 @@
   --fog-mid: 197 190 177;
   --fog-low: 154 146 132;
   --acc: 245 184 65;
+  --gold: 245 184 65;
+  --teal: 127 209 192;
   --ok: 143 214 181;
   --warn: 235 145 120;
   --grid: 247 243 235;
@@ -149,6 +153,13 @@ body {
   .s-track { stroke: rgb(var(--line) / 0.16); }
   .s-dot-base { stroke: rgb(var(--fog-low)); }
   .f-acc-dim { fill: rgb(var(--acc) / 0.45); }
+  .f-gold { fill: rgb(var(--gold)); }
+  .s-gold { stroke: rgb(var(--gold)); }
+  .f-teal { fill: rgb(var(--teal)); }
+  .s-teal { stroke: rgb(var(--teal)); }
+  .s-ok-dim { stroke: rgb(var(--ok) / 0.5); }
+  .s-gold-dim { stroke: rgb(var(--gold) / 0.5); }
+  .s-warn-dim2 { stroke: rgb(var(--warn) / 0.6); }
   .f-ok { fill: rgb(var(--ok)); }
   .f-warn { fill: rgb(var(--warn)); }
   .s-ok { stroke: rgb(var(--ok)); }
@@ -321,8 +332,11 @@ html.js [data-reveal].is-in .m-arc {
 }
 
 .lab-scene {
-  background: rgb(var(--ink-850) / 0.5);
-  border: 1px solid rgb(var(--line) / 0.5);
+  background:
+    radial-gradient(30rem 16rem at 85% 0%, rgb(var(--gold) / 0.07), transparent 65%),
+    radial-gradient(26rem 14rem at 5% 100%, rgb(var(--teal) / 0.06), transparent 65%),
+    rgb(var(--ink-850) / 0.5);
+  border: 1px solid rgb(var(--line) / 0.6);
   border-radius: 12px;
 }
 

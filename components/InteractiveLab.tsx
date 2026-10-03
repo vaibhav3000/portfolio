@@ -41,11 +41,6 @@ export default function InteractiveLab() {
   return (
     <div className="mx-auto w-full max-w-[840px] rounded-2xl border border-line bg-ink-900/40 p-5 md:p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="micro">
-          <span className="text-acc">Interactive lab</span>
-          <span className="mx-2 text-fog-low/60">·</span>
-          play, step, and reset each system
-        </p>
         <p className="micro hidden md:block">space play · ← → step · R reset</p>
       </div>
 
