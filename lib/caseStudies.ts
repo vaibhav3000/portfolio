@@ -201,21 +201,21 @@ export const CASE_STUDIES: CaseStudy[] = [
     results: {
       columns: ["Metric", "v1 baseline", "v2 improved", "v3 fluent", "Live Gemini"],
       rows: [
-        { label: "Retrieval recall", values: ["0.7273", "0.9091", "0.9545", "0.9091"] },
+        { label: "Retrieval recall", values: ["0.7273", "0.9091", "0.9091", "0.9091"] },
         { label: "Citation coverage", values: ["0.7273", "0.7273", "0.0", "0.6818"] },
         { label: "Groundedness", values: ["0.5682", "0.5682", "0.0", "1.0"] },
         { label: "Abstention correct", values: ["0.0", "0.0", "0.0", "1.0"] },
-        { label: "Latency / case", values: ["0.22 ms", "0.22 ms", "0.20 ms", "15 320 ms"] },
+        { label: "Latency / case", values: ["0.22 ms", "0.22 ms", "0.36 ms", "15 320 ms"] },
         { label: "Clean cases", values: ["12/26", "13/26", "0/26", "17/26"] },
       ],
       note: "All values from results/*/eval_results.json, llm_eval_results.json and the two comparison JSONs. The live run recorded 6/26 cases as invocation_error traces (HTTP 429 quota errors), one wrong abstention on an answerable case, and exact API token totals (12 374 prompt + 756 completion).",
     },
     figures: [
-      { src: "/projects/aire/aire_versions.png", caption: "Deterministic three-version comparison over the 26-case suite: v3's fluent style lifts retrieval (0.95) while citation coverage and groundedness drop to zero." },
+      { src: "/projects/aire/aire_versions.png", caption: "Deterministic three-version comparison over the 26-case suite: v3 keeps v2's retrieval lift (0.73 -> 0.91) while citation coverage and groundedness drop to zero." },
       { src: "/projects/aire/aire_live.png", caption: "Live Gemini vs deterministic v2: quality gains on the left (abstention, grounding); log-scale operational cost on the right (latency and tokens per case)." },
     ],
     findings: [
-      "Fluency destroyed grounding: v3 read better and retrieved better (recall 0.95) while every citing case became ungrounded (groundedness 0.57→0.00, citation coverage 0.73→0.0). A composite score would have called v3 fine.",
+      "Fluency destroyed grounding: v3 read better and kept v2's retrieval gain (recall 0.73 -> 0.91) while every citing case became ungrounded (groundedness 0.57→0.00, citation coverage 0.73→0.0). A composite score would have called v3 fine.",
       "Better is a trade-off table, not a number: the live responder fixed abstention (0.0→1.0) and grounding (0.57→1.0) but cost 15.3 s vs 0.3 ms per case and 7.3x the tokens.",
       "The evaluator exposed a capability gap: unanswerable retrieval scores (0.18-0.46) overlap answerable minimums (0.19-0.26), so no score threshold can fix abstention - it needs semantic matching.",
       "Operational reliability is measured, not excused: 6/26 quota failures are recorded as invocation_error traces, and 17/26 clean is reported as-is.",
@@ -245,7 +245,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       why: "AI systems are easy to build and hard to trust - nondeterminism, scarce references and call cost make point-in-time testing worthless. AIRE makes evaluation replayable evidence.",
       how: "System runs persist as schema-validated traces; a deterministic engine scores them, classifies failures first-match-wins, and compares runs with direction-aware relative thresholds.",
       decision: "Run once, replay forever: traces carry a dataset hash, so new metrics apply to old runs at zero API cost.",
-      strongest: "The planted v3 fluent regression: retrieval improved to 0.95 while groundedness fell 0.57→0.00 - caught, and attributed to 17 specific cases.",
+      strongest: "The planted v3 fluent regression: retrieval held at v2's 0.91 while groundedness fell 0.57→0.00 - caught, and attributed to 22 specific cases (17 for citation coverage).",
       limitation: "Groundedness is a lexical proxy, and the live LLM run is a small-n single sweep (17/26 clean, 6 quota errors).",
       next: "A semantic-entailment second-tier judge, and a score-free abstention path, since the measured score distributions overlap.",
       questions: [
@@ -277,7 +277,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "The gap this project attacks: what does an agent runtime look like if none of those three are possible - where every call is validated, every mutation is jailed and allowlisted, and completion is a state reachable only through test evidence?",
     ],
     architecture: [
-      { name: "state.py", what: "A ten-state machine (INIT, ANALYZE_REPO, PLAN, ACT, OBSERVE, REPLAN, VERIFY, COMPLETE, HUMAN_REVIEW, FAILED) with an explicit TRANSITIONS table - illegal transitions raise. Serializable AgentState plus dual budgets: max_steps 40, max_replans 4." },
+      { name: "state.py", what: "A nine-state machine (INIT, ANALYZE_REPO, PLAN, ACT, OBSERVE, REPLAN, VERIFY, COMPLETE, FAILED) with an explicit TRANSITIONS table - illegal transitions raise. Serializable AgentState plus dual budgets: max_steps 40, max_replans 4." },
       { name: "tools.py", what: "Seven validated tools (list_tree, search, read_file, apply_edit, write_file, git_diff, run_tests) with ToolSpec schema validation, READ_ONLY/MUTATING/EXECUTION permission classes, AUTO/ASK/DENY policies, the workspace path jail, and the run_tests command allowlist." },
       { name: "planner.py", what: "Three interchangeable planners: ScriptedPlanner (deterministic recipes for the reproducible benchmark), LLMPlanner (gemini-2.5-flash via an OpenAI-compatible client), RecordedPlanner (test double)." },
       { name: "agent.py", what: "The AgentRuntime loop: executes proposals, observes results, triggers verification and replanning, and exports a full JSON trace per run." },
