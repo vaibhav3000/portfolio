@@ -50,10 +50,10 @@ export default function Experience() {
                       href={`#xp-${x.id}`}
                       className="group block text-sm text-fog-mid transition-colors hover:text-fog-hi"
                     >
-                      <span className="block font-mono text-[10px] tracking-[0.14em] text-fog-mid">
-                        {x.period.toUpperCase()}
-                      </span>
-                    <span className="mt-1 block">{x.company}</span>
+                    <span className="block">{x.company}</span>
+                    <span className="mt-1 block font-mono text-[10px] tracking-[0.14em] text-fog-mid">
+                      {x.period.toUpperCase()}
+                    </span>
                   </a>
                 </li>
               ))}
@@ -75,7 +75,6 @@ export default function Experience() {
                 <span className="mx-2 text-fog-low/70">/</span>
                 Research
               </p>
-              <p className="micro">{ericsson.period}</p>
             </div>
             <h3 className="mt-8 text-3xl font-light tracking-[-0.02em] text-fog-hi md:text-[2.75rem] md:leading-[1.05]">
               {ericsson.role}
@@ -83,6 +82,7 @@ export default function Experience() {
             <p className="mt-3 text-base text-fog-mid md:text-lg">
               {ericsson.company} · {ericsson.location}
             </p>
+            <p className="mt-2 font-mono text-xs tracking-[0.08em] text-fog-low">{ericsson.period}</p>
             <ul className="mt-9 max-w-3xl space-y-6">
               {ericsson.bullets.map((b, i) => (
                 <li key={i} className="flex gap-4">
@@ -115,7 +115,6 @@ export default function Experience() {
                 <span className="mx-2 text-fog-low/70">/</span>
                 Industry
               </p>
-              <p className="micro">{alignerr.period}</p>
             </div>
             <h3 className="mt-8 text-2xl font-light tracking-[-0.02em] text-fog-hi md:text-3xl">
               {alignerr.role}
@@ -123,6 +122,7 @@ export default function Experience() {
             <p className="mt-3 text-base text-fog-mid">
               {alignerr.company} · {alignerr.location}
             </p>
+            <p className="mt-2 font-mono text-xs tracking-[0.08em] text-fog-low">{alignerr.period}</p>
             <ul className="mt-7 max-w-3xl space-y-4">
               {alignerr.bullets.map((b, i) => (
                 <li key={i} className="flex gap-4">
@@ -155,7 +155,6 @@ export default function Experience() {
                 <span className="mx-2 text-fog-low/70">/</span>
                 Industry
               </p>
-              <p className="micro">{micro1.period}</p>
             </div>
             <h3 className="mt-8 text-2xl font-light tracking-[-0.02em] text-fog-hi md:text-3xl">
               {micro1.role}
@@ -163,6 +162,7 @@ export default function Experience() {
             <p className="mt-3 text-base text-fog-mid">
               {micro1.company} · {micro1.location}
             </p>
+            <p className="mt-2 font-mono text-xs tracking-[0.08em] text-fog-low">{micro1.period}</p>
             <ul className="mt-7 max-w-3xl space-y-4">
               {micro1.bullets.map((b, i) => (
                 <li key={i} className="flex gap-4">
