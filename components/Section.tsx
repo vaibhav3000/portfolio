@@ -26,7 +26,7 @@ export default function Section({
 }) {
   return (
     <section id={id} className={`relative scroll-mt-20 ${className}`}>
-      <div className={`container-x ${tight ? "py-20 md:py-24" : "py-28 md:py-40"}`}>
+      <div className={`container-x ${tight ? "py-18 md:py-24" : "py-24 md:py-32"}`}>
         <div>
           <div data-reveal className="flex items-center gap-5">
             <p className="micro shrink-0">
@@ -39,7 +39,7 @@ export default function Section({
           {typeof title === "string" ? (
             <h2
               data-reveal
-              className="reveal-mask mt-10 max-w-3xl text-balance text-4xl font-medium tracking-[-0.03em] text-fog-hi md:text-[3.4rem] md:leading-[1.05]"
+              className="reveal-mask mt-10 max-w-3xl text-balance text-4xl font-medium tracking-[-0.03em] text-fog-hi md:text-[3rem] md:leading-[1.08]"
             >
               {title.split(" ").map((w, i, arr) => (
                 <span

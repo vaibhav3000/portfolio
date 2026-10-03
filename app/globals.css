@@ -80,7 +80,7 @@ body {
 
 @layer components {
   .container-x {
-    @apply mx-auto w-full max-w-[1400px] px-6 sm:px-10 lg:px-16;
+    @apply mx-auto w-full max-w-[1280px] px-6 sm:px-10 lg:px-14;
   }
 
   /* Micro-label: 11px mono, uppercase, wide tracking. Annotation voice only. */

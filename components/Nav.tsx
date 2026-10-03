@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { NAV_LINKS, SITE } from "@/lib/data";
 import { CASE_STUDIES } from "@/lib/caseStudies";
+
+const BP = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 import ThemeToggle from "@/components/ThemeToggle";
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -122,7 +124,7 @@ export default function Nav() {
           }`}
         >
           <a
-            href="/"
+            href={BP + "/"}
             className="group flex shrink-0 items-center gap-2.5 whitespace-nowrap text-sm font-medium tracking-tight text-fog-hi"
             aria-label="Vaibhav Mahore, back to top"
           >
@@ -191,7 +193,7 @@ export default function Nav() {
               ) : (
                 <a
                   key={l.id}
-                  href={`/#${l.id}`}
+                  href={BP + `/#${l.id}`}
                   aria-current={active === l.id ? "true" : undefined}
                   className={`relative text-[13.5px] transition-colors duration-200 ${
                     active === l.id
@@ -274,7 +276,7 @@ export default function Nav() {
           {NAV_LINKS.map((l, i) => (
             <a
               key={l.id}
-              href={`/#${l.id}`}
+              href={BP + `/#${l.id}`}
               onClick={() => setOpen(false)}
               className={`flex items-baseline gap-4 border-b border-line py-5 transition-all duration-500 ${
                 open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"

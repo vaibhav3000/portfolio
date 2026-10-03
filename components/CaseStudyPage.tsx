@@ -104,7 +104,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
         <div data-reveal>
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Link
-              href="/#projects"
+              href={BP + "/#projects"}
               className="link-quiet text-[13px] text-fog-mid"
             >
               <span aria-hidden="true">←</span> All projects

@@ -27,7 +27,7 @@ export default function Hero() {
           Bangalore, India
         </p>
 
-        <h1 className="mt-7 text-[clamp(3.6rem,10.5vw,10rem)] font-light leading-[0.93] tracking-[-0.035em] text-fog-hi">
+        <h1 className="mt-7 text-[clamp(3.2rem,9vw,8.2rem)] font-light leading-[0.93] tracking-[-0.035em] text-fog-hi">
           <span className="block" data-reveal>
             Vaibhav
           </span>
