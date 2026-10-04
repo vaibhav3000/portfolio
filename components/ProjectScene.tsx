@@ -29,11 +29,25 @@ export default function ProjectScene({
           {project.domain}
         </p>
         <h3
-          className="mt-7 text-3xl font-light leading-[1.08] tracking-[-0.02em] text-fog-hi md:text-[2.5rem]"
+          className="mt-7 text-3xl font-light leading-[1.08] tracking-[-0.02em] md:text-[2.5rem]"
           data-reveal
           style={{ "--rd": "80ms" } as React.CSSProperties}
         >
-          {project.name}
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${project.name} - open the live demo`}
+            className="text-fog-hi transition-colors duration-200 hover:text-acc focus-visible:text-acc"
+          >
+            {project.name}
+            <span
+              aria-hidden="true"
+              className="ml-2 inline-block align-middle text-[0.6em] text-acc/80"
+            >
+              ↗
+            </span>
+          </a>
         </h3>
         <p
           className="mt-6 text-[15px] leading-relaxed text-fog-mid md:text-base"
