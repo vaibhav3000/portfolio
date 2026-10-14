@@ -210,6 +210,7 @@ export const COURSES = [
   "Probability",
   "Machine Learning",
   "Deep Learning",
+  "NLP",
 ];
 
 export const ORACLE = {
