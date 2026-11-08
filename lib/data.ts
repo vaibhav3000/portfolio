@@ -42,7 +42,7 @@ export const EXPERIENCE: ExperienceItem[] = [
   {
     id: "alignerr",
     index: "02",
-    role: "Machine Learning Engineer (AI Data Trainer)",
+    role: "Machine Learning Engineer",
     company: "Alignerr",
     location: "Remote",
     period: "May 2025 - Aug 2025",
