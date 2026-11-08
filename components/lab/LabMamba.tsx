@@ -155,7 +155,7 @@ export default function LabMamba() {
             atol 1e-3
           </text>
           <text x="320" y="201" textAnchor="middle" className="f-low" fontSize="9.5" fontFamily="var(--font-mono)">
-            14-test suite · aligned + misaligned chunks
+            22-test suite · aligned + misaligned chunks
           </text>
         </g>
 
