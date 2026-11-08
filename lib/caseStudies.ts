@@ -124,7 +124,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { title: "Honest failures", body: "Full S4 (NPLR), fused kernels and Mamba-3's MIMO form are declared not-implemented; OOM is recorded as data, not a crash." },
     ],
     validation: [
-      "A 14-test suite (tests/test_models.py) asserts S4D's FFT-convolution equals its recurrent step; Mamba-2's chunked scan equals the sequential reference for aligned (32) and misaligned (64) chunk sizes at atol/rtol 1e-3; Mamba-3 reduces to exponential-Euler exactly when λ=1, θ=0; and Mamba's step() equals a full forward.",
+      "A 22-test suite (tests/test_models.py: 14 test functions, two parametrized over all five models) asserts S4D's FFT-convolution equals its recurrent step; Mamba-2's chunked scan equals the sequential reference for aligned (32) and misaligned (64) chunk sizes at atol/rtol 1e-3; Mamba-3 reduces to exponential-Euler exactly when λ=1, θ=0; and Mamba's step() equals a full forward.",
       "Dataset contract tests pin task semantics: parity is cumulative XOR, selective-copy masking, exact-copy BOS/SEP/EOS structure.",
       "Every benchmark JSON embeds its environment block (GPU, torch, CUDA version) and the seed, so numbers are attributable.",
     ],
@@ -178,6 +178,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { name: "tracing/", what: "TraceRecorder + RunStore: schema-validated traces persisted as manifest.json + traces.jsonl per run directory." },
       { name: "evaluator/engine.py", what: "EvaluationEngine: applies metrics and the first-match-wins failure taxonomy to stored traces. It never re-runs the system under test." },
       { name: "regression/compare.py", what: "Direction-aware run comparison with relative thresholds and per-case attribution, sorted worst-first." },
+      { name: "regression/gate.py", what: "aire-gate CLI: exits 1 when a gated metric regresses and 2 on a usage error, printing per-case attribution, so a comparison can fail a CI build." },
       { name: "report/html.py", what: "Static HTML comparison reports generated from the stored runs." },
     ],
     approach: [
@@ -193,7 +194,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Live run: gemini-2.5-flash through an OpenAI-compatible endpoint, temperature 0, local IDF top-3 retrieval, 5 s pacing between calls, 150 s runner timeout. The API key is read from the environment and never written to traces.",
     ],
     metrics: [
-      { value: "0.57→0.00", label: "groundedness collapse caught (planted v3 regression)" },
+      { value: "0.57→0.00", label: "groundedness collapse blocked in CI (planted v3 regression)" },
       { value: "0.91", label: "retrieval recall after v2 (v1: 0.73)" },
       { value: "1.00", label: "abstention + grounding on the live run (0.0 / 0.57 before)" },
       { value: "17/26", label: "clean cases on live Gemini (6 quota errors recorded)" },
@@ -227,9 +228,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       { title: "Relative thresholds", body: "Delta over baseline makes the default 2% scale-free across metrics of wildly different ranges: +0.58 tokens on ~83 is noise; -0.57 groundedness is a catastrophe." },
       { title: "No evaluation framework", body: "Not building on DeepEval/Ragas keeps every metric auditable line-by-line - the evaluation layer is the product." },
       { title: "Errors propagate", body: "SUT-internal failures surface as trace errors and classify as invocation_error, so provider failures cannot masquerade as wrong answers." },
+      { title: "The gate tests itself", body: "The repo's own CI re-runs the three-version demo on every push, requires v2 to pass and requires aire-gate to block the planted v3 regression with exit code 1, so a broken gate fails the build." },
     ],
     validation: [
-      "A 20-test suite covers metric definitions (supported/unsupported/uncited sentences), recall@k and MRR, trace schema validation and round-trip, RunStore rejection of invalid traces, retriever ranking, faithful-cites/fluent-drops behavior, taxonomy priority, regression direction on the fluent run, and HTML report rendering.",
+      "A 32-test suite covers metric definitions (supported/unsupported/uncited sentences), recall@k and MRR, trace schema validation and round-trip, RunStore rejection of invalid traces, retriever ranking, faithful-cites/fluent-drops behavior, taxonomy priority, regression direction on the fluent run, HTML report rendering, and the regression gate's exit codes.",
       "Three real bugs found by the harness are documented in-repo: dropped SUT errors misclassifying provider failures, a 30 s watchdog that consumed 14/26 live cases (raised to 150 s), and a citation-attachment parsing bug.",
       "Dataset integrity: every run manifest embeds the SHA-256 of eval_set.jsonl, so results are attributable to an exact suite version.",
     ],
@@ -241,7 +243,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Retrieval ground truth is hand-declared.",
     ],
     interview: {
-      built: "A trace-based evaluation engine for LLM/RAG systems: one 26-case suite, three deterministic RAG versions, a live Gemini run, and a regression engine with per-case attribution.",
+      built: "A trace-based evaluation engine for LLM/RAG systems: one 26-case suite, three deterministic RAG versions, a live Gemini run, a regression engine with per-case attribution, and a CI gate that fails the build on a regression.",
       why: "AI systems are easy to build and hard to trust - nondeterminism, scarce references and call cost make point-in-time testing worthless. AIRE makes evaluation replayable evidence.",
       how: "System runs persist as schema-validated traces; a deterministic engine scores them, classifies failures first-match-wins, and compares runs with direction-aware relative thresholds.",
       decision: "Run once, replay forever: traces carry a dataset hash, so new metrics apply to old runs at zero API cost.",
@@ -297,7 +299,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Deterministic mode uses ScriptedPlanner recipes (byte-stable, no network, no keys); live mode swaps in gemini-2.5-flash at temperature 0 through the identical gates.",
     ],
     metrics: [
-      { value: "4/4", label: "SWE tasks, deterministic, zero failed tool calls" },
+      { value: "4/4", label: "repo tasks, deterministic, zero failed tool calls" },
       { value: "2/2", label: "live Gemini tasks (2 mid-run 429s absorbed)" },
       { value: "0", label: "failed tool calls across every run" },
       { value: "7", label: "validated tools behind schema + policy + jail" },
@@ -327,7 +329,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { title: "Completion needs test evidence", body: "A planner claiming success changes nothing: VERIFY re-runs the suite and requires exit 0." },
     ],
     validation: [
-      "14 test functions (17 collected with a four-task parametrization): illegal transitions raise; unknown tools and wrong-typed arguments are rejected; ../ and drive-letter jail escapes fail; apply_edit ambiguity errors; write_file refuses overwrites; EXECUTION under DENY is blocked; rm -rf and curl-pipe-shell are allowlist-rejected; ASK without a callback fails closed in both directions; LLMPlanner refuses without credentials; budget exhaustion ends in FAILED.",
+      "21 test functions (24 collected with a four-task parametrization): illegal transitions raise; unknown tools and wrong-typed arguments are rejected; ../ and drive-letter jail escapes fail; apply_edit ambiguity errors; write_file refuses overwrites; EXECUTION under DENY is blocked; rm -rf and curl-pipe-shell are allowlist-rejected; ASK without a callback fails closed in both directions; LLMPlanner refuses without credentials; budget exhaustion ends in FAILED.",
       "Benchmark JSONs commit per-task steps, replans, wall time and failed-call counters; the live run records token totals and its 429 recovery events.",
       "The state machine itself is exhaustive: any transition outside the table raises, so the agent cannot reach COMPLETE except through VERIFY.",
     ],
