@@ -34,7 +34,7 @@ export const EXPERIENCE: ExperienceItem[] = [
     period: "May 2026 - Jul 2026",
     tags: ["WiMamba", "OOD Transfer", "Parameter-Efficient Fine-Tuning", "PyTorch"],
     bullets: [
-      "Benchmarked WiMamba vs. Transformer on AWS A10G GPUs, proving O(T) linear scaling with 10.7× lower latency (30ms vs 327ms) and 42.6× less GPU memory (113MB vs 4.8GB) at 4×4 patch size.",
+      "Benchmarked WiMamba vs. Transformer on AWS A10G GPUs, showing O(T) linear scaling with 10.7× lower latency (30ms vs 327ms) and 42.6× less GPU memory (113MB vs 4.8GB) at 4×4 patch size.",
       "Evaluated geographic OOD transfer (Florida → San Diego) across 5 tasks, achieving a 0.9626 composite score (+16.6% over baseline) and 7.4–7.7 dB lower NMSE on channel estimation and interpolation.",
       "Explored a Soft Unfreezing Parameter-Efficient Fine-Tuning strategy using PyTorch linear probing, freezing 75% of parameters while retaining 98.5% of full fine-tuning performance.",
     ],
@@ -98,7 +98,7 @@ export const PROJECTS: Project[] = [
       { value: "98.3%", label: "parity tracking solved" },
       { value: "≤56.3%", label: "real-transition / transformer baseline" },
       { value: "1K–32K", label: "sequence lengths benchmarked" },
-      { value: "6 GB", label: "RTX 4050, full test suite" },
+      { value: "6 GB", label: "single RTX 4050 laptop GPU for every run" },
     ],
     stack: ["Python", "PyTorch", "NumPy", "SciPy", "Hugging Face", "Matplotlib", "pytest"],
     repo: "https://github.com/vaibhav3000/s4-to-mamba",
@@ -114,17 +114,17 @@ export const PROJECTS: Project[] = [
     tagline:
       "A trace-based evaluation engine that turns LLM/RAG behavior into replayable evidence: deterministic metrics, a failure taxonomy, and direction-aware regression detection.",
     points: [
-      "Built replayable run storage, deterministic metrics (groundedness, citation coverage, retrieval recall/MRR), a failure taxonomy, and a direction-aware regression engine with per-case attribution.",
-      "Evaluated three RAG versions over a 26-case suite, flagging an intentional fluency-for-grounding regression (groundedness 0.57 → 0.00).",
-      "A live Gemini responder then fixed abstention (0.0 → 1.0) and grounding (1.0) at 15 s/case.",
+      "Built replayable run storage, deterministic metrics (groundedness, citation coverage, retrieval recall/MRR), a failure taxonomy, and a direction-aware regression engine with per-case attribution, plus an aire-gate CLI that fails CI on a regression.",
+      "Evaluated three RAG versions over a 26-case suite; the CI gate blocks an intentional fluency-for-grounding regression (groundedness 0.57 → 0.00) on every push.",
+      "Swapping in Gemini 2.5 Flash as the generator raised abstention 0.0 → 1.0 and groundedness 0.57 → 1.0, at a cost of 15 s/case and 7× tokens.",
     ],
     metrics: [
       { value: "26", label: "evaluation cases" },
       { value: "3", label: "RAG versions compared" },
-      { value: "0.57→0.00", label: "regression caught" },
-      { value: "15 s", label: "per case, live responder" },
+      { value: "0.57→0.00", label: "regression blocked in CI" },
+      { value: "15 s", label: "per case, live Gemini generator" },
     ],
-    stack: ["Python", "pytest", "HTML/CSS"],
+    stack: ["Python", "pytest", "GitHub Actions", "Gemini API", "HTML/CSS"],
     repo: "https://github.com/vaibhav3000/aire",
     demo: "https://vaibhav3000.github.io/aire/",
     report: "https://github.com/vaibhav3000/aire/blob/main/reports/AIRE_AI_Reliability_Evaluation_Engine.pdf",
@@ -140,12 +140,12 @@ export const PROJECTS: Project[] = [
     points: [
       "A deterministic state machine (PLAN → ACT → OBSERVE → VERIFY) wraps the planner, which only proposes actions.",
       "Seven validated tools with schema checks, a workspace path jail, AUTO/ASK/DENY permission policies and command allowlists.",
-      "Benchmark: 4/4 SWE tasks deterministically with zero failed tool calls; a live Gemini planner passes 2/2 on the same runtime.",
+      "Benchmark: 4/4 repo tasks (bug fix, test writing, refactor) deterministically with zero failed tool calls; a live Gemini planner passes 2/2 on the same runtime.",
     ],
     metrics: [
-      { value: "4/4", label: "SWE tasks, deterministic" },
+      { value: "4/4", label: "repo tasks, deterministic" },
       { value: "0", label: "failed tool calls" },
-      { value: "7", label: "validated tools" },
+      { value: "8/8", label: "adversarial tool calls rejected" },
       { value: "2/2", label: "live Gemini planner" },
     ],
     stack: ["Python", "pytest", "Git"],
@@ -160,7 +160,7 @@ export const SKILLS: { slug: string; name: string; items: string[] }[] = [
   {
     slug: "languages",
     name: "Languages",
-    items: ["Python", "C++", "Basic SQL"],
+    items: ["Python", "C++", "SQL", "Bash"],
   },
   {
     slug: "ai-ml",
@@ -190,7 +190,7 @@ export const SKILLS: { slug: string; name: string; items: string[] }[] = [
   {
     slug: "mlops-cloud",
     name: "MLOps & Cloud",
-    items: ["Docker", "AWS (EC2, S3)", "Linux", "Git/GitHub"],
+    items: ["Docker", "GitHub Actions (CI)", "Playwright (E2E)", "AWS (EC2, S3)", "Linux", "Git/GitHub"],
   },
   {
     slug: "core-concepts",
@@ -211,6 +211,7 @@ export const COURSES = [
   "Machine Learning",
   "Deep Learning",
   "NLP",
+  "Optimization",
 ];
 
 export const ORACLE = {
@@ -245,7 +246,7 @@ export const METRICS = [
     value: "42.6×",
     label: "less GPU memory",
     context:
-      "113 MB vs 4.8 GB for the same workload, the difference between one GPU and a small cluster for channel experiments.",
+      "113 MB vs 4.8 GB of GPU memory for the same workload at 4×4 patch size.",
   },
   {
     value: "0.9626",
@@ -257,7 +258,7 @@ export const METRICS = [
     value: "98.5%",
     label: "performance retained",
     context:
-      "Soft Unfreezing parameter-efficient fine-tuning with 75% of parameters frozen, matching full fine-tuning.",
+      "Soft Unfreezing parameter-efficient fine-tuning with 75% of parameters frozen, retaining 98.5% of full fine-tuning performance.",
   },
 ] as const;
 
@@ -274,14 +275,14 @@ export const RESEARCH: ResearchNote[] = [
   {
     id: "s4-mamba3",
     title: "S4 → Mamba-3, implemented from first principles",
-    line: "Minimal S4D, Mamba, Mamba-2 and Mamba-3 in pure PyTorch with a test-verified chunked SSD path: complex-valued transitions solve parity tracking at 98.3% where LTI S4D collapses to 6%.",
+    line: "Minimal S4D, Mamba, Mamba-2 and Mamba-3 in pure PyTorch with a test-verified chunked SSD path: complex-valued transitions solve parity tracking at 98.3% where real-transition SSMs and a Transformer stay at chance (≤56.3%).",
     meta: "Independent · s4-to-mamba",
     href: "https://github.com/vaibhav3000/s4-to-mamba",
   },
   {
     id: "evaluation-evidence",
     title: "Evaluation as replayable evidence",
-    line: "A trace-based engine for LLM/RAG reliability: deterministic metrics, a failure taxonomy, and direction-aware regression detection with per-case attribution.",
+    line: "A trace-based engine for LLM/RAG reliability: deterministic metrics, a failure taxonomy, and direction-aware regression detection with per-case attribution, enforced as a gate in CI.",
     meta: "Independent · AIRE",
     href: "https://github.com/vaibhav3000/aire",
   },
