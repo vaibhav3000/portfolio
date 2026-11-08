@@ -6,6 +6,7 @@ const FACTS = [
   { label: "Education", value: "IISc · B.Tech Mathematics and Computing" },
   { label: "Focus", value: "Sequence models · LLM evaluation · reliable agents" },
   { label: "Recently", value: "AI/ML Research Intern, Ericsson" },
+  { label: "Available", value: "2027 full-time roles & internships" },
 ];
 
 const INTERESTS = [
