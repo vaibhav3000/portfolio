@@ -30,7 +30,7 @@ export default function Hero() {
         <h1 className="mt-7 text-[clamp(3.2rem,9vw,8.2rem)] font-light leading-[0.93] tracking-[-0.035em] text-fog-hi">
           <span className="block" data-reveal>
             Vaibhav
-          </span>
+          </span>{" "}
           <span className="block" data-reveal style={{ "--rd": "120ms" } as React.CSSProperties}>
             Mahore
           </span>
@@ -94,6 +94,18 @@ export default function Hero() {
             </span>
           </a>
         </div>
+
+        <p
+          className="micro mt-8 flex items-center gap-3"
+          data-reveal
+          style={{ "--rd": "540ms" } as React.CSSProperties}
+        >
+          <span
+            className="inline-block h-1.5 w-1.5 rounded-full bg-acc motion-safe:animate-pulse"
+            aria-hidden="true"
+          />
+          Open to 2027 full-time roles &amp; internships
+        </p>
       </div>
 
       {/* bottom bar: scroll cue + registration coordinates */}
