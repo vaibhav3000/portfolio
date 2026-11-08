@@ -5,7 +5,9 @@ import CaseStudyPage from "@/components/CaseStudyPage";
 import RevealObserver from "@/components/RevealObserver";
 import { CASE_STUDIES } from "@/lib/caseStudies";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+// Production origin by default, so a build without NEXT_PUBLIC_SITE_URL still
+// emits correct canonical and Open Graph URLs (link previews on LinkedIn etc.).
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vaibhav3000.github.io";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function generateStaticParams() {
