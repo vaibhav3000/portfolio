@@ -26,10 +26,20 @@ is intentionally not used.
 
 ## Deployment (GitHub Pages)
 
-Branch-based: build the static export locally and push it to the `gh-pages`
-branch, which GitHub Pages serves (source: `gh-pages`, path `/`):
+Automatic: every push to `main` runs `.github/workflows/deploy.yml`, which
+builds the static export with the right site URL and base path, checks the
+output (no `localhost` URLs, résumé present) and publishes `out/` to the
+`gh-pages` branch that GitHub Pages serves (source: `gh-pages`, path `/`).
+Pull requests run the same build and checks without deploying.
 
-    NEXT_PUBLIC_BASE_PATH=/portfolio npm run build
+Manual fallback, if you ever need it:
+
+    # bash / Git Bash
+    NEXT_PUBLIC_SITE_URL=https://vaibhav3000.github.io NEXT_PUBLIC_BASE_PATH=/portfolio npm run build
+
+    # PowerShell
+    $env:NEXT_PUBLIC_SITE_URL="https://vaibhav3000.github.io"; $env:NEXT_PUBLIC_BASE_PATH="/portfolio"; npm run build
+
     # then push the contents of out/ to gh-pages (with .nojekyll)
 
 The deployed URL is controlled by two build-time env vars, set in the workflow:
@@ -45,17 +55,19 @@ After the is-a.dev DNS records exist and the PR on `is-a-dev/domains` merges:
 
 1. Set the repository variable `PAGES_CUSTOM_DOMAIN=vaibhav.is-a.dev`
    (Settings > Secrets and variables > Actions > Variables).
-2. Push (or re-run the workflow). The next build automatically targets
-   `https://vaibhav.is-a.dev` with no base path and updates canonical/OG URLs.
-3. Add the custom domain in Settings > Pages (GitHub saves it server-side for
-   Actions deployments; a `CNAME` artifact file is not required, but one is
-   kept ready in `deploy/CNAME` if you ever switch to branch-based deploys).
-4. Enable "Enforce HTTPS" once the certificate is issued.
+2. Push to `main` (or re-run the workflow). The build then targets
+   `https://vaibhav.is-a.dev` with no base path, updates canonical/OG URLs,
+   and the deploy writes the `CNAME` file to `gh-pages`.
+3. Confirm the domain in Settings > Pages and enable "Enforce HTTPS" once the
+   certificate is issued.
 
 ## Notes
 
-- `public/resume.pdf` is the downloadable résumé linked from the nav and
+- `public/resume.pdf` is the downloadable résumé linked from the hero, nav and
   contact sections. Links to it are relative, so they work both under
-  `github.io/<repo>/` and at a custom-domain root.
+  `github.io/<repo>/` and at a custom-domain root. To update it, upload the new
+  PDF as `public/resume.pdf` (on GitHub: Add file > Upload files) and the
+  deploy workflow republishes the site.
 - Set `NEXT_PUBLIC_SITE_URL` locally (optional) to preview SEO tags against a
-  real origin; it defaults to `http://localhost:3000`.
+  real origin; it defaults to `https://vaibhav3000.github.io`, so a build
+  without it still emits correct canonical and Open Graph URLs.
