@@ -343,9 +343,9 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
             </Prose>
           </Section>
 
-          {/* Interview TL;DR */}
+          {/* Summary */}
           <section className="mt-16 md:mt-20">
-            <SectionHead index="11" label="Interview TL;DR" />
+            <SectionHead index="11" label="Summary" />
             <div
               data-reveal
               className="mt-6 rounded-2xl border border-line bg-ink-900/40 p-6 md:p-9"
@@ -367,7 +367,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
                 ))}
               </dl>
               <div className="mt-8 border-t border-line pt-7">
-                <p className="micro">Likely questions</p>
+                <p className="micro">Common questions</p>
                 <ol className="mt-5 space-y-6">
                   {study.interview.questions.map((qa, i) => (
                     <li key={i}>
