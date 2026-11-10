@@ -6,7 +6,7 @@ export default function Projects() {
   return (
     <Section
       id="projects"
-      index="04"
+      index="03"
       label="Selected work"
       title={
         <>
