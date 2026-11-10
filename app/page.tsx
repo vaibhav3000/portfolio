@@ -44,17 +44,17 @@ export default function Home() {
       <main>
         <Hero />
         <Intro />
+        <Experience />
+        <Projects />
         <Section
           id="lab"
-          index="02"
+          index="04"
           label="Interactive lab"
           title="Watch the systems run."
-          lede="Play, step, and reset each one - teaching schematics on top, measured numbers underneath."
+          lede="Play, step and reset each project: a teaching schematic on top, the measured numbers underneath."
         >
           <InteractiveLab />
         </Section>
-        <Experience />
-        <Projects />
         <Research />
         <Skills />
         <Education />
