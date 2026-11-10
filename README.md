@@ -30,7 +30,9 @@ Automatic: every push to `main` runs `.github/workflows/deploy.yml`, which
 builds the static export with the right site URL and base path, checks the
 output (no `localhost` URLs, résumé present) and publishes `out/` to the
 `gh-pages` branch that GitHub Pages serves (source: `gh-pages`, path `/`).
-Pull requests run the same build and checks without deploying.
+Pull requests run the same build and checks, then publish a preview to
+`https://vaibhav3000.github.io/portfolio/preview/` (hidden from search
+engines); the next deploy from `main` removes it.
 
 Manual fallback, if you ever need it:
 
