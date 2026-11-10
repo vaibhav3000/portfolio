@@ -77,7 +77,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--acc);
+  outline: 2px solid rgb(var(--acc));
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -122,7 +122,7 @@ body {
   }
 
   .btn-ghost {
-    @apply inline-flex items-center gap-2.5 rounded-full border border-black/25 bg-transparent px-6 py-3 text-sm text-fog-hi transition-all duration-200 hover:border-acc/70 hover:text-black;
+    @apply inline-flex items-center gap-2.5 rounded-full border border-fog-hi/25 bg-transparent px-6 py-3 text-sm text-fog-hi transition-all duration-200 hover:border-acc/70 hover:text-acc;
   }
 
   /* Quiet text link with sliding underline (Lusion-style CTA voice) */

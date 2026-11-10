@@ -18,6 +18,8 @@ const mono = JetBrains_Mono({
 // emits correct canonical and Open Graph URLs (link previews on LinkedIn etc.).
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vaibhav3000.github.io";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+// Pull-request previews are built with NEXT_PUBLIC_NOINDEX=1 so search engines skip them.
+const noindex = process.env.NEXT_PUBLIC_NOINDEX === "1";
 
 const title = "Vaibhav Mahore - AI/ML Engineer";
 const description =
@@ -39,6 +41,7 @@ export const metadata: Metadata = {
     "IISc Bangalore",
   ],
   alternates: { canonical: new URL(`${basePath}/`, siteUrl).toString() },
+  ...(noindex ? { robots: { index: false, follow: false } } : {}),
   openGraph: {
     title,
     description,

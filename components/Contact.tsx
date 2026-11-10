@@ -27,20 +27,37 @@ export default function Contact() {
             data-reveal
             style={{ "--rd": "100ms" } as React.CSSProperties}
           >
-            Let&apos;s build something intelligent.
+            Hiring for 2027? Let&apos;s talk.
           </h2>
 
-          <a
-            href={`mailto:${SITE.email}`}
-            className="link-quiet mt-10 w-fit text-xl text-fog-hi md:text-2xl"
+          <p
+            className="mt-8 max-w-2xl text-base leading-relaxed text-fog-mid md:text-lg"
             data-reveal
-            style={{ "--rd": "200ms" } as React.CSSProperties}
+            style={{ "--rd": "160ms" } as React.CSSProperties}
           >
-            {SITE.email}
-            <span aria-hidden="true" className="text-base">
-              ↗
-            </span>
-          </a>
+            I&apos;m open to full-time roles and internships in AI/ML
+            engineering, applied AI and AI automation. Email is the fastest
+            way to reach me.
+          </p>
+
+          <div
+            className="mt-10 flex flex-wrap items-center gap-4"
+            data-reveal
+            style={{ "--rd": "220ms" } as React.CSSProperties}
+          >
+            <a href={`mailto:${SITE.email}`} className="btn-primary" data-magnetic>
+              Email {SITE.email}
+            </a>
+            <a
+              href={SITE.links.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost"
+              data-magnetic
+            >
+              Résumé (PDF)
+            </a>
+          </div>
 
           <div
             className="mt-14 flex flex-wrap items-center gap-x-9 gap-y-4 border-t border-line pt-9"
@@ -65,17 +82,6 @@ export default function Contact() {
               className="link-quiet"
             >
               LinkedIn
-              <span aria-hidden="true" className="text-[11px]">
-                ↗
-              </span>
-            </a>
-            <a
-              href={SITE.links.resume}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-quiet"
-            >
-              Resume
               <span aria-hidden="true" className="text-[11px]">
                 ↗
               </span>
