@@ -34,7 +34,7 @@ export default function Experience() {
   return (
     <Section
       id="experience"
-      index="03"
+      index="02"
       label="Experience"
       title="Three roles, one practice: make the claim measurable."
     >
