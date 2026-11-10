@@ -59,7 +59,7 @@ export default function Section({
           ) : (
             <h2
               data-reveal
-              className="mt-10 max-w-3xl text-balance text-4xl font-medium tracking-[-0.03em] text-fog-hi md:text-[3.4rem] md:leading-[1.05]"
+              className="mt-10 max-w-3xl text-balance text-[1.85rem] font-medium leading-[1.15] tracking-[-0.03em] text-fog-hi sm:text-4xl md:text-[3.4rem] md:leading-[1.05]"
             >
               {title}
             </h2>
