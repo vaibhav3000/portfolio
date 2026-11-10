@@ -20,7 +20,7 @@ export default function Education() {
             Indian Institute of Science, Bangalore
           </h3>
           <p className="mt-2 text-sm text-fog-mid">
-            B.Tech in Mathematics and Computing · Aug 2023 - Present
+            B.Tech in Mathematics and Computing · Aug 2023 - Jul 2027 (expected)
           </p>
           <div className="mt-7 border-t border-line pt-6">
             <p className="micro">Relevant coursework</p>
@@ -38,34 +38,39 @@ export default function Education() {
           </p>
         </div>
 
-        {/* Certifications */}
+        {/* Achievements and certifications */}
         <div
           data-reveal
           style={{ "--rd": "100ms" } as React.CSSProperties}
           className="rounded-2xl border border-line bg-ink-900/40 p-7 md:p-9"
         >
-          <p className="micro">Certifications</p>
+          <p className="micro">Achievements and certifications</p>
           <h3 className="mt-5 text-2xl font-light tracking-[-0.01em] text-fog-hi">
-            Oracle Professional
+            Amazon ML Challenge 2026
           </h3>
-          <p className="mt-2 text-sm text-fog-mid">August 2025</p>
-          <ul className="mt-7 space-y-3">
-            {[ORACLE.genai, ORACLE.dataScience].map((c) => (
-              <li key={c.name}>
-                <a
-                  href={c.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-4 rounded-xl border border-line px-4 py-3.5 transition-colors duration-200 hover:border-acc/40"
-                >
-                  <span className="text-sm text-fog-hi">{c.name}</span>
-                  <span className="text-xs text-fog-low transition-colors group-hover:text-acc">
-                    badge ↗
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-2 text-sm text-fog-mid">
+            Top 100 national finalist; led Team AutoML.
+          </p>
+          <div className="mt-7 border-t border-line pt-6">
+            <p className="micro">Oracle Cloud Infrastructure, August 2025</p>
+            <ul className="mt-4 space-y-3">
+              {[ORACLE.genai, ORACLE.dataScience].map((c) => (
+                <li key={c.name}>
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between gap-4 rounded-xl border border-line px-4 py-3.5 transition-colors duration-200 hover:border-acc/40"
+                  >
+                    <span className="text-sm text-fog-hi">{c.name}</span>
+                    <span className="text-xs text-fog-low transition-colors group-hover:text-acc">
+                      Verify badge ↗
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         {/* Leadership */}
