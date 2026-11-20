@@ -44,8 +44,8 @@ Manual fallback, if you ever need it:
 
 The deployed URL is controlled by two build-time env vars, set in the workflow:
 
-- `NEXT_PUBLIC_SITE_URL` — canonical/OG origin (single source of truth for SEO)
-- `NEXT_PUBLIC_BASE_PATH` — path prefix. Required (e.g. `/portfolio`) while the
+- `NEXT_PUBLIC_SITE_URL`: canonical/OG origin (single source of truth for SEO)
+- `NEXT_PUBLIC_BASE_PATH`: path prefix. Required (e.g. `/portfolio`) while the
   site is served from `https://<user>.github.io/portfolio/`; must be empty once
   a custom domain is connected.
 
