@@ -163,7 +163,7 @@ export default function LabMamba() {
             float64
           </text>
           <text x="320" y="201" textAnchor="middle" className="f-low" fontSize="9.5" fontFamily="var(--font-mono)">
-            583 tests · chunk sizes 1 to 64 · gradcheck
+            585 tests · chunk sizes 1 to 64 · gradcheck
           </text>
         </g>
 

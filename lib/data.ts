@@ -90,7 +90,7 @@ export const PROJECTS: Project[] = [
     tagline:
       "S4D, Mamba-1/2/3 and a RoPE Transformer implemented in pure PyTorch from first principles, checked against float64 references, and measured over three to five seeds at matched parameter counts.",
     points: [
-      "Implemented S4D, Mamba-1/2/3 (including a chunked parallel Mamba-3 scan) and a RoPE Transformer in pure PyTorch, verified against float64 references and gradcheck, which caught two real math bugs in the first version; 583 tests.",
+      "Implemented S4D, Mamba-1/2/3 (including a chunked parallel Mamba-3 scan) and a RoPE Transformer in pure PyTorch, verified against float64 references and gradcheck, which caught two real math bugs in the first version; 585 tests.",
       "Parity over 5 seeds at matched ~100K parameters: Mamba-3 reaches 89% and 99% on 2 of 5 seeds (mean 72.6 ± 20.5%), while every rotation-free model, including a Mamba-3 ablation, stays near chance (means ≤57.3%); 104 GPU runs in total.",
       "Decoding from 1K to 32K tokens on a 6 GB RTX 4050 with pinned SDPA kernels: the SSMs keep a 0.14 to 0.39 MiB state, against a 128 MiB fp32 KV cache at 32K.",
     ],
@@ -98,7 +98,7 @@ export const PROJECTS: Project[] = [
       { value: "89% / 99%", label: "parity on 2 of 5 Mamba-3 seeds (mean 72.6 ± 20.5%)" },
       { value: "≤57.3%", label: "parity mean of every rotation-free model (chance 50%)" },
       { value: "0.39 MiB", label: "largest SSM decode state at 32K (KV cache: 128 MiB)" },
-      { value: "583", label: "tests, float64 references and gradcheck" },
+      { value: "585", label: "tests, float64 references and gradcheck" },
     ],
     stack: ["Python", "PyTorch", "NumPy", "SciPy", "Hugging Face Datasets", "Matplotlib", "pytest", "uv"],
     repo: "https://github.com/vaibhav3000/s4-to-mamba",
@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
     tagline:
       "A trace-based evaluation engine that turns LLM/RAG behavior into replayable evidence: deterministic metrics, a failure taxonomy, and a statistical regression gate that runs in CI.",
     points: [
-      "Built a trace-based LLM/RAG evaluation engine with a statistical CI gate (paired bootstrap and McNemar tests, 95% CIs) over a 150-case suite: groundedness, citation precision and recall, Recall@K, MRR and abstention; 340 tests.",
+      "Built a trace-based LLM/RAG evaluation engine with a statistical CI gate (paired bootstrap and McNemar tests, 95% CIs) over a 150-case suite: groundedness, citation precision and recall, Recall@K, MRR and abstention; 361 tests.",
       "Async runner with an AIMD rate limiter, jittered retries and an exact-request cache: 5.4× throughput over sequential with 0 failed cases against a rate-limited test server.",
       "The gate blocks a seeded citation-stripping regression (groundedness 1.0 → 0.0) and passes a retrieval change (Recall@3 0.72 → 0.86, p < 0.001); Gemini, OpenAI and Anthropic adapters, agent-trajectory metrics and OpenTelemetry traces.",
     ],
@@ -140,13 +140,13 @@ export const PROJECTS: Project[] = [
     points: [
       "A 9-state machine validates, permission-gates (AUTO/ASK/DENY) and path-jails every tool call the model proposes, natively or over MCP, and finishes only when restored, protected tests pass.",
       "Docker sandbox for every test run (no network, read-only, dropped capabilities, resource limits): 0 breaches in a 49-attack adversarial suite, with 1 documented residual.",
-      "12/12 multi-file tasks pass in scripted mode under both sandboxes with byte-identical results, which validates the runtime rather than a model's problem solving; 374 tests.",
+      "12/12 multi-file tasks pass in scripted mode under both sandboxes with byte-identical results, which validates the runtime rather than a model's problem solving; 378 tests.",
     ],
     metrics: [
       { value: "0", label: "breaches in 49 attacks on the Docker sandbox" },
       { value: "12/12", label: "multi-file tasks, scripted, both sandboxes" },
       { value: "10", label: "built-in tools behind schema, policy and jail" },
-      { value: "374", label: "tests, plus jail suites that must reproduce" },
+      { value: "378", label: "tests, plus jail suites that must reproduce" },
     ],
     stack: ["Python", "Docker", "MCP", "pytest", "uv"],
     repo: "https://github.com/vaibhav3000/repo-engineer",
