@@ -70,15 +70,27 @@ function Prose({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Figure({ src, caption, priority }: { src: string; caption: string; priority?: boolean }) {
+function Figure({
+  src,
+  caption,
+  width = 1100,
+  height = 620,
+  priority,
+}: {
+  src: string;
+  caption: string;
+  width?: number;
+  height?: number;
+  priority?: boolean;
+}) {
   return (
     <figure data-reveal className="mt-10">
-      <div className="overflow-hidden rounded-2xl border border-line bg-white">
+      <div className="mx-auto overflow-hidden rounded-2xl border border-line bg-white" style={{ maxWidth: width }}>
         <Image
           src={BP + src}
           alt={caption}
-          width={1100}
-          height={620}
+          width={width}
+          height={height}
           priority={priority}
           sizes="(max-width: 767px) 100vw, 780px"
           className="h-auto w-full"
@@ -215,7 +227,12 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
               ))}
             </dl>
             {study.archFigure && (
-              <Figure src={study.archFigure.src} caption={study.archFigure.caption} />
+              <Figure
+                src={study.archFigure.src}
+                caption={study.archFigure.caption}
+                width={study.archFigure.width}
+                height={study.archFigure.height}
+              />
             )}
           </Section>
 
@@ -256,7 +273,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
             </dl>
 
             {study.figures.map((f, i) => (
-              <Figure key={f.src} src={f.src} caption={f.caption} priority={i === 0} />
+              <Figure key={f.src} src={f.src} caption={f.caption} width={f.width} height={f.height} priority={i === 0} />
             ))}
 
             {study.results.rows.length > 0 && (
