@@ -34,7 +34,7 @@ export default function LabAgent() {
     { t: "PLAN", d: "The planner proposes a native tool call - a suggestion. It never executes anything itself.", node: "PLAN" },
     { t: "VALIDATE", d: "GATE 1 - ToolSpec.validate: schema checked. Malformed calls return as rejected observations; the loop never crashes.", node: "PLAN" },
     { t: "JAIL", d: "GATE 2 - workspace path jail: the resolved path must sit inside the workspace. ../ and drive letters are rejected.", node: "PLAN" },
-    { t: "ACT", d: "The runtime executes the validated tool - read, search, apply_patch, git_diff, or run_tests, which runs pytest in a fresh no-network Docker container.", node: "ACT" },
+    { t: "ACT", d: "The runtime executes the validated tool - read, search, apply_patch, git_diff, or run_tests, which runs pytest inside the sandbox (a fresh no-network container under Docker).", node: "ACT" },
     { t: "OBSERVE", d: "The result returns as an observation, with secrets and host paths redacted, and enters the agent's history as data, never as instructions.", node: "OBSERVE" },
     { t: "VERIFY", d: "Protected test files are restored and the suite re-runs. Completion is decided by the structured exit code - not by output text or the model's confidence.", node: "VERIFY" },
     { t: "REPLAN", d: "First attempt failed on the benchmark's tax task: the machine transitions to REPLAN and the planner retries once.", node: "PLAN" },

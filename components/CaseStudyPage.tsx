@@ -103,6 +103,18 @@ function Figure({
   );
 }
 
+/** A results cell; "mean [low, high]" puts the interval on its own line so it never splits. */
+function ResultValue({ value }: { value: string }) {
+  const match = /^(\S+) (\[[^\]]+\])$/.exec(value);
+  if (!match) return <>{value}</>;
+  return (
+    <>
+      <span className="whitespace-nowrap">{match[1]}</span>
+      <span className="block whitespace-nowrap text-[11.5px] text-fog-low">{match[2]}</span>
+    </>
+  );
+}
+
 export default function CaseStudyPage({ study }: { study: CaseStudy }) {
   const idx = CASE_STUDIES.findIndex((c) => c.slug === study.slug);
   const prev = CASE_STUDIES[(idx + CASE_STUDIES.length - 1) % CASE_STUDIES.length];
@@ -291,12 +303,12 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
                   <tbody>
                     {study.results.rows.map((r) => (
                       <tr key={r.label} className="border-b border-line">
-                        <th scope="row" className="py-3.5 pr-6 text-[13.5px] font-normal text-fog-hi">
+                        <th scope="row" className="py-3.5 pr-6 align-top text-[13.5px] font-normal text-fog-hi">
                           {r.label}
                         </th>
                         {r.values.map((v, i) => (
-                          <td key={i} className="py-3.5 pr-6 text-[13.5px] text-fog-mid tabular-nums">
-                            {v}
+                          <td key={i} className="py-3.5 pr-6 align-top text-[13.5px] text-fog-mid tabular-nums">
+                            <ResultValue value={v} />
                           </td>
                         ))}
                       </tr>
