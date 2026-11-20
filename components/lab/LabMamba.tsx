@@ -8,9 +8,17 @@ const BP = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /**
  * Project 01 explainer: tokens -> recurrent state -> selectivity -> chunked
- * SSD -> equivalence testing -> the real efficiency + parity figures.
- * Selective tokens are clickable at step 3.
+ * SSD -> equivalence testing -> measured decode state + the multi-seed
+ * parity figure. Selective tokens are clickable at step 3.
  */
+
+/** Decode state after a 32K prompt, fp32 (results/inference/decode_fp32.json). */
+const DECODE_STATE: [string, string][] = [
+  ["128.25 MiB", "Transformer KV cache (64.12 MiB in bf16), growing with the prompt"],
+  ["0.39 MiB", "Mamba-3 recurrent state, fixed size"],
+  ["0.25 MiB", "S4D recurrent state, fixed size"],
+  ["0.14 MiB", "Mamba-2 recurrent state, fixed size"],
+];
 
 const TOKENS = 12;
 const TX = (i: number) => 22 + i * 51;
@@ -35,10 +43,10 @@ export default function LabMamba() {
     { t: "Recurrent state", d: "The SSM core: a fixed-size state flows along the sequence, one update per token - O(T) operations, O(1) state per step." },
     { t: "Selective update", d: "Mamba makes Δ, B, C input-dependent: highlighted tokens reshape the state update. Click a highlighted token to inspect it." },
     { t: "Chunked SSD", d: "Mamba-2 rewrites the recurrence as chunked block-matmuls with a carried state - T/64 chunks instead of a T-step loop." },
-    { t: "Equivalence proof", d: "The claim that matters: chunked scan equals the sequential loop. A test asserts both forms agree at atol/rtol 1e-3, for aligned and misaligned chunks." },
-    { t: "Efficiency sweep", d: "The real benchmark on the 6 GB RTX 4050: attention's training step reaches 186 s at 32K while SSM forms hold - until memory runs out." },
-    { t: "Capability result", d: "Only complex-valued transitions clear chance on cumulative-XOR parity. LTI S4D collapses to 6% on selective copying." },
-    { t: "What it means", d: "Architecture generation, task formulation and wall-clock cost are three different axes - the study measures all three honestly." },
+    { t: "Equivalence proof", d: "The claim that matters: the chunked scan equals the sequential recurrence. Tests check values, final state and gradients in float64 for chunk sizes 1 to 64, plus gradcheck." },
+    { t: "Decode state", d: "Measured on the 6 GB RTX 4050 from 1K to 32K tokens: the SSM decode state stays fixed while the Transformer's KV cache grows with the prompt." },
+    { t: "Capability result", d: "Only Mamba-3's complex rotation clears chance on parity, and only on 2 of 5 seeds. With the rotation removed it falls to 55.4%." },
+    { t: "What it means", d: "Correctness, capability and systems cost are separate axes, and the study reports each with its seeds and its limits." },
   ];
 
   return (
@@ -152,10 +160,10 @@ export default function LabMamba() {
             ≡
           </text>
           <text x="320" y="160" textAnchor="middle" className="f-ok" fontSize="9" fontFamily="var(--font-mono)">
-            atol 1e-3
+            float64
           </text>
           <text x="320" y="201" textAnchor="middle" className="f-low" fontSize="9.5" fontFamily="var(--font-mono)">
-            22-test suite · aligned + misaligned chunks
+            583 tests · chunk sizes 1 to 64 · gradcheck
           </text>
         </g>
 
@@ -178,42 +186,59 @@ export default function LabMamba() {
 
       <div className="mt-3">
         {lab.step === 5 && (
-          <div className="mb-2 flex items-center gap-3">
+          <div className="mb-2 flex flex-wrap items-center gap-3">
             <MeasuredBadge />
-            <span className="text-xs text-fog-low">results/efficiency_gpu.json · CUDA events · 5 repeats · batch 8</span>
+            <span className="text-xs text-fog-low">results/inference/decode_fp32.json · batch 1 · 64 new tokens · prompt 32K</span>
           </div>
         )}
         {lab.step === 5 && (
           <div style={{ animation: "ddfade .6s" }}>
-            <div className="mx-auto max-w-[680px] overflow-hidden rounded-xl border border-line bg-white">
-              <Image src={BP + "/projects/s4-to-mamba/efficiency.png"} alt="Measured training-step latency and peak memory versus sequence length for all five architectures" width={1100} height={560} className="h-auto w-full" />
-            </div>
-          </div>
-        )}
-        {lab.step === 6 && (
-          <div style={{ animation: "ddfade .6s" }} className="grid gap-4 sm:grid-cols-[260px_1fr] sm:items-center">
-            <div className="overflow-hidden rounded-xl border border-line bg-white">
-              <Image src={BP + "/projects/s4-to-mamba/parity.png"} alt="Parity accuracy: only the complex-transition model clears chance" width={520} height={330} className="h-auto w-full" />
-            </div>
             <dl className="space-y-2.5">
-              {[
-                ["0.983", "parity, Mamba-3 - baselines at chance"],
-                ["67% / 6.4%", "selective copying: Mamba-2 vs LTI S4D"],
-              ].map(([v, l]) => (
+              {DECODE_STATE.map(([v, l]) => (
                 <div key={l} className="flex items-baseline gap-4 border-b border-line pb-2">
-                  <dt className="w-24 shrink-0 text-base font-light text-fog-hi tabular-nums">{v}</dt>
+                  <dt className="w-28 shrink-0 text-base font-light text-fog-hi tabular-nums">{v}</dt>
                   <dd className="text-[13px] leading-snug text-fog-mid">{l}</dd>
                 </div>
               ))}
             </dl>
+            <p className="mt-2 text-[11px] leading-snug text-fog-low">
+              Width 256, two layers. Parameter counts differ between these models, so the sizes are not a
+              like-for-like ratio; the point is fixed state against linear growth.
+            </p>
+          </div>
+        )}
+        {lab.step === 6 && (
+          <div style={{ animation: "ddfade .6s" }}>
+            <div className="mb-2 flex flex-wrap items-center gap-3">
+              <MeasuredBadge />
+              <span className="text-xs text-fog-low">results/train/parity · 5 seeds · ~100K parameters each</span>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-[260px_1fr] sm:items-center">
+              <div className="overflow-hidden rounded-xl border border-line bg-white">
+                <Image src={BP + "/projects/s4-to-mamba/parity.png"} alt="Parity accuracy by test length over 5 seeds: Mamba-3 has the highest mean with a wide spread, every other model stays near chance" width={737} height={583} className="h-auto w-full" />
+              </div>
+              <dl className="space-y-2.5">
+                {[
+                  ["89% / 99%", "parity on 2 of 5 Mamba-3 seeds; mean 72.6 ± 20.5%"],
+                  ["≤57.3%", "every rotation-free model, Mamba-3 ablation included"],
+                  ["50%", "chance; no model extrapolates to longer sequences"],
+                ].map(([v, l]) => (
+                  <div key={l} className="flex items-baseline gap-4 border-b border-line pb-2">
+                    <dt className="w-24 shrink-0 text-base font-light text-fog-hi tabular-nums">{v}</dt>
+                    <dd className="text-[13px] leading-snug text-fog-mid">{l}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </div>
         )}
         {lab.step === 7 && (
           <div style={{ animation: "ddfade .6s" }} className="rounded-xl border border-line bg-ink-900/40 p-4">
             <p className="text-[13px] leading-relaxed text-fog-mid">
-              <span className="text-fog-hi">Honest accounting:</span> single seed on one laptop GPU, no fused
-              kernels, full S4 not implemented - all documented in the README. The wall-clock overhead of the
-              Python-loop scans is itself a finding, not an excuse.
+              <span className="text-fog-hi">Honest accounting:</span> 104 GPU runs, three seeds per task and
+              five for parity, reported as mean ± std. Only 2 of 5 Mamba-3 seeds learn parity, the benchmark
+              sweeps are not parameter-matched, there are no fused kernels, and full S4 is not implemented. All
+              of it is documented in the README.
             </p>
           </div>
         )}

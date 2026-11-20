@@ -31,15 +31,15 @@ export default function LabAgent() {
 
   const steps = [
     { t: "ANALYZE", d: "The runtime inventories the target repo - file tree, tests, entry points - fully inside the workspace jail. The planner sees only the summary.", node: "ANALYZE" },
-    { t: "PLAN", d: "The LLM planner proposes exactly one tool call - a suggestion. It never executes anything itself.", node: "PLAN" },
+    { t: "PLAN", d: "The planner proposes a native tool call - a suggestion. It never executes anything itself.", node: "PLAN" },
     { t: "VALIDATE", d: "GATE 1 - ToolSpec.validate: schema checked. Malformed calls return as rejected observations; the loop never crashes.", node: "PLAN" },
     { t: "JAIL", d: "GATE 2 - workspace path jail: the resolved path must sit inside the workspace. ../ and drive letters are rejected.", node: "PLAN" },
-    { t: "ACT", d: "The runtime executes the validated tool - read, search, apply_edit, git_diff, or the allowlisted test command.", node: "ACT" },
-    { t: "OBSERVE", d: "The result returns as an observation and enters the agent's history as data, never as instructions.", node: "OBSERVE" },
-    { t: "VERIFY", d: "The full test suite re-runs. Completion is decided by the exit code - not by the model's confidence.", node: "VERIFY" },
+    { t: "ACT", d: "The runtime executes the validated tool - read, search, apply_patch, git_diff, or run_tests, which runs pytest in a fresh no-network Docker container.", node: "ACT" },
+    { t: "OBSERVE", d: "The result returns as an observation, with secrets and host paths redacted, and enters the agent's history as data, never as instructions.", node: "OBSERVE" },
+    { t: "VERIFY", d: "Protected test files are restored and the suite re-runs. Completion is decided by the structured exit code - not by output text or the model's confidence.", node: "VERIFY" },
     { t: "REPLAN", d: "First attempt failed on the benchmark's tax task: the machine transitions to REPLAN and the planner retries once.", node: "PLAN" },
     { t: "VERIFY again", d: "Second pass runs the suite fresh - no cached results, no trust carried over from the failed attempt.", node: "VERIFY" },
-    { t: "COMPLETE", d: "Green tests open COMPLETE - reachable only from VERIFY. Benchmark: 4/4 tasks, 0 failed tool calls; live Gemini 2/2.", node: "COMPLETE" },
+    { t: "COMPLETE", d: "Green tests open COMPLETE - reachable only from VERIFY. Scripted benchmark: 12/12 tasks, 3 replans, 0 failed tool calls; Docker jail suite: 0 breaches in 49 attacks.", node: "COMPLETE" },
   ];
   const cur = steps[step];
 
@@ -198,7 +198,7 @@ export default function LabAgent() {
             />
           ))}
           <text x={CN.VERIFY[0] + NW / 2} y={CN.VERIFY[1] + 64} textAnchor="middle" className={step >= 8 ? "f-ok" : "f-low"} fontSize="9" fontFamily="var(--font-mono)">
-            {step >= 8 ? "12 passed · exit 0" : "running…"}
+            {step >= 8 ? "passed · exit 0" : "running…"}
           </text>
         </g>
       </svg>
@@ -206,16 +206,16 @@ export default function LabAgent() {
       <div className="mt-3">
         {step === 9 && (
           <div className="mb-3" style={{ animation: "ddfade .6s" }}>
-            <div className="mb-2 flex items-center gap-3">
+            <div className="mb-2 flex flex-wrap items-center gap-3">
               <MeasuredBadge />
-              <span className="text-xs text-fog-low">results/benchmark_results.json · llm_benchmark_results.json</span>
+              <span className="min-w-0 text-xs text-fog-low [overflow-wrap:anywhere]">results/benchmark_results.json · jail_attack_evidence_docker.json</span>
             </div>
             <dl className="grid grid-cols-2 gap-x-6 gap-y-2 md:grid-cols-4">
               {[
-                ["4/4", "SWE tasks, deterministic"],
+                ["12/12", "multi-file tasks, scripted"],
                 ["0", "failed tool calls"],
-                ["2/2", "live Gemini tasks"],
-                ["1", "measured replan (task 02)"],
+                ["3", "measured replans (tasks 02, 05, 10)"],
+                ["0", "breaches in 49 Docker attacks"],
               ].map(([v, l]) => (
                 <div key={l}>
                   <dd className="text-lg font-light tracking-tight text-fog-hi tabular-nums">{v}</dd>
