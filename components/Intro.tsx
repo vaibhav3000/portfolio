@@ -36,7 +36,7 @@ export default function Intro() {
             I&apos;m {SITE.name.split(" ")[0]}, an AI/ML engineer and B.Tech
             student in Mathematics and Computing at the Indian Institute of
             Science. Recent work spans benchmarking state-space models against
-            Transformers at Ericsson, reproducing Mamba-3&apos;s capability
+            Transformers at Ericsson, testing Mamba-3&apos;s capability
             claims in pure PyTorch, and building a reliability engine for
             LLM/RAG systems.
           </p>
