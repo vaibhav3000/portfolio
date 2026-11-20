@@ -138,12 +138,12 @@ export const PROJECTS: Project[] = [
     tagline:
       "A verified tool-using coding agent: the model only proposes tool calls, a deterministic state machine decides, and completion requires green test evidence, never model claims.",
     points: [
-      "A 9-state machine validates, permission-gates (AUTO/ASK/DENY) and path-jails every tool call the model proposes, natively or over MCP, and finishes only when restored, protected tests pass.",
-      "Docker sandbox for every test run (no network, read-only, dropped capabilities, resource limits): 0 breaches in a 49-attack adversarial suite, with 1 documented residual.",
+      "A 9-state machine validates and permission-gates (AUTO/ASK/DENY) every tool call the model proposes, natively or over MCP, jails every path argument to the workspace, and accepts a task only when a re-run of the restored, protected tests exits 0.",
+      "Docker sandbox for every test run (no network, read-only, dropped capabilities, resource limits): 0 breaches in a 49-attack adversarial suite; the 1 documented residual is code under test forging a passing test report.",
       "12/12 multi-file tasks pass in scripted mode under both sandboxes with byte-identical results, which validates the runtime rather than a model's problem solving; 378 tests.",
     ],
     metrics: [
-      { value: "0", label: "breaches in 49 attacks on the Docker sandbox" },
+      { value: "0", label: "breaches in 49 Docker attacks; 1 residual, a forged test report" },
       { value: "12/12", label: "multi-file tasks, scripted, both sandboxes" },
       { value: "10", label: "built-in tools behind schema, policy and jail" },
       { value: "378", label: "tests, plus jail suites that must reproduce" },

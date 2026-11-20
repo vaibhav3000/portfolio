@@ -39,7 +39,7 @@ export default function LabAgent() {
     { t: "VERIFY", d: "Protected test files are restored and the suite re-runs. Completion is decided by the structured exit code - not by output text or the model's confidence.", node: "VERIFY" },
     { t: "REPLAN", d: "First attempt failed on the benchmark's tax task: the machine transitions to REPLAN and the planner retries once.", node: "PLAN" },
     { t: "VERIFY again", d: "Second pass runs the suite fresh - no cached results, no trust carried over from the failed attempt.", node: "VERIFY" },
-    { t: "COMPLETE", d: "Green tests open COMPLETE - reachable only from VERIFY. Scripted benchmark: 12/12 tasks, 3 replans, 0 failed tool calls; Docker jail suite: 0 breaches in 49 attacks.", node: "COMPLETE" },
+    { t: "COMPLETE", d: "Green tests open COMPLETE - reachable only from VERIFY. Scripted benchmark: 12/12 tasks, 3 replans, 0 failed tool calls; Docker jail suite: 0 breaches in 49 attacks, 1 documented residual (a forged test report).", node: "COMPLETE" },
   ];
   const cur = steps[step];
 
@@ -215,7 +215,7 @@ export default function LabAgent() {
                 ["12/12", "multi-file tasks, scripted"],
                 ["0", "failed tool calls"],
                 ["3", "measured replans (tasks 02, 05, 10)"],
-                ["0", "breaches in 49 Docker attacks"],
+                ["0", "breaches in 49 Docker attacks; 1 residual, a forged report"],
               ].map(([v, l]) => (
                 <div key={l}>
                   <dd className="text-lg font-light tracking-tight text-fog-hi tabular-nums">{v}</dd>

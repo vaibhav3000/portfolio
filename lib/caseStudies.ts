@@ -287,7 +287,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     repo: "https://github.com/vaibhav3000/repo-engineer",
     stack: ["Python", "Docker", "MCP", "pytest", "uv"],
     overview: [
-      "repo-engineer is a coding agent whose model only proposes. Every tool call, from the native tool-calling planner or an MCP client, is validated, permission-checked and confined to the workspace before it runs; tests run in a sandbox; and a task is complete only when the runtime's own verification passes.",
+      "repo-engineer is a coding agent whose model only proposes. Every tool call, from the native tool-calling planner or an MCP client, is validated and permission-checked before it runs, and every path argument is confined to the workspace; tests run in a sandbox; and a task is accepted only when a re-run of the restored, protected tests exits 0.",
       "The project treats agent reliability and safety as runtime engineering rather than prompting: malformed calls, shell access, workspace escapes and unverified success claims are each handled by a mechanism with a regression test, and an adversarial attack suite tries to break all of them.",
     ],
     problem: [
@@ -317,7 +317,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Live mode reports pass@1 and pass@k with the unbiased estimator; no live run with the native planner has been recorded yet.",
     ],
     metrics: [
-      { value: "0", label: "breaches in 49 attacks on the Docker sandbox (1 documented residual)" },
+      { value: "0", label: "breaches in 49 attacks on the Docker sandbox; 1 residual, a forged test report" },
       { value: "12/12", label: "multi-file tasks, scripted, byte-identical under both sandboxes" },
       { value: "10", label: "built-in tools behind schema, policy and path jail" },
       { value: "378", label: "tests, plus jail suites that must reproduce exactly" },
@@ -370,11 +370,11 @@ export const CASE_STUDIES: CaseStudy[] = [
       "The CI workflows are written but have not run on GitHub yet; the same gate runs locally.",
     ],
     interview: {
-      built: "A coding agent whose model only proposes tool calls: a nine-state machine validates, permission-gates and path-jails every call, tests run in a Docker sandbox, and completion requires restored, protected tests to pass.",
+      built: "A coding agent whose model only proposes tool calls: a nine-state machine validates and permission-gates every call and jails every path argument, tests run in a Docker sandbox, and a task is accepted only when a re-run of the restored, protected tests exits 0.",
       why: "Coding agents break on malformed calls, hand the model a shell, or trust its claim of success, and once they can write and run tests they also run arbitrary code. This runtime treats each of those as a design constraint.",
       how: "The planner proposes a native tool call; the runtime validates it against the tool's schema, applies the AUTO/ASK/DENY policy and the path jail, runs tests in the sandbox, and VERIFY re-runs the suite on restored files before COMPLETE.",
       decision: "Putting the security boundary in the runtime and the sandbox instead of the model, and backing it with an attack suite rather than an argument.",
-      strongest: "0 breaches across 49 attacks on the Docker sandbox with 1 documented residual, and 12/12 multi-file tasks verified byte-identically under both sandboxes.",
+      strongest: "0 breaches across 49 attacks on the Docker sandbox with 1 documented residual (code under test forging a passing test report), and 12/12 multi-file tasks verified byte-identically under both sandboxes.",
       limitation: "Live agent capability is not measured yet: the 12/12 is scripted, so it proves the runtime, not problem solving.",
       next: "A live pass@k run with the native planner, and the first CI run on GitHub.",
       questions: [
