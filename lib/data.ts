@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
     tagline:
       "A trace-based evaluation engine that turns LLM/RAG behavior into replayable evidence: deterministic metrics, a failure taxonomy, and a statistical regression gate that runs in CI.",
     points: [
-      "Built a trace-based LLM/RAG evaluation engine with a statistical CI gate (paired bootstrap and McNemar tests, 95% CIs) over a 150-case suite: groundedness, citation precision and recall, Recall@K, MRR and abstention; 361 tests.",
+      "Built a trace-based LLM/RAG evaluation engine with a statistical CI gate (paired bootstrap and McNemar tests, 95% CIs) over a 150-case suite: groundedness, citation precision and recall, Recall@K, MRR and abstention; 377 tests.",
       "Async runner with an AIMD rate limiter, jittered retries and an exact-request cache: 5.4× throughput over sequential with 0 failed cases against a rate-limited test server.",
       "The gate blocks a seeded citation-stripping regression (groundedness 1.0 → 0.0) and passes a retrieval change (Recall@3 0.72 → 0.86, p < 0.001); Gemini, OpenAI and Anthropic adapters, agent-trajectory metrics and OpenTelemetry traces.",
     ],

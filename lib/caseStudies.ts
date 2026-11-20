@@ -208,7 +208,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: "1.0→0.0", label: "groundedness regression blocked by the gate (130 answerable cases)" },
       { value: "0.72→0.86", label: "Recall@3, v1 to v2, paired bootstrap p < 0.001" },
       { value: "5.4×", label: "runner throughput over sequential, 0 failed cases" },
-      { value: "361", label: "tests across metrics, statistics, runner and gate" },
+      { value: "377", label: "tests across metrics, statistics, runner and gate" },
     ],
     results: {
       columns: ["Metric", "n", "v1 baseline", "v2 improved", "v3 fluent"],
@@ -244,7 +244,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { title: "Fork-safe PR comments", body: "Evaluation runs read-only on pull_request; a separate privileged workflow_run job posts the sticky comment only when the PR head equals the evaluated SHA." },
     ],
     validation: [
-      "361 tests pass with ruff and pyright clean; re-running the demo reproduces every committed result with zero drift, the gate passes v2 and blocks v3.",
+      "377 tests pass with ruff and pyright clean; re-running the demo reproduces every committed result with zero drift, the gate passes v2 and blocks v3.",
       "Audit fixes: crashed cases now score 0 and are gated, a missing metric counts as a regression, a gate crash exits 2, harness sleeps stay out of latency, and verbatim quotes score groundedness 1.0.",
       "Dataset integrity: every run manifest embeds the SHA-256 of eval_set.jsonl, and the repo pins LF line endings so the hash is the same on Windows.",
       "Agent trajectory metrics (tool-selection accuracy, call precision, argument schema validity, step efficiency) run on real repo-engineer traces, and a seeded agent regression is caught on 4 metrics.",
