@@ -122,29 +122,30 @@ export function MambaViz({ detail }: { detail: boolean }) {
         </text>
       </g>
 
-      {/* capability comparison */}
+      {/* capability comparison: parity at T=128, mean over 5 seeds (results/SUMMARY.md) */}
       <g>
         <text x="40" y="346" className="f-low pop" fontSize="11" fontFamily={MONO} letterSpacing="1" style={rd(1100)}>
-          SELECTIVE COPYING · TEST L=128
+          PARITY · T=128 · MEAN OF 5 SEEDS · CHANCE 50%
         </text>
         <text x="40" y="378" className="f-mid pop" fontSize="11" fontFamily={MONO} style={rd(1180)}>
-          LTI S4D 6%
+          NO ROTATION ≤57.3%
         </text>
-        <rect x="200" y="368" width={134 * 0.06 * 3.2} height="9" rx="3" className="f-dim pop" style={rd(1180)} />
+        <rect x="200" y="368" width={430 * 0.573} height="9" rx="3" className="f-dim pop" style={rd(1180)} />
         <text x="40" y="406" className="f-mid pop" fontSize="11" fontFamily={MONO} style={rd(1260)}>
-          SELECTIVE SSM 67%
+          MAMBA-3 72.6%
         </text>
-        <rect x="200" y="396" width={134 * 0.67 * 3.2} height="9" rx="3" className="f-acc-dim pop" style={rd(1260)} />
+        <rect x="200" y="396" width={430 * 0.726} height="9" rx="3" className="f-acc-dim pop" style={rd(1260)} />
+        <line x1={200 + 430 * 0.5} y1="362" x2={200 + 430 * 0.5} y2="411" className="s-line pop" strokeDasharray="2 3" style={rd(1300)} />
       </g>
 
       <Detail on={detail}>
         <line x1="100" y1="150" x2="100" y2="200" className="s-line" strokeDasharray="2 3" />
         <text x="12" y="216" textAnchor="start" className="f-mid" fontSize="11" fontFamily={MONO}>
-          PARITY ≤56% (REAL TRANSITIONS)
+          PARITY ≤57.3% (NO ROTATION)
         </text>
         <line x1="620" y1="150" x2="620" y2="200" className="s-acc-dim" strokeDasharray="2 3" />
         <text x="688" y="216" textAnchor="end" className="f-acc" fontSize="11" fontFamily={MONO}>
-          PARITY 98.3% · COMPLEX TRANSITIONS
+          89% / 99% ON 2 OF 5 SEEDS
         </text>
         <text x="688" y="34" textAnchor="end" className="f-low" fontSize="11" fontFamily={MONO} letterSpacing="1">
           TEST-VERIFIED CHUNKED SSD PATH
@@ -199,42 +200,44 @@ export function AireViz({ detail }: { detail: boolean }) {
         );
       })}
 
-      {/* groundedness regression chart */}
+      {/* v1 -> v2 -> v3 over the 130 answerable cases (results/<version>/eval_results.json);
+          y = 330 - 240 * value, so 1.0 sits at y=90 below the title */}
       <g>
         <line x1="300" y1="330" x2="660" y2="330" className="s-line pop" style={rd(420)} />
         <line x1="300" y1="330" x2="300" y2="60" className="s-line pop" style={rd(480)} />
         <polyline
-          points="320,167 480,167 620,330"
+          points="320,90 480,90 620,330"
           fill="none"
           className="s-warn draw"
           strokeWidth="2.2"
-          style={{ ...rd(650), "--len": 430 } as React.CSSProperties}
+          style={{ ...rd(650), "--len": 440 } as React.CSSProperties}
         />
-        <circle cx="480" cy="167" r="3.4" className="f-warn pop" style={rd(1150)} />
+        <circle cx="320" cy="90" r="3.4" className="f-warn pop" style={rd(1100)} />
+        <circle cx="480" cy="90" r="3.4" className="f-warn pop" style={rd(1150)} />
         <circle cx="620" cy="330" r="7" fill="none" className="s-warn pop" strokeWidth="1.8" opacity="0.7" style={rd(1350)} />
         <circle cx="620" cy="330" r="3" className="f-warn pop" style={rd(1350)} />
-        <text x="320" y="152" className="f-mid pop" fontSize="14" fontFamily={MONO} style={rd(1000)}>
-          v2 · 0.57
+        <text x="320" y="76" className="f-mid pop" fontSize="14" fontFamily={MONO} style={rd(1000)}>
+          v1, v2 · 1.0
         </text>
         <text x="620" y="352" textAnchor="end" className="f-warn pop" fontSize="14" fontFamily={MONO} style={rd(1400)}>
-          v3 · 0.00
+          v3 · 0.0
         </text>
         <text x="300" y="48" className="f-low pop" fontSize="13.5" fontFamily={MONO} letterSpacing="1.5" style={rd(900)}>
-          GROUNDEDNESS · FLAGGED REGRESSION
+          GROUNDEDNESS · BLOCKED BY THE GATE
         </text>
-        {/* abstention recovery */}
-        <polyline points="320,330 480,330 620,120" fill="none" className="s-ok pop" strokeWidth="1.8" strokeDasharray="3 4" style={rd(1050)} />
+        {/* Recall@3 held: 0.7154 -> 0.8615 -> 0.8615 */}
+        <polyline points="320,158 480,123 620,123" fill="none" className="s-ok pop" strokeWidth="1.8" strokeDasharray="3 4" style={rd(1050)} />
         <text x="480" y="378" textAnchor="middle" className="f-ok pop" fontSize="13" fontFamily={MONO} style={rd(1450)}>
-          ABSTENTION 0.0 → 1.0
+          RECALL@3 0.72 → 0.86 · p &lt; 0.001
         </text>
         <text x="40" y="422" className="f-low pop" fontSize="12" fontFamily={MONO} letterSpacing="1" style={rd(1500)}>
-          26-CASE SUITE · 15 S/CASE · LIVE RESPONDER
+          150-CASE SUITE · PAIRED TESTS · GATE EXITS 1
         </text>
       </g>
 
       <Detail on={detail}>
         <text x="40" y="438" className="f-mid" fontSize="11" fontFamily={MONO}>
-          metrics: groundedness · citation coverage · recall / MRR · taxonomy · attribution
+          metrics: groundedness · citation precision / recall · Recall@K / MRR · 95% CIs
         </text>
       </Detail>
     </svg>
@@ -330,10 +333,10 @@ export function AgentViz({ detail }: { detail: boolean }) {
         </text>
       </g>
 
-      {/* seven tools on an inner orbit */}
+      {/* ten built-in tools on an inner orbit */}
       <g className="pop" style={rd(1000)}>
-        {Array.from({ length: 7 }).map((_, i) => {
-          const ang = (-90 + i * (360 / 7)) * (Math.PI / 180);
+        {Array.from({ length: 10 }).map((_, i) => {
+          const ang = (-90 + i * (360 / 10)) * (Math.PI / 180);
           const tr = 76;
           return (
             <circle
@@ -347,7 +350,7 @@ export function AgentViz({ detail }: { detail: boolean }) {
         })}
       </g>
       <text x={cx} y={cy + 148} textAnchor="middle" className="f-low pop" fontSize="13.5" fontFamily={MONO} letterSpacing="1.5" style={rd(1080)}>
-        7 VALIDATED TOOLS
+        10 VALIDATED TOOLS
       </text>
 
       <Pulse path={ringPath} dur={7.5} />
