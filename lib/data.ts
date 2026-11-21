@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
     tagline:
       "A trace-based evaluation engine that turns LLM/RAG behavior into replayable evidence: deterministic metrics, a failure taxonomy, and a statistical regression gate that runs in CI.",
     points: [
-      "Built a trace-based LLM/RAG evaluation engine with a statistical CI gate (paired bootstrap and McNemar tests, 95% CIs) over a 150-case suite: groundedness, citation precision and recall, Recall@K, MRR and abstention; 377 tests.",
+      "Built a trace-based LLM/RAG evaluation engine with a statistical CI gate (paired bootstrap and McNemar tests, 95% CIs) over a 150-case suite: groundedness, citation precision and recall, Recall@K, MRR and abstention; 381 tests.",
       "Async runner with an AIMD rate limiter, jittered retries and an exact-request cache: 5.4× throughput over sequential with 0 failed cases against a rate-limited test server.",
       "The gate blocks a seeded citation-stripping regression (groundedness 1.0 → 0.0) and passes a retrieval change (Recall@3 0.72 → 0.86, p < 0.001); Gemini, OpenAI and Anthropic adapters, agent-trajectory metrics and OpenTelemetry traces.",
     ],
@@ -140,13 +140,13 @@ export const PROJECTS: Project[] = [
     points: [
       "A 9-state machine validates and permission-gates (AUTO/ASK/DENY) every tool call the model proposes, natively or over MCP, jails every path argument to the workspace, and accepts a task only when a re-run of the restored, protected tests exits 0.",
       "Docker sandbox for every test run (no network, read-only, dropped capabilities, resource limits): 0 breaches in a 49-attack adversarial suite; the 1 documented residual is code under test forging a passing test report.",
-      "12/12 multi-file tasks pass in scripted mode under both sandboxes with byte-identical results, which validates the runtime rather than a model's problem solving; 378 tests.",
+      "12/12 multi-file tasks pass in scripted mode under both sandboxes with byte-identical results, which validates the runtime rather than a model's problem solving; 380 tests.",
     ],
     metrics: [
       { value: "0", label: "breaches in 49 Docker attacks; 1 residual, a forged test report" },
       { value: "12/12", label: "multi-file tasks, scripted, both sandboxes" },
       { value: "10", label: "built-in tools behind schema, policy and jail" },
-      { value: "378", label: "tests, plus jail suites that must reproduce" },
+      { value: "380", label: "tests, plus jail suites that must reproduce" },
     ],
     stack: ["Python", "Docker", "MCP", "pytest", "uv"],
     repo: "https://github.com/vaibhav3000/repo-engineer",

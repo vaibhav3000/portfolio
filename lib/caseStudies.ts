@@ -208,7 +208,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: "1.0→0.0", label: "groundedness regression blocked by the gate (130 answerable cases)" },
       { value: "0.72→0.86", label: "Recall@3, v1 to v2, paired bootstrap p < 0.001" },
       { value: "5.4×", label: "runner throughput over sequential, 0 failed cases" },
-      { value: "377", label: "tests across metrics, statistics, runner and gate" },
+      { value: "381", label: "tests across metrics, statistics, runner and gate" },
     ],
     results: {
       columns: ["Metric", "n", "v1 baseline", "v2 improved", "v3 fluent"],
@@ -244,7 +244,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { title: "Fork-safe PR comments", body: "Evaluation runs read-only on pull_request; a separate privileged workflow_run job posts the sticky comment only when the PR head equals the evaluated SHA." },
     ],
     validation: [
-      "377 tests pass with ruff and pyright clean; re-running the demo reproduces every committed result with zero drift, the gate passes v2 and blocks v3.",
+      "381 tests pass with ruff and pyright clean; re-running the demo reproduces every committed result with zero drift, the gate passes v2 and blocks v3.",
       "Audit fixes: crashed cases now score 0 and are gated, a missing metric counts as a regression, a gate crash exits 2, harness sleeps stay out of latency, and verbatim quotes score groundedness 1.0.",
       "Dataset integrity: every run manifest embeds the SHA-256 of eval_set.jsonl, and the repo pins LF line endings so the hash is the same on Windows.",
       "Agent trajectory metrics (tool-selection accuracy, call precision, argument schema validity, step efficiency) run on real repo-engineer traces, and a seeded agent regression is caught on 4 metrics.",
@@ -320,7 +320,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: "0", label: "breaches in 49 attacks on the Docker sandbox; 1 residual, a forged test report" },
       { value: "12/12", label: "multi-file tasks, scripted, byte-identical under both sandboxes" },
       { value: "10", label: "built-in tools behind schema, policy and path jail" },
-      { value: "378", label: "tests, plus jail suites that must reproduce exactly" },
+      { value: "380", label: "tests, plus jail suites that must reproduce exactly" },
     ],
     results: {
       columns: ["Task", "Steps", "Replans", "Failed calls", "Files changed"],
@@ -357,7 +357,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { title: "stdlib ast for the repo map", body: "The target repos are Python, so ast gives symbols with zero dependencies, and parse failures are listed instead of fatal." },
     ],
     validation: [
-      "378 tests pass with ruff and pyright clean, including a regression test for each audited exploit that reproduced it before the fix.",
+      "380 tests pass with ruff and pyright clean, including a regression test for each audited exploit that reproduced it before the fix.",
       "Both jail suites rerun in the tests and must match the committed evidence exactly; any breach fails the build.",
       "The scripted benchmark must reproduce its golden results byte for byte, and every generated number in the README, report and demo site is checked against results/ by sync_docs.py --check.",
       "The state machine is exhaustive: any transition outside the table raises, so COMPLETE is reachable only through VERIFY.",
